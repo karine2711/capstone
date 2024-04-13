@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="width=1536, height=864 initial-scale=1" name="viewport">
+    <meta charset="UTF-8">
+    <title th:text="#{homepage.title}"></title>
+    <link th:href="@{/images/logo.png}" th:rel="icon"/>
+    <link href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+    <script src="/webjars/popper.js/1.16.0/umd/popper.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <link href="/webjars/bootstrap-glyphicons/bdd2cbfba0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet">
+
+
+    <link href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
+
+
+    <link href="/webjars/bootstrap-glyphicons/bdd2cbfba0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <link href="/webjars/fullcalendar/4.3.1/core/main.css" rel="stylesheet">
+    <link href="/webjars/fullcalendar/4.3.1/daygrid/main.css" media="print" rel="stylesheet">
+    <script src="/webjars/fullcalendar/4.3.1/core/main.js" type="text/javascript"></script>
+    <script src="/webjars/fullcalendar/4.3.1/daygrid/main.js" type="text/javascript"></script>
+    <link href="/webjars/fullcalendar/4.3.1/timegrid/main.css" rel="stylesheet">
+    <script src='/webjars/fullcalendar/4.3.1/timegrid/main.js'></script>
+    <script src='/webjars/fullcalendar/4.3.1/interaction/main.js'></script>
+    <link href="/webjars/fullcalendar/4.3.1/list/main.css" rel="stylesheet">
+    <script src='/webjars/fullcalendar/4.3.1/list/main.js'></script>
+    <script src='/webjars/fullcalendar/4.3.1/interaction/main.js'></script>
+    <link href="/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" rel="stylesheet">
+
+    <script src="/webjars/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.hy.min.js"
+            type="text/javascript"></script>
+    <script src="/webjars/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"
+            type="text/javascript"></script>
+
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.bidi.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.fallbacks.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.language.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.messagestore.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.messagestore.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.parser.js" type="text/javascript"></script>
+
+    <link th:href="@{/css/calendar.css}" th:rel="stylesheet">
+    <link th:href="@{/css/navbar-home.css}" th:rel="stylesheet">
+    <link href="../static/css/datepicker.css" rel="stylesheet" th:href="@{/css/datepicker.css}"/>
+
+
+    <link href="/webjars/font-awesome/5.13.0/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/webjars/font-awesome/5.13.0/css/all.css" rel="stylesheet" type="text/css"/>
+
+
+    <link href="../static/css/shadowedBox.css" rel="stylesheet" th:href="@{/css/shadowedBox.css}"/>
+    <link href="../static/css/activity.css" rel="stylesheet" th:href="@{/css/activity.css}"/>
+    <link href="../static/css/navbar-home.css" rel="stylesheet" th:href="@{/css/navbar-home.css}"/>
+    <!--    <link rel="stylesheet" th:href="@{/css/editProfile.css}" href="../static/css/editProfile.css"/>-->
+    <!--    <link rel="stylesheet" th:href="@{/css/datepicker.css}"  href="../static/css/datepicker.css">-->
+    <link th:href="@{css/download-form.css}" th:rel="stylesheet">
+    <link href="../static/css/editProfile.css" rel="stylesheet" th:href="@{/css/editProfile.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer-home.css}"/>
+    <link rel="stylesheet" th:href="@{/css/reschedule.css}"/>
+    <!--    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>-->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script th:src="|/js/switchButton-editProfile.js|" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-app-compat.min.js" integrity="sha512-QxCI6n9lTLJpOHQcpZV2klXd5DhqSrGGe1rU2Cbr9+uCTNozkfbs/w5LVrk/pIgJwd1sFaKtvWGqw3EBtguHcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-messaging-compat.min.js" integrity="sha512-S1ikyG/9rWv+KJjbwHJGTKeYYnmVJxcvgQOBztLUPsRY4ZoSmPK+b8jTiDrt4lSP5SlpkpEQCbhwWQJK+kx7jQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
+
+    <!--    <script type="text/javascript" th:src="|/js/navbar.js|"></script>-->
+    <!--    <script type="text/javascript" th:src="|/js/activity.js|"></script>-->
+
+    <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
+    <script th:src="|/js/validation.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendarGeneral.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendarUser.js|" type="text/javascript"></script>
+    <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
+    <script th:src="|/js/download-form.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendar/calendar-ru.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendar/calendar-en.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendar/calendar-am.js|" type="text/javascript"></script>
+
+
+</head>
+<body>
+
+<div th:insert="download-form.html::download-container"></div>
+<input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
+<div class="container-fluid">
+    <div th:replace="homepage-navbar.html"></div>
+    <div id="calendar" th:id="calendar">
+    </div>
+</div>
+<div>
+    <form id="hidden-form" method="post" name="hidden-form" th:action="@{/event/reschedule}">
+
+    </form>
+</div>
+<div
+        class="congrats-popover invisible" th:text="#{registration.successful}">
+</div>
+
+<div th:replace="homepage-footer.html::homepage-footer"></div>
+
+<script>
+    $('#start-time').empty();
+
+    for (let hour = 10; hour < 15; hour++) {
+        for (let minute = 0; minute < 60; minute = minute + 15) {
+            let option = "<option>" + hour + ":";
+
+            option = minute === 0 ? option + "00" : option + minute;
+            option = option.concat("</option>");
+            $('#start-time').append(option);
+        }
+    }
+
+</script>
+</body>
+</html>

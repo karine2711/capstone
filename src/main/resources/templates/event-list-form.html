@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container my-2 " style=" box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+
+    <table border="1" id="myTable" class="table table-responsive-md">
+        <thead>
+        <tr>
+            <th style="width:14%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.date}"></span>
+            </th>
+            <th style="width:17%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.start.end}"></span>
+            </th>
+            <th style="width:19%; ">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.activity.type}"></span>
+            </th>
+
+            <th style="width: 10%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.school}"></span>
+            </th>
+
+            <th style="width:11%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.class}"></span>
+            </th>
+            <th style="width:16%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.group.size}"></span>
+            <th style="width: 15%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{events.created.by}"></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  class="clsHead" th:each="event : ${listEvents}">
+            <td th:text="${event.date}"></td>
+            <td th:text="${event.getStartAndEndTime()}"></td>
+            <td>
+                <th:block th:switch="${event.eventType.id}" >
+                    <p  th:case="1" th:text="#{events.type.preschool}" />
+                    <p  th:case="2" th:text="#{events.type.elementary}" />
+                    <p  th:case="3" th:text="#{events.type.middle}" />
+                    <p  th:case="4" th:text="#{events.type.high}" />
+                    <p  th:case="5" th:text="#{events.type.students}" />
+                    <p  th:case="6" th:text="#{events.type.individuals}" />
+                    <p  th:case="7" th:text="#{events.type.event}" />
+                </th:block>
+            </td>
+            <td th:text="${event.school}"></td>
+            <td th:text="${event.group}"></td>
+            <td th:text="${event.groupSize}"></td>
+            <td class="user-href">
+                <a  href="#" th:text="${event.user.username}"></a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <br>
+</div>
+</body>
+</html>

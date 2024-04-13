@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "museum-booking-f4390",
+  "private_key_id": "e6589f190774dc6b15a371c256dc70b2c26f20b0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVjNk0cMTNMYXe\n6FYOX1gf8LxoBWqVKXQYobqbtxPtujo0zQYs8hX/JU98459Nnonfkd9g/EldxcGC\n78Q9JQgN+G61i2zd9z3WXB+Zv/dxZZQGKNVUVW0gRaBizq3N/nmkmC/Tx3m53ioM\n3NjfujgKr4OtnTLaQrKLlZt/FJD8b34WJBerUg8gerS0jX3/Sa2UYwbSCT9m1hrx\nJGcxyoELvTwNbGb0u9BdDqBUiO0coTV6DaJ4YtkJyR0IhSqvohsXhVrhvshqYbgt\nc2TKR+bku40iA/IjIsu71Y1a3CM77NAXvne+ZM63gtgtos7n2lm2TNkIQNEUEc5R\n0ASExS+pAgMBAAECggEAEkTC3hwZke4/JBMfLYqViOH41DNGa21I68SGKMUQNOGe\nEh9J/HVXUWT5OFdmrOa3p8McZ3kds6JzzAZD9PEij8NlgS1kylZY2Wo3H9mOywok\nECTVHypRtBWQw3Mn5jvzXxPP35+sd6ycT05jVTxih/N84dDVZVuYV52cWFJDlvyw\nnCIf6J72urEYz1QRL5+Cr7UCrhVGQPuJqCfEQy7fXfQHaPPxI5nCX6FXJpC8gI7A\n4sTzwoT2bC7Os5S17xr0FGDZQrgiMsNwvY9lahv4hhcGDn5nc5x6Y9e8dL1Fdgt/\nxH/7CoBM2D+aCgBYBHEBf1nQNDPoP5HtjDD3OPGdQQKBgQD9Si875qRRxYv0/75O\nIoMrur23qkzqcVsaBy7LrDhialgoCH7SMFMNlMgbaERnUAV/Ud4BQfyvrxZVGova\ncbAJGqURkzXfsAD2mFtehcJa7e9TdmJU1Y1b7OqAtNCyTBo+aLyi2foUdRgzz+gg\nH51GuK6rGxIZFai2rSu0nqeS8QKBgQDX1c8A21r2bLnCREhfEUbkg6gTrVe5hCLH\nk8zQGl/vhBXFUqZ7eAuc7yVymB571OgsiGbbEQ+RS6pQ6yWaraNjLmYorb5QULv2\n5FUwXfuqmZnU06HkE812jS7XwEof/NxTieVh/IiHUnI1bWV6WZmnvScddwGKA4/s\nAiH51Nz4OQKBgQDbSnMChXkWYtX9U73LoA24uoCulv7oqyOYsUdOhth6PF/+qPxD\nthrx0zI8qFUwrRNVW+e9ZwgCgq/vFoCmq28hMrRfNviZpaPv25CfkWbnmsBtnj0b\n/ZfZUpDkxac59rFx/vPyeo4NUCOYGBR8W2KrbBGtik5s8VeUcPE5+3JRwQKBgEaA\n8T22aeBVY9ixtXJYkm/TEfRbi2xuXW4UObNA6lWzL+llNjze2exJslHcnxiUU8M4\nS2EEEbHEpb4JEh+U2OptHbHsD17tAHmF3M4P5UW1Jyr+dsOqNFOlisevaIdKci5X\nvTZk57RMmkIZmix9WFQS1dQqK7aJs1nE2JRjlEsBAoGAN5K+Ok4QP3qMVnj37ln9\nL1EAqcvftCSZnlvM9Y0a8PIp+Gv5TnicA781bkTRmNG6Qg/Mh2G42XMjh7lXtMxk\nRfCMX7mnp9lOVJPJUpVT7EAcaLh6/SoXmrc1+0mAUFe+p8MG23t3NL4dwGfbqvAm\nJeq8v4reG0GkdHHCp9qgUUY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-qyfcz@museum-booking-f4390.iam.gserviceaccount.com",
+  "client_id": "110775760784945249546",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qyfcz%40museum-booking-f4390.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

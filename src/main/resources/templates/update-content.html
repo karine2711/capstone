@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-app-compat.min.js" integrity="sha512-QxCI6n9lTLJpOHQcpZV2klXd5DhqSrGGe1rU2Cbr9+uCTNozkfbs/w5LVrk/pIgJwd1sFaKtvWGqw3EBtguHcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-messaging-compat.min.js" integrity="sha512-S1ikyG/9rWv+KJjbwHJGTKeYYnmVJxcvgQOBztLUPsRY4ZoSmPK+b8jTiDrt4lSP5SlpkpEQCbhwWQJK+kx7jQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <meta content="width=1536, height=864 initial-scale=1" name="viewport">
+    <meta charset="UTF-8">
+    <title th:text="#{update.content.title}"></title>
+    <link th:href="@{/images/logo.png}" th:rel="icon"/>
+    <!--Font Awesome-->
+    <link href="/webjars/font-awesome/5.13.0/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/webjars/font-awesome/5.13.0/css/all.css" rel="stylesheet" type="text/css"/>
+
+    <link th:href="@{/css/navbar-home.css}" th:rel="stylesheet"/>
+    <link th:href="@{/css/update-content.css}" th:rel="stylesheet"/>
+    <link th:href="@{css/navbar.css}" th:rel="stylesheet">
+    <link th:href="@{/css/footer-home.css}" th:rel="stylesheet"/>
+    <link th:href="@{/css/shadowedBox.css}" th:rel="stylesheet"/>
+
+
+    <!--Bootstrap and Jquery-->
+    <link href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/webjars/popper.js/1.16.0/umd/popper.min.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.bidi.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.fallbacks.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.language.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.messagestore.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.messagestore.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.parser.js" type="text/javascript"></script>
+    <script th:src="|/js/switchButton-editProfile.js|" type="text/javascript"></script>
+    <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
+    <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
+
+    <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
+    <script th:src="|/js/update-content.js|" type="text/javascript"></script>
+    <script th:src="|/js/validation.js|" type="text/javascript"></script>
+
+
+</head>
+<body>
+<div class="container-fluid">
+    <!--    Header-->
+    <nav th:replace="homepage-navbar.html::homepage-navbar"></nav>
+
+    <!--    Main-->
+    <div class="container-fluid" th:replace="update-content-form.html::main-container"></div>
+
+    <!--    Footer-->
+    <div th:replace="homepage-footer.html::homepage-footer"></div>
+
+
+
+</div>
+
+</body>
+</html>

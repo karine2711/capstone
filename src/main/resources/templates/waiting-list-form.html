@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<div class="container" style="width: 80%">
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#waiting-list-tab" id='waiting-list'
+               th:text="#{header.waiting.list}"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#blocked-users-tab" th:text="#{header.blocked.page}"></a>
+        </li>
+    </ul>
+
+
+    <div class="row">
+        <div class="col-12 mx-auto notification-form">
+            <div class="mt-5 pt-1 mb-4">
+                <div id='filters'></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="waiting-list-tab">
+            <form id="waiting-list-form" method="post" name="waitingListForm" th:action="@{/waiting-list}">
+                <div class="row">
+                    <div class="col-12 mx-auto notification-form">
+
+                        <!-- Page Name -->
+                        <!--                        <div class="row">-->
+                        <!--                            <div class="col-12 mt-5 mb-4">-->
+                        <!--                                <div class="add-activity"-->
+                        <!--                                     th:text="#{header.waiting.list}">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+
+                        <!-- Labels -->
+                        <div class="container-fluid">
+                            <div class="form-group row mt-5">
+                                <a id="sort">
+                                    <span class="glyphicon glyphicon-sort"></span>
+                                </a>
+                                <div class="col-1 labels" style="text-align:left"
+                                     th:text="#{notification.center.event.date}">
+                                </div>
+                                <div class="col-2 labels" style="text-align: left"
+                                     th:text="#{notification.center.event.type}">
+                                </div>
+                                <div class="col col-8 pl-1 labels" style="text-align: left;"
+                                     th:text="#{notification.center.event.details}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty notification list -->
+                        <div class="emptyRectangle" th:if="${activePreBookedEvents.isEmpty()}"
+                             th:text="#{no.activities.display}">
+                        </div>
+
+                        <!-- Notification list -->
+                        <div class="flex-container flex-column" id="waiting-list-flexbox"></div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-pane" id="blocked-users-tab">
+            <form id="blocked-list-form" method="post" name="blockedListForm" th:action="@{/waiting-list}">
+                <div class="row">
+                    <div class="col-12 mx-auto notification-form">
+
+                        <!-- Page Name -->
+                        <!--                        <div class="row">-->
+                        <!--                            <div class="col-12 mt-5 mb-4">-->
+                        <!--                                <div class="add-activity"-->
+                        <!--                                     th:text="#{header.blocked.page}">-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+
+                        <!-- Labels -->
+                        <div class="container-fluid">
+                            <div class="form-group row mt-5">
+                                <a id="sort-blocked">
+                                    <span class="glyphicon glyphicon-sort"></span>
+                                </a>
+                                <div class="col-1 labels" style="text-align:left"
+                                     th:text="#{notification.center.event.date}">
+                                </div>
+                                <div class="col-2 labels" style="text-align: left"
+                                     th:text="#{notification.center.event.type}">
+                                </div>
+                                <div class="col col-8 pl-1 labels" style="text-align: left;"
+                                     th:text="#{notification.center.event.details}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty notification list -->
+                        <div class="emptyRectangle" th:if="${blockedPreBookedEvents.isEmpty()}"
+                             th:text="#{no.activities.display}">
+                        </div>
+
+                        <!-- Notification list -->
+                        <div class="flex-container flex-column" id="blocked-list-flexbox"></div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

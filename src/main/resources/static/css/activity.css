@@ -1,0 +1,220 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+html, body {
+    margin: 0;
+    padding-bottom: 15px;
+}
+
+.popup-message {
+    background: white;
+    top: 50%;
+    z-index: 500;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    box-shadow: 0 23px 37px rgba(0, 96, 167, 0.35);
+    width: 28%;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+.activity-rectangle {
+    padding-left: 12%;
+    padding-right: 12%;
+    height: 82.13%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);
+}
+
+.lds-dual-ring {
+    display: none;
+    width: 80px;
+    height: 80px;
+    margin-left: 33% !important;
+    z-index: 1000;
+    position: absolute;
+    margin-top: 20% !important;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #cef;
+    border-color: #4f93ff transparent #4f93ff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.add-activity {
+    height: 2.34%;
+    color: #242E4C;
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.proposalMessage {
+    height: 1.86%;
+    color: #5D698D;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 19px;
+}
+
+.group-11 {
+    height: 7.13%;
+    width: 53.33%;
+}
+
+input[type="date"]::before {
+    content: attr(data-placeholder);
+    width: 100%;
+}
+
+input[type="date"]:focus::before,
+input[type="date"]:valid::before {
+    display: none
+}
+
+.comment-rectangle {
+    box-sizing: border-box;
+    height: 30.74%;
+    width: 100%;
+    border: 1px solid #DCDFF1;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+}
+
+.activity_blue_button {
+    height: 50px;
+    width: 100%;
+    border-radius: 3px;
+    background: #35B8EC;
+    border: unset;
+    color: white;
+    margin-top: 4%;
+    margin-bottom: 10%;
+}
+
+.activity_white_rectangle {
+    height: 50px;
+    width: 100%;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    color: #A1A3A8;
+    box-sizing: border-box;
+    border: 1px solid #DCDFF1;
+    margin-top: 4%;
+    margin-bottom: 10%;
+}
+
+.activity-line {
+    padding-left: 5px;
+    padding-right: 5px;
+    box-sizing: border-box;
+    height: 0.1%;
+    width: 50%;
+    border: 1px solid #979797;
+}
+
+.activity-slots {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.close {
+    float: right;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #8E9ABD;
+    opacity: .5;
+    border: none;
+}
+
+.close:focus {
+    outline: 0;
+}
+
+.activity-buttons {
+    height: 65.66px;
+    width: 80%;
+}
+
+.activity-main-button {
+    width: 100%;
+    height: 100%;
+    background: #35B8EC;
+    color: #ffffff;
+}
+
+.activity-whiteButton {
+    color: #3450f5;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+#cancel-btn:hover, #add-activity-btn:hover {
+    box-shadow: 0 0 3px #35B8EC;
+    color: #ffffff;
+}
+
+.buttons .btn {
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.activity-buttons .btn:focus {
+    box-shadow: none;
+}
+
+.custom-invalid-feedback {
+    display: none;
+    width: 100%;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+#image-preview {
+    margin-left: 7px;
+    margin-right: 10px;
+}
+
+#end-time {
+    background: white;
+    cursor: not-allowed;
+}
+
+.event-photo {
+    display: none;
+    position: absolute;
+    width: 450px;
+    height: 200px;
+    left: -455px;
+    top: -205px;
+}
+
+.fa-file-image {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}

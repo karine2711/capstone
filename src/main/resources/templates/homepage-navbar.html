@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="width=1536, height=864 initial-scale=1" name="viewport">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-lignt" style="display: flex;justify-content: space-between"
+     th:fragment="homepage-navbar">
+    <input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
+
+
+    <audio autoplay id="notificationSound" muted="true">
+        <source src="/audio/alert.mp3" type="audio/ogg">
+    </audio>
+    <span class="d-none" id="fc-username" sec:authentication="name" th:text="${#authentication.getName()}"
+          type="hidden"></span>
+    <div id="navbarCollapse1">
+        <a class="navbar-brand" href="/">
+            <img alt="Logo" id="logo" src="" th:src="@{/images/logo.png}"/>
+        </a>
+        <ul class="navbar-nav mr-auto" style="padding-top: 3%">
+            <li class="nav-item" id="activities">
+                <a class="nav-link hvrcenter"
+                   href="/"
+                   style="color: black"
+                   th:text="#{homepage.title}"></a>
+            </li>
+            <li class="nav-item" id="my-activities" sec:authorize="hasAuthority('USER_ROLE')">
+                <a class="nav-link hvrcenter"
+                   style="color: black"
+                   th:text="#{navbar.myActivities}"></a>
+            </li>
+            <li class="nav-item" id="waiting-list" sec:authorize="hasAnyAuthority('ADMIN_ROLE','SUPER_ADMIN_ROLE')">
+                <a class="nav-link hvrcenter"
+                   href="#"
+                   style="color: black"
+                   th:text="#{navbar.waitingListPage}"></a>
+            </li>
+
+            <li class="nav-item" id="users" sec:authorize="hasAnyAuthority('ADMIN_ROLE','SUPER_ADMIN_ROLE')">
+                <a class="nav-link hvrcenter"
+                   href="#"
+                   style="color: black"
+                   th:text="#{navbar.users}"></a>
+            </li>
+            <li class="nav-item" id="events" sec:authorize="hasAnyAuthority('ADMIN_ROLE','SUPER_ADMIN_ROLE')">
+                <a class="nav-link hvrcenter"
+                   href="/events"
+                   style="color: black"
+                   th:text="#{navbar.events}"></a>
+            </li>
+            <li class="nav-item" id="update-content" sec:authorize="hasAnyAuthority('ADMIN_ROLE','SUPER_ADMIN_ROLE')">
+                <a class="nav-link hvrcenter"
+                   href="#"
+                   style="color: black"
+                   th:text="#{navbar.updateContent}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="second-items-group">
+        <ul class="nav-flex-icons" style="display: flex">
+            <li>
+                <div class="flags">
+                    <a href="?language=hy"><img alt="Armenian flag" class="flag" th:src="@{/images/amFlag.png}"/></a>
+                    <a href="?language=ru"><img alt="Russia flag" class="flag" th:src="@{/images/ruFlag.png}"/></a>
+                    <a href="?language=en"><img alt="US flag" class="flag" th:src="@{/images/usFlag.png}"/></a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-haspopup="true" class="nav-link" data-toggle="dropdown" href="#"
+                   id="profile-dropdown" style="padding-right: 0;">
+                    <img alt="avatar image"
+                         class="rounded-circle z-depth-0 nav-image" height="45" id="image"
+                         src="images/no-avatar.png"
+                         style="height: 45px;width: 45px;">
+                    <span id="greeting-username"
+                          sec:authentication="name"
+                          style="color: black"
+                          th:text="#{navbar.usernameGreeting} + ', '+ ${#authentication.getName()}"></span>
+                    <i aria-hidden="true" class="fa fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-default">
+                    <a class="dropdown-item" th:href="@{/edit-profile}"
+
+                       th:text="#{navbar.dropdown.editProfile}"></a>
+                    <a class="dropdown-item color-black" th:href="@{/logout}"
+
+                       th:text="#{navbar.dropdown.logOut}"></a>
+                </div>
+            </li>
+            <li>
+                <a class="nav-link button" href="/notification" id="notification-bell">
+                    <i aria-hidden="true" class="fa fa-bell" id="bell"></i>
+                    <span class="button__badge invisible" name="badge"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <input name="csrf_token" th:value="${_csrf.token}" type="hidden">
+    <link href="js/manifest.json" rel="manifest">
+
+    <!--    Notification  -->
+    <script src="/webjars/bootstrap-notify/3.1.3-1/bootstrap-notify.min.js" type="text/javascript"></script>
+    <link href="../static/css/notification-alert.css" rel="stylesheet" th:href="@{/css/notification-alert.css}"/>
+    <!--    <script type="text/javascript" th:src="|/js/notifications/notification-alert.js|"></script>-->
+    <link href="/webjars/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <!--    <script type="text/javascript" th:src="|/js/navbar-home.js|"></script>-->
+</nav>
+</body>
+</html>

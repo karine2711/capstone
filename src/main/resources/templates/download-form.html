@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container download-container" th:fragment="download-container">
+    <button aria-label="Close" class="close" style="font-size: 32px;" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <form id="downloadForm" th:action="@{/download-events}" th:method="post">
+        <label class="date-label" for="selected-time-range-container" th:text="#{downloadEvents.label}"></label>
+        <div class="row" id="selected-time-range-container">
+            <div class="col-md-6 form-group">
+                <input autocomplete="off" class="datepicker form-control bg-white" id="date1" name="date1"
+                       readonly='true'
+                       th:placeholder="#{downloadEvents.startDate}" type="text"/>
+                <span class="glyphicon glyphicon-calendar" style="font-size: 15px;
+    				                         position: absolute;
+				  	                         pointer-events: none;
+				  	                         color: dimgray;
+   			 		                         top: 10px;
+   					                         right: 10%;"></span>
+            </div>
+            <div class="col-md-6 form-group">
+                <input autocomplete="off" class="datepicker form-control bg-white" id="date2" name="date2" readonly='true'
+                       th:placeholder="#{downloadEvents.endDate}"
+                       type="text"/>
+                <span class="glyphicon glyphicon-calendar" style="font-size: 15px;
+    				                         position: absolute;
+				  	                         pointer-events: none;
+				  	                         color: dimgray;
+   			 		                         top: 10px;
+   					                         right: 10%;"></span>
+            </div>
+        </div>
+        <div class="form-group form-inline row file-name-input margin-top-6 padding-right-4">
+            <label class="col-md-3 file-name padding-right-0" for="currentDate"
+                   th:text="#{downloadEvents.fileName}"></label>
+            <input class="form-control col-md-9 currentDate" id="currentDate" name="currentDate" type="text">
+        </div>
+        <div class="form-group form-inline row padding-right-4 margin-bottom-10">
+            <label class="col-md-3 file-name padding-right-0" for="selected-download-format"
+                   th:text="#{downloadEvents.saveType}"></label>
+            <select class="col-md-9 form-control" id="selected-download-format" name="select">
+                <option selected="selected" th:text="#{downloadEvents.secondDownloadFormat}" value="csv"></option>
+                <option th:text="#{downloadEvents.firstDownloadFormat}" value="pdf"></option>
+            </select>
+        </div>
+
+        <div class="row row4 justify-center">
+            <div class="col-md-4">
+                <button class="btn activity-whiteButton downloadCancel margin-left-30"
+                        id="cancel-btn"
+                        name="cancel-btn"
+                        style="height: 50px;
+                            border: 1px solid #DCDFF1;"
+                        th:text="#{downloadEvents.cancelButton}"
+                        type="button"></button>
+            </div>
+            <div class="col-md-4" style="margin-right: 3%;margin-left: 6%;">
+                <button class="btn activity-main-button download-button"
+                        id="add-activity-btn"
+                        style="height: 50px;
+                        border: 1px solid #DCDFF1;"
+                        th:text="#{downloadEvents.downloadButton}"
+                        type="submit"></button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

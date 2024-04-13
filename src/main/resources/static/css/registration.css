@@ -1,0 +1,106 @@
+body {
+    background-image: none;
+    font-family: 'Roboto', "Times New Roman", serif;
+}
+
+.custom-invalid-feedback {
+    display: none;
+    width: 100%;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.intro-heading {
+    text-align: center;
+    font-size: 18px;
+}
+
+label {
+    font-size: 14px;
+}
+
+.pass-eye {
+    font-weight: 500;
+    z-index: 10000;
+}
+
+.input-group-text {
+    border: none;
+}
+
+.password-field.is-invalid {
+    border-right-color: #dc3545;
+}
+
+.input-group-append {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    /*border-right: 1px solid #ced4da;*/
+}
+
+.form-control.is-invalid {
+    border-right-color: #dc3545;
+}
+
+#password, #confirm-password {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.password-field {
+    margin-right: -43px;
+    /*background-image: url("images/eye-slash-regular.svg");*/
+    /*background-repeat: no-repeat;*/
+    border-right: 1px solid #ced4da;
+}
+
+
+.remember-me {
+    margin-top: 1%;
+}
+
+.remember-me > .form-check-label {
+    color: #687DCF;
+}
+
+
+span.input-group-text {
+    background-color: inherit;
+    border-left-width: 0;
+    font-weight: normal;
+}
+
+
+.custom-invalid-feedback img {
+    padding-bottom: 4px;
+}
+
+.error-message {
+    font-size: small;
+    margin-left: 2px;
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid,
+.form-control.is-valid,
+.was-validated .form-control:valid {
+    background-image: none
+}
+
+.form-control.is-valid, .was-validated .form-control:valid {
+    box-shadow: none;
+    border-color: #ced4da;
+    padding-right: 0.75rem;
+}
+
+.form-control.is-valid:focus, .was-validated .form-control:valid:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+    padding-right: 0.75rem;
+}
+
+.was-validated .form-check-input:valid ~ .form-check-label {
+    color: #687DCF;
+}
+

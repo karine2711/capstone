@@ -1,0 +1,70 @@
+/*--------------------------------------------------------------*/
+/*------------------------ Reschedule ----------------------------*/
+.reschedule-popup .main-content {
+    padding: 4px 20px;
+    border: 1px solid #ddd;
+    height: auto;
+    border-left: 4px solid pink;
+}
+
+.reschedule-popup {
+    background: white;
+    top: 50%;
+    z-index: 500;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    box-shadow: 0 23px 37px rgba(0, 96, 167, 0.35);
+    width: 28%;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+.reschedule-popup h6 {
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.reschedule-popup .event-type {
+    font-size: 12px;
+    font-family: 'Lato';
+    color: #242E4C;
+    padding: 5px;
+}
+
+.reschedule-popup .event-title {
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.reschedule-popup button {
+    height: auto;
+    margin-top: 15px;
+    width: auto;
+    border: 1px solid #ddd;
+    color: gray;
+}
+
+.cancel {
+    border: 1px solid #ddd;
+    color: gray;
+}
+
+.reschedule-popup .confirm {
+    background: #35B8EC;
+    color: #ffffff;
+}
+
+.reschedule-popup .close {
+    position: absolute;
+    right: 13px;
+    top: 0;
+}
+
+.cancel:hover, .confirm:hover {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    color: #ffffff;
+    transform: perspective(1px) translateZ(0);
+    transition-duration: 0.3s;
+    transition-property: color, background-color;
+}

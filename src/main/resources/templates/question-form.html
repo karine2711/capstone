@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<form action="#" id="form" method="post" th:action="@{/forgot-password/questions}">
+    <div class="container outer-box shadowedContainer rounded text-center">
+        <div class="row ">
+            <div class="col-lg-12 ">
+                <p class="shadowedHeader" th:text="#{questionForm.header}"></p>
+                <p class="shadowedSubheader" th:text="#{questionForm.hintMessage}"></p>
+            </div>
+        </div>
+        <div class="row text-left input_div">
+            <label class="d-block" for="email" th:text="#{questionForm.email.label}"></label><span
+                class="text-danger">*</span>
+
+            <input class="form-control d-block bg-white input-height" id="email"
+                   readonly type="email">
+        </div>
+        <div class="row text-left input_div">
+            <label class="email" th:text="#{questionForm.question.label}"></label><span id="questionId"></span>
+            <span class="form-control bg-white text-wrap input-height" id="question"
+                  readonly
+                  style="resize: none; height: fit-content ">
+            </span>
+        </div>
+        <div class="row text-left input_div">
+            <label th:text="#{questionForm.answer.label}"> </label><span class="text-danger">*</span>
+            <input class="form-control input-height not-send-with-get" id="answer" maxlength="25"
+                   name="answer" type="text">
+        </div>
+        <div class="mt-4 w-100 align-items-center">
+            <div class="d-flex">
+                <svg class="bi bi-exclamation-circle alert-icon d-none" fill="currentColor" height="1em" id="alertIcon"
+                     viewBox="0 0 16 16" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                          fill-rule="evenodd"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                <p class="text-danger d-inline d-none" id="error-message">
+                </p>
+            </div>
+        </div>
+        <div class="row input_div">
+            <input class="btn blue_button" id="submitAnswer" th:value="#{questionForm.submit}" type="submit">
+            <input class="btn blue_button" id="btSubmit-2" th:value="#{button.signUp}" type="hidden">
+        </div>
+    </div>
+</form>
+

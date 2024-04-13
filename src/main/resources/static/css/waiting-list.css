@@ -1,0 +1,259 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+html, body {
+    margin: 0;
+    padding-bottom: 55px !important;
+}
+
+#waiting-list-form {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    height: 82.13%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);
+    padding-bottom: 56px;
+}
+
+.labels {
+    height: 16px;
+    width: 35px;
+    color: #202842;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
+.pre-booked-event-date {
+    height: 38px;
+    width: 35px;
+    color: #606B89;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 21px;
+    text-align: center;
+}
+
+.emptyRectangle {
+    background-color: #eee;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #4a4b4b;
+    height: 800px;
+    width: 1100px;
+}
+
+.pre-booked-event-container {
+    margin-bottom: 10px;
+}
+
+.blocked-event-container {
+    margin-bottom: 10px;
+}
+
+.pre-booked-event-type {
+    height: 19px;
+    width: 75px;
+    color: #202842;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 19px;
+    text-align: left;
+}
+
+.waiting-list-title {
+    height: 26px;
+    width: 434px;
+    color: #333333;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 26px;
+    text-align: right;
+}
+
+.waiting-list-message {
+    height: 20px;
+    width: 815px;
+    color: #333333;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.rectangle {
+    box-sizing: border-box;
+    /*height: 197px;*/
+    border: 1px solid #DCDFF1;
+    border-left: 5px solid #DCDFF1;
+    border-radius: 5px;
+}
+
+.buttons3 {
+    height: 48.4px;
+    width: 316.9px;
+    margin-bottom: 46.4px;
+}
+
+.main_button {
+    width: 30%;
+    height: 100%;
+    background: #35B8EC;
+    color: #ffffff;
+    border-radius: 3px;
+    transform: perspective(1px) translateZ(0);
+    transition-duration: 0.3s;
+    transition-property: color, background-color;
+}
+
+.whiteButton {
+    width: 30%;
+    color: #3450f5;
+    height: 100%;
+    background-color: #ffffff;
+    border: 2px solid #F8F8F8;
+    border-radius: 3px;
+}
+
+button[name=delete]:hover, button[name=reschedule]:hover:hover {
+    color: #35B8EC;
+}
+
+button[name=confirm]:hover {
+    color: #ffffff;
+}
+
+#sort,
+#sort-blocked {
+    color: #35B8EC;
+    transition: all .2s ease-in-out
+}
+
+#sort:hover,
+#sort-blocked:hover {
+    transform: scale(1.2);
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.buttons .btn {
+    letter-spacing: 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.buttons .btn:focus {
+    box-shadow: none;
+}
+
+.preschool-event {
+    border-left: 5px solid rgba(81, 190, 206, 0.55);
+}
+
+.elementary-event {
+    border-left: 5px solid rgba(141, 175, 255, 0.55);
+}
+
+.middle-event {
+    border-left: 5px solid rgba(99, 218, 56, 0.55);
+}
+
+.high-event {
+    border-left: 5px solid rgba(255, 204, 0, 0.55);
+}
+
+.students-event {
+    border-left: 5px solid rgba(255, 0, 75, 0.55);
+}
+
+.individuals-event {
+    border-left: 5px solid rgba(255, 59, 48, 0.55);
+}
+
+.event-event {
+    border-left: 5px solid rgba(120, 10, 239, 0.55);
+}
+
+.school-input, .group-input {
+    margin-right: 15px;
+}
+
+.created-by-input {
+    border: none;
+    cursor: pointer;
+    background-color: #fdfdfdfc;
+}
+
+.created-by-input:focus {
+    outline: none;
+}
+
+.pre-booked-event-form {
+    margin-bottom: 10px;
+}
+
+.pre-booked-event-hours {
+    margin-bottom: 30px;
+}
+
+.group-label, .group-size-label {
+    margin-left: 10px;
+}
+
+.active {
+    border-bottom: none;
+}
+
+.waiting-filter-button {
+    border-radius: 20px;
+    margin-right: 24px;
+    border: thin solid #F0F2FB;
+    height: 40px;
+    background: white;
+}
+
+
+.preschool {
+    background-color: rgba(81, 190, 206, 0.55);
+}
+
+.elementary {
+    background-color: rgba(141, 175, 255, 0.55);
+}
+
+.middle {
+    background-color: rgba(99, 218, 56, 0.55);
+}
+
+.high {
+    background-color: rgba(255, 204, 0, 0.55);
+}
+
+.students {
+    background-color: rgba(255, 0, 75, 0.55);
+}
+
+.individuals {
+    background-color: rgba(255, 59, 48, 0.55);
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #364d90;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}

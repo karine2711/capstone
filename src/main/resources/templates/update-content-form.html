@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container main-container" th:fragment="main-container">
+    <p class="users" th:text="#{update.content.title}"></p>
+    <button aria-label="Close" class="close custom-close" style="font-size: 32px;margin-right: 2%;"
+            type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <!--/*@thymesVar id="generalInfoDto" type="dto.com.aua.museum-booking.GeneralInfoDto"*/-->
+    <form id="admin_form" th:action="@{/homepage/update-content}" th:method="post" th:object="${generalInfoDto}">
+        <div class="container form-group" id="description-section" style="margin-top: 3%;">
+            <span class="font-weight-bold padding-left-7" th:text="#{update.content.landingPage}"></span>
+            <div class="row justify-content-around" style="margin-bottom: 2%;">
+                <div class="col-4 " id="am-section">
+                    <div class="row justify-content-between align-items-center form-group">
+                        <label class="control-label required_label" for="title-am"
+                               style="padding: 10px 0" th:text="#{field.activity.title.am.label}"> Title in
+                            Armenian </label>
+                        <input class="form-control" id="title-am" name="title_AM"
+                               th:value="${generalInfo.getTitle_AM()}">
+                    </div>
+                </div>
+                <div class="col-4 " id="en-section" style="padding:0">
+                    <div class="row justify-content-between align-items-center form-group">
+                        <label class="control-label required_label" for="title-en"
+                               th:text="#{field.activity.title.en.label}">Title in English</label>
+                        <div>
+                            <button class="btn-ru" id="btn-ru" type="button">Russian</button>
+                            <button class="btn-en button-shadow"
+                                    id="btn-en" type="button">English
+                            </button>
+                        </div>
+                        <input class="form-control" id="title-en" name="title_EN"
+                               th:value="${generalInfo.title_EN}">
+                    </div>
+                </div>
+                <div class="col-4 d-none " id="ru-section" style="padding:0">
+                    <div class="row justify-content-between align-items-center form-group">
+                        <label class="control-label required_label" for="title-ru"
+                               th:text="#{field.activity.title.ru.label}">Title in Russian</label>
+                        <div>
+                            <button class="btn-ru" id="btn-ru" type="button">Russian</button>
+                            <button class="btn-en" id="btn-en" type="button">English</button>
+                        </div>
+                        <input class="form-control" id="title-ru" name="title_RU"
+                               th:value="${generalInfo.title_RU}">
+                    </div>
+                </div>
+            </div>
+
+            <span class="font-weight-bold padding-left-7" th:text="#{update.content.workingSchedule}"></span>
+            <div style="margin-top: 1%;">
+                <label class="padding-left-7 required_label" for="working-days-update-content"
+                       th:text="#{update.content.workingDays}"></label>
+                <div class="row padding-left-7 no-wrap" id="working-days-update-content">
+                    <div class="activity-slots col-md-3">
+                        <div class="form-group">
+                            <select class="select form-control required-input" id="start-day"
+                                    th:name="startWorkingDayId">
+                                <option hidden="hidden" selected="selected"
+                                        th:text="${generalInfo.getStartWorkingDay().getValueByLocale(#locale.getLanguage().toUpperCase())}"
+                                        th:value="${weekDays.indexOf(generalInfo.getStartWorkingDay().getValueByLocale(#locale.getLanguage().toUpperCase())) + 1}">
+                                </option>
+                                <option id="week-days1" th:each="weekDay : ${weekDays}"
+                                        th:text="${weekDay}" th:value="${weekDays.indexOf(weekDay) + 1}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="activity-slots col-md-3">
+                        <div class="form-group ">
+                            <select class="select form-control required-input" id="end-day" th:name="endWorkingDayId">
+                                <option hidden="hidden" selected="selected"
+                                        th:text="${generalInfo.getEndWorkingDay().getValueByLocale(#locale.getLanguage().toUpperCase())}"
+                                        th:value="${weekDays.indexOf(generalInfo.getEndWorkingDay().getValueByLocale(#locale.getLanguage().toUpperCase())) + 1}">
+                                </option>
+                                <option id="week-days2" th:each="weekDay : ${weekDays}"
+                                        th:text="${weekDay}" th:value="${weekDays.indexOf(weekDay) + 1}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <label class="padding-left-7 required_label" for="working-hours-update-content"
+                       th:text="#{update.content.workingHours}"></label>
+                <div class="row padding-left-7 no-wrap" id="working-hours-update-content">
+                    <div class="activity-slots col-md-2">
+                        <div class="form-group ">
+                            <select class="select form-control required-input" id="start-time"
+                                    th:name="startWorkingTime">
+                                <option hidden="hidden" selected="selected"
+                                        th:text="${generalInfo.getStartWorkingTime()}"
+                                        th:value="${generalInfo.getStartWorkingTime()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="activity-slots col-md-2">
+                        <div class="form-group ">
+                            <select class="select form-control required-input" id="end-time" th:name="endWorkingTime">
+                                <option hidden="hidden" selected="selected"
+                                        th:text="${generalInfo.getEndWorkingTime()}"
+                                        th:value="${generalInfo.getEndWorkingTime()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="font-weight-bold padding-left-7" th:text="#{update.content.footer}"></span>
+            <div class="row" id="footer" style="padding-left: 7%;margin-top: 1%;">
+                <div class="col-md-4">
+                    <div class="form-group ">
+                        <label class="control-label" for="phone"
+                               th:text="#{field.registration.phone}"></label>
+                        <input class="form-control required-input" id="phone"
+                               name="phone" th:value="${generalInfo.getPhone()}"
+                               type="text"/>
+                        <span hidden id="phone-valid-title" th:text="#{field.registration.phone}"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="email"
+                               th:text="#{field.registration.email}"></label>
+                        <input class="form-control required-input" id="email"
+                               name="email" th:value="${generalInfo.getEmail()}"
+                               type="text"/>
+                        <span hidden id="email-valid-title" th:text="#{field.registration.email}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 4%;">
+                <div class="row activity-buttons btn-group" style="margin-left: 2px">
+                    <div class="col-sm-3" style="margin-left: 9%;">
+                        <button class="btn activity-whiteButton"
+                                id="cancel-btn"
+                                style="height: 50px;"
+                                th:text="#{button.cancel}"
+                                type="button"></button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn activity-main-button" id="add-activity-btn"
+                                style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                                th:text="#{button.update}"
+                                type="submit"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

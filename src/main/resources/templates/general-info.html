@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="container title-box" th:fragment="generalInfo">
+    <div class="row headers">
+        <div class="column">
+        <p class="title"></p>
+        <p class="title-info" th:text="#{generalInfo.description}"></p>
+        </div>
+    </div>
+    <div class="row buttons btn-group">
+        <button class="btn col-7 main_button " id="sign-up-btn" th:text="#{button.signUp}"></button>
+        <button class="btn col-5 whiteButton" id="sign-in-btn" th:text="#{button.signIn}"></button>
+    </div>
+    <div class="row info-text">
+        <p th:text="#{generalInfo.introduction}"></p>
+    </div>
+
+    <div class="row location-info" th:text="#{generalInfo.location}">
+    </div>
+</div>

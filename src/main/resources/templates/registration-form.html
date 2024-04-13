@@ -1,0 +1,219 @@
+<div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="row" style="margin-top: -34.56px; font-size: 20px">
+        <div class="col-md-5 mx-auto shadowedHeader font-weight-bold text-center"
+             th:text="#{header.registration.signUp}">
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="mx-auto intro-heading" th:text="#{header.registration.proposalMessage}">
+        </div>
+    </div>
+    <br/>
+    <form class="container" id="reg-form" method="post" name="f" novalidate th:action="@{/register}"
+          th:object="${user}">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label required_label" for="full-name"
+                                   th:text="#{field.registration.fullName}"></label>
+                            <input class="form-control required-input" id="full-name"
+                                   name="full-name" th:field="*{fullName}"
+                                   th:placeholder="#{field.registration.fullName.placeholder}" type="text"/>
+                            <span hidden id="full-name-valid-title" th:text="#{field.registration.fullName}">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="residency" th:text="#{field.registration.residency}"></label>
+                            <input class="form-control optional" id="residency" name="residency" th:field="*{residency}"
+                                   th:placeholder="#{field.registration.residency.placeholder}" type="text"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="occupation" th:text="#{field.registration.occupation}"></label>
+                            <input class="form-control optional" id="occupation" name="occupation" th:field="*{occupation}"
+                                   th:placeholder="#{field.registration.occupation.placeholder}" type="text"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="username"
+                                   th:text="#{field.registration.username}"></label>
+                            <input class="form-control required-input" id="username"
+                                   name="username"
+                                   th:field="*{username}"
+                                   th:placeholder="#{field.registration.username.placeholder}" type="text"/>
+                            <span hidden id="username-valid-title" th:text="#{field.registration.username}">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group ">
+                            <label class="control-label required_label" for="phone"
+                                   th:text="#{field.registration.phone}"></label>
+                            <input class="form-control required-input" id="phone"
+                                   name="phone" placeholder="+374..." th:field="*{phone}"
+                                   type="text"/>
+                            <span hidden id="phone-valid-title" th:text="#{field.registration.phone}">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="address" th:text="#{field.registration.address}"></label>
+                            <input class="form-control optional" id="address" name="address" th:field="*{address}"
+                                   th:placeholder="#{field.registration.address.placeholder}"
+                                   type="text"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group show-hide-pass">
+                            <label class="control-label  required_label " for="password"
+                                   th:text="#{field.registration.password}"></label>
+                            <div class="input-group">
+                                <input class="form-control password-field required-input" id="password"
+                                       name="password"
+                                       th:field="*{password}"
+                                       th:placeholder="#{field.registration.password.placeholder}" type="password"/>
+                                <span hidden id="password-valid-title" th:text="#{field.registration.password}">
+                                </span>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                       <i class="fa fa-eye-slash pass-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="first-question"
+                                   th:text="#{field.registration.question1}"></label>
+                            <select class="select form-control required-input" id="first-question"
+                                    name="first-question"
+                                    th:field="*{questionsDetails[0].questionId}">
+                                <option hidden="hidden" selected="selected" th:text="#{field.registration.question.placeholder}"
+                                        value="">
+                                </option>
+                                <option th:each="question : ${questions.entrySet()}" th:text="${question.value}"
+                                        th:value="${question.key}"></option>
+                            </select>
+                            <span hidden id="question-valid-title-1" th:text="#{field.registration.question1}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group show-hide-pass">
+                            <label class="control-label  required_label" for="confirm-password"
+                                   th:text="#{field.registration.confirmPassword}"></label>
+                            <div class="input-group">
+                                <input class="form-control password-field required-input" id="confirm-password"
+                                       name="confirmPassword"
+                                       th:field="*{confirmPassword}"
+                                       th:placeholder="#{field.registration.password.placeholder}"
+                                       type="password"/>
+                                <span hidden id="confirm-password-valid-title"
+                                      th:text="#{field.registration.confirmPassword}">
+                                </span>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                       <i class="fa fa-eye-slash pass-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="first-answer"
+                                   th:text="#{field.registration.answer1}">
+                            </label>
+                            <input class="form-control required-input"
+                                   id="first-answer" name="first-answer"
+                                   th:field="*{questionsDetails[0].answer}" th:placeholder="#{field.registration.answer.placeholder}"
+                                   type="text"/>
+                            <span hidden id="answer-valid-title-1" th:text="#{field.registration.answer1}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="email"
+                                   th:text="#{field.registration.email}"></label>
+                            <input class="form-control required-input" id="email"
+                                   name="email" th:field="*{email}" th:placeholder="#{field.registration.email.placeholder}"
+                                   type="text"/>
+                            <span hidden id="email-valid-title" th:text="#{field.registration.email}">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="second-question"
+                                   th:text="#{field.registration.question2}"></label>
+                            <select class="select form-control required-input" id="second-question"
+                                    name="second-question"
+                                    th:field="*{questionsDetails[1].questionId}">
+                                <option hidden="hidden" selected="selected" th:text="#{field.registration.question.placeholder}"
+                                        value="">
+                                </option>
+                                <option th:each="question : ${questions.entrySet()}" th:text="${question.value}"
+                                        th:value="${question.key}"></option>
+                            </select>
+                            <span hidden id="question-valid-title-2" th:text="#{field.registration.question2}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="school" th:text="#{field.registration.school}"></label>
+                            <input class="form-control optional" id="school" name="school" th:field="*{school}"
+                                   th:placeholder="#{field.registration.school.placeholder}"
+                                   type="text"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="control-label  required_label" for="second-answer"
+                                   th:text="#{field.registration.answer2}"></label>
+                            <input class="form-control required-input"
+                                   id="second-answer" name="second-answer"
+                                   th:field="*{questionsDetails[1].answer}" th:placeholder="#{field.registration.answer.placeholder}"
+                                   type="text"/>
+                            <span hidden id="answer-valid-title-2" th:text="#{field.registration.answer2}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-sm-4 mx-auto">
+                <div class="submit-button">
+                    <button class="btn btn-primary btn-lg btn-block blue_button" th:text="#{button.signUp}"
+                            type="submit"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

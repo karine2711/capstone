@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<div class="container" id="notification-container" style="width: 80%">
+
+    <form id="notification-center-form" method="post" name="notificationCenterForm" th:action="@{/notification}">
+        <div class="row mt-5">
+            <div class="col-12 mx-auto notification-form">
+
+                <!-- Page Name -->
+
+                <div class="row">
+                    <div class="col-12 mt-5 mb-4">
+                        <div class="add-activity"
+                             th:text="#{header.notification.center}">
+                        </div>
+                    </div>
+                </div>
+
+                <div sec:authorize="hasAuthority('USER_ROLE')" class="row">
+                    <div class="col-12 mb-4">
+                        <div class="notification-description"
+                             th:text="#{header.notification.description}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+
+                <!--                <div class="row">-->
+                <!--                    <div class="col-12 mt-3">-->
+                <!--                        <input type="text" class="searchBar form-control" id="search"-->
+                <!--                               th:placeholder="#{notification.center.search.bar}">-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
+                <!-- Labels -->
+                <div class="container-fluid">
+                    <div class="form-group row mt-4">
+                        <a id="sort">
+                            <span class="glyphicon glyphicon-sort"></span>
+                        </a>
+                        <div class="col-1 labels" style="text-align:left"
+                             th:text="#{notification.center.event.date}">
+                        </div>
+                        <div class="col-2 labels" style="text-align: left"
+                             th:text="#{notification.center.event.type}">
+                        </div>
+                        <div class="col col-8 pl-1 labels" style="text-align: left;"
+                             th:text="#{notification.center.event.details}">
+                        </div>
+                    </div>
+                </div>
+
+                <input id="userNotifications" th:value="${usersNotifications}" type="hidden">
+
+                <!-- Empty notification list -->
+                <div class="emptyRectangle" th:if="${usersNotifications.isEmpty()}"
+                     th:text="#{notification.list.empty}">
+                </div>
+
+                <!-- Notification list -->
+                <div class="flex-container flex-column" id="notification-flexbox">
+                    <div class="notification-container"
+                         name="notification-rectangle"
+                         th:each="notification : ${usersNotifications}"
+                         th:if="${usersNotifications!=null and !usersNotifications.isEmpty()}">
+                        <!-- PRESCHOOL -->
+                        <div class="container-fluid rectangle preschool-notification"
+                             th:if="${notification.eventTypeId == 1}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ELEMENTARY -->
+                        <div class="container-fluid rectangle elementary-notification"
+                             th:if="${notification.eventTypeId == 2}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MIDDLE -->
+                        <div class="container-fluid rectangle middle-notification"
+                             th:if="${notification.eventTypeId == 3}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- HIGH -->
+                        <div class="container-fluid rectangle high-notification"
+                             th:if="${notification.eventTypeId == 4}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- STUDENTS -->
+                        <div class="container-fluid rectangle students-notification"
+                             th:if="${notification.eventTypeId == 5}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LIBRARIANS -->
+                        <div class="container-fluid rectangle individuals-notification"
+                             th:if="${notification.eventTypeId == 6}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- EVENT -->
+                        <div class="container-fluid rectangle event-notification"
+                             th:if="${notification.eventTypeId == 7}">
+                            <div class="form-group row mt-2">
+                                <!-- Notification Date -->
+                                <div class="col-1 notification-date">
+                                    <div class="row ml-4"
+                                         th:text="${notification.event.getDate().getDayOfMonth()}"></div>
+                                    <div class="row ml-3"
+                                         th:text="${#strings.toUpperCase(#temporals.monthNameShort(notification.event.getDate()))}"></div>
+                                </div>
+
+                                <!-- Notification Type -->
+                                <div class="col-2 notification-type"
+                                     th:text="${notification.eventTypeValue}">
+                                </div>
+                                <!-- Notification Action -->
+                                <div class="col-9">
+                                    <!-- Notification Info -->
+                                    <div class="pl-3 row notification-title" th:text="${notification.title}"></div>
+                                    <div class="row mt-2 pl-3 notification-message"
+                                         th:if="${notification.body!=null}"
+                                         th:text="${notification.body}"></div>
+                                    <div class="row mt-3 pl-3">
+                                        <div class="col-4 pl-0 notification-message"
+                                             style="text-align: left" th:if="${notification.event.getGroupSize()!=null}">
+                                            <p th:text="#{notification.groupSize.part1}"></p>
+                                            <span th:text="${notification.event.getGroupSize()}"></span>
+                                            <p th:text="#{notification.groupSize.part2}"></p>
+                                        </div>
+                                    </div>
+                                    <!-- Notification Buttons -->
+                                    <div class="row mt-4 pl-3" sec:authorize="hasAuthority('USER_ROLE')">
+                                        <div class="col-8 buttons3 d-flex pl-0">
+                                            <button class="btn main_button center mr-2" name="confirm"
+                                                    style="display: none;"
+                                                    th:disabled=${notification.event.isConfirmed()} th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.confirm}"
+                                                    type="button">
+                                            </button>
+                                            <button class="btn cancel center mx-2" name="reschedule"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.reschedule}"
+                                                    type="button">
+                                            </button>
+                                            <button class="delete btn cancel center mx-2" name="delete"
+                                                    th:id="${notification.event.getId()}"
+                                                    th:text="#{notification.center.event.delete}"
+                                                    type="button">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

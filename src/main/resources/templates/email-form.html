@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<form action="#" id="emailForm" method="POST" th:action="@{/forgot-password}">
+    <div class="container outer-box shadowedContainer rounded ">
+        <div class="row justify-content-center">
+            <p class="shadowedHeader" id="tx" th:text="#{emailForm.header}"></p>
+            <p class="shadowedSubheader" th:text="#{emailForm.hintMessage}"></p>
+        </div>
+        <div class="form-group text-left input_div align-items-center">
+            <label class="d-block " for="userEmail"><span th:text="#{questionForm.email.label}"></span> <span
+                    class="text-danger">*</span></label>
+            <input class="form-control input-height" id="userEmail" name="email" th:placeholder="'usermail@gmail.com'"
+                   type="text">
+        </div>
+        <div class="mt-4 w-100">
+            <div class="d-flex">
+                <svg class="bi bi-exclamation-circle alert-icon d-none" fill="currentColor" height="1em" id="alertIcon"
+                     viewBox="0 0 16 16" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                          fill-rule="evenodd"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                <p class="text-danger d-none" id="error-message">
+                </p>
+            </div>
+        </div>
+        <div class="row input_div">
+            <input class="btn blue_button" id="btSubmit" th:value="#{button.submit}" type="submit">
+        </div>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+stages:
+  - build-developer
+  - build-qa
+
+build-developer:
+  stage: build-developer
+  script:
+    - cp -rf * deploy/Dockerfiles/java-dev/ || true
+    - cd deploy && docker-compose -f docker-compose-developer.yml down || true
+    - cd -
+    - cd deploy && docker-compose -f docker-compose-developer.yml up --build -d
+  only:
+    - develop
+    - devops
+  tags:
+    - vm
+
+build-qa:
+  stage: build-qa
+  script:
+    - cp -rf * deploy/Dockerfiles/java-qa/ || true
+    - cd deploy && docker-compose -f docker-compose-qa.yml down || true
+    - cd -
+    - cd deploy && docker-compose -f docker-compose-qa.yml up --build -d
+  only:
+    - QA
+    - devops
+  tags:
+    - vm

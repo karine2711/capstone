@@ -1,0 +1,71 @@
+.alert-minimalist {
+    width: 580px;
+    border: 1px solid #F8F8F8;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    box-shadow: 0 5px 19px 0 rgba(0, 96, 167, 0.15);
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.title {
+    /*height: 17px;*/
+    width: 400px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 17px;
+    display: block;
+}
+
+.message {
+    height: 14px;
+    width: 75%;
+    /*width: 275px;*/
+    color: #07091B;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 14px;
+}
+
+button[name=notification_button] {
+    height: 32px;
+    width: 100px;
+    color: #ffffff;
+    border-radius: 3px;
+    background-color: #35B8EC;
+    border: none;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-align: center;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+
+.button {
+    color: white;
+    display: inline-block;
+    position: relative;
+    padding: 2px 5px;
+}
+
+.button__badge {
+    background-color: #fa3e3e;
+    border-radius: 70%;
+    height: 15px;
+    width: 15px;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    position: absolute;
+    top: -3px;
+    right: 0;
+}

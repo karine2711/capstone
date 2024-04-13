@@ -1,0 +1,100 @@
+.download-container {
+    display: none;
+    padding-top: 0;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 40px 0 rgba(11, 40, 127, 0.18);
+    padding-bottom: 3%;
+    width: 40% !important;
+    margin-left: 29% !important;
+    z-index: 1000;
+    position: absolute;
+    margin-top: 18% !important;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: #35B8EC;
+
+}
+
+.date-label {
+    margin-bottom: 2%;
+    font-weight: bold;
+}
+
+#downloadForm {
+    margin-top: 7%;
+}
+
+.close {
+    margin-top: 1%;
+}
+
+input[type="date"]::before {
+    content: attr(data-placeholder);
+    width: 100%;
+}
+
+input[type="date"]:focus::before,
+input[type="date"]:valid::before {
+    display: none
+}
+
+.margin-top-6 {
+    margin-top: 6%;
+}
+
+.padding-right-0 {
+    padding-right: 0;
+}
+
+.padding-right-4 {
+    padding-right: 4%;
+}
+
+.activity-main-button {
+    width: 100%;
+    height: 100%;
+    background: #35B8EC;
+    color: #ffffff;
+    border: none;
+}
+
+.activity-whiteButton {
+    color: #A1A3A8;
+    height: 100%;
+    background-color: #ffffff;
+    border: 1px solid #DCDFF1;
+}
+
+#cancel-btn:hover, #add-activity-btn:hover {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    color: #ffffff;
+    transform: perspective(1px) translateZ(0);
+    transition-duration: 0.3s;
+    transition-property: color, background-color;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10% !important;
+}
+
+.margin-left-30 {
+    margin-left: 30% !important;
+}
+
+.margin-left-25 {
+    margin-left: 25%;
+}
+
+.row4 {
+    justify-content: flex-end;
+}
+
+#calendarDownload {
+    height: 40px;
+    width: 120px;
+    color: #ffffff;
+    position: relative;
+    float: right;
+}
+

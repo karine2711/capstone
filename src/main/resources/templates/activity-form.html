@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<div class="container" style="width: 80%">
+    <input id="admin" sec:authorize="hasAuthority('ADMIN_ROLE')" type="hidden"/>
+    <div class="lds-dual-ring"></div>
+
+
+    <form id="activity-form" method="post" name="activityForm" th:action="@{/event}" th:object="${event}">
+        <div class="row ">
+            <div class="col-12 mx-auto activity-rectangle">
+
+                <!--header-->
+                <div class="row mt-4 mb-2">
+                    <div class="col-11">
+                        <div class="add-activity"
+                             th:text="#{header.activity.addActivity}">
+                        </div>
+                    </div>
+
+                    <div class="col-1 ">
+                        <button aria-label="Close" class="close" id="close" style="font-size: 32px;" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="proposalMessage mb-4">
+                    <div class="" th:text="#{header.activity.proposalMessage}">
+                    </div>
+                </div>
+
+                <!--event Types-->
+                <div class="row">
+                    <div class=" col-sm-12 form-group group-11">
+                        <label class="control-label  required_label event-type" for="event-type"
+                               th:text="#{field.activity.eventType}"></label>
+                        <select class="select form-control required-input" id="event-type" name="eventType"
+                                th:disabled="${currentEventTypeId!=null}" th:name="eventType"
+                                th:value="${currentEventTypeId}">
+
+                            <option hidden="hidden" selected="selected" th:text="#{field.activity.eventType.placeholder}"
+                                    value="">
+                            </option>
+                            <option th:each="eventType, iterStat : ${eventTypes}"
+                                    th:if="${iterStat.index < iterStat.size-1}"
+                                    th:selected="${eventType.id==currentEventTypeId}"
+                                    th:text="${@eventTypeServiceImpl.getEventTypeValueFromLocale(eventType)}"
+                                    th:value="${eventType.id}">
+                            </option>
+                            <option sec:authorize="hasAuthority('ADMIN_ROLE')"
+                                    th:each="eventType, iterStat : ${eventTypes}"
+                                    th:if="${iterStat.last}"
+                                    th:selected="${eventType.id==currentEventTypeId}"
+                                    th:text="${@eventTypeServiceImpl.getEventTypeValueFromLocale(eventType)}"
+                                    th:value="${eventType.id}">
+                            </option>
+                        </select>
+                        <input name="eventType" th:if="${currentEventTypeId}" th:value="${currentEventTypeId}"
+                               type="hidden"/>
+                    </div>
+                </div>
+
+
+                <div class="pl-3 pr-0 row">
+                    <!--------------------------event Datessssssssss------------------------------------------------->
+                    <div class="col-sm form-group">
+                        <div class="pl-0 pr-5 col-sm row">
+                            <div style="position: relative;">
+                                <input aria-required="true" autocomplete="off" class="form-control datepicker bg-white" id="date"
+                                       name="date"
+                                       readonly='true'
+                                       th:placeholder="#{field.activity.date.placeholder}"
+                                       th:value="${currentEventDate}" type="text"/>
+                                <span class="glyphicon glyphicon-calendar" style="font-size: 15px;
+    				                         position: absolute;
+				  	                         pointer-events: none;
+				  	                         color: dimgray;
+   			 		                         top: 10px;
+   					                         right: 5%;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------- Group Size ------------------------------------------------->
+                    <div class="col-sm-4">
+                        <div class="row ">
+                            <div class="col-sm-10 pl-0 pr-5">
+                                <!--                                <label class="control-label" for="group-size"-->
+                                <!--                                       th:text="#{field.activity.group.size}"></label>-->
+                                <input class="form-control bg-white activity-input" id="group-size"
+                                       name="groupSize"
+                                       style="font-size: 16px" th:field="*{groupSize}"
+                                       th:placeholder="#{field.activity.group.size.placeholder}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm pr-3">
+                        <div class="row">
+                            <!----start time----->
+                            <div class="col-sm activity-slots">
+                                <div class="form-group ">
+                                    <select class="select form-control required-input" id="start-time"
+                                            th:disabled="${currentEventTime==null}" th:name="time"
+                                            th:value="${currentEventTime}">
+                                        <option hidden="hidden" selected="selected" th:text="${currentEventTime}?:#{field.activity.start-time.placeholder}"
+                                                th:value="${currentEventTime}"
+                                                value="">
+                                        </option>
+                                        <option id="free-times" th:each="freeTime : ${freeTimes}"
+                                                th:text="${freeTime}" th:value="${freeTime}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <hr class="activity-line"/>
+                            </div>
+
+                            <!----end time----->
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <input class="form-control required-input" disabled id="end-time" name="endTime" readonly
+                                           th:placeholder="${currentEventEndTime}?:#{field.activity.end-time.placeholder}"
+                                           type="text"
+
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--------------------------School ------------------------------------------------->
+                <div class="row form-group activity-input" id="school-section">
+                    <div class="col-md-7">
+                        <label class="control-label required_label" for="school"
+                               th:text="#{field.activity.school}"></label>
+
+                        <th:block th:switch="*{user.school}!=null">
+                            <input class="form-control required-input" id="school" name="school" th:case="true"
+                                   th:placeholder="#{field.activity.school.placeholder}" th:value="*{user.school}"
+                                   type="text">
+                            <input class="form-control required-input" id="school" name="school" th:case="false"
+                                   th:placeholder="#{field.activity.school.placeholder}" type="text">
+                        </th:block>
+
+                    </div>
+
+                    <!--                    <div class="col-md-5 ">-->
+                    <!--                        <div class="row">-->
+                    <!--                            <div class="col-md-6 offset-md-6">-->
+                    <!--                                <label class="control-label" for="group-size"-->
+                    <!--                                       th:text="#{field.activity.group.size}"></label>-->
+                    <!--                                <input style="font-size: 15px" class="form-control"-->
+                    <!--                                       th:placeholder="#{field.activity.group.size.placeholder}"-->
+                    <!--                                       th:field="*{groupSize}" id="group-size"-->
+                    <!--                                       name="groupSize"/>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+
+                <!--------------------------Class ------------------------------------------------->
+
+                <div class="row form-group activity-input" id="class-section">
+                    <div class="col-sm-7">
+                        <label class="control-label required_label" for="class"
+                               th:text="#{field.activity.class}"></label>
+                        <input class="form-control" id="class" name="activityClass"
+                               th:field="*{group}"
+                               th:placeholder="#{field.activity.class.placeholder}" type="text"/>
+                    </div>
+                </div>
+
+                <!--------------------------Comment------------------------------------------------->
+
+
+                <div class="container d-none form-group" id="description-section">
+                    <div class="row justify-content-end align-items-start">
+                        <input type="file"
+                               accept="image/*"
+                               name="file" id="file"
+                               th:field="*{eventPhoto}"
+                               th:value="${event.eventPhoto}">
+                        <div id="file-label-container">
+                            <label class="custom-file-upload " for="file"
+                                   th:text="${currentPhotoExists==true} ? #{field.activity.current.photo} : #{field.activity.upload.photo}">
+                            </label>
+                            <button type="button" class="close" id='clear-input' aria-label="CZlose"
+                                    th:if="${currentPhotoExists==true}">
+                                <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
+                            </button>
+                            <span id="image-preview" th:switch="${currentPhotoExists}">
+                                <span th:case="true">
+                                    <i class="fa fa-file-image">
+                                      <img class="event-photo" alt="" data-holder-rendered="true"
+                                           th:src="${'data:image/jpg;base64,'+ currentEventPhoto}">
+                                    </i>
+                                </span>
+                                <span th:case="false">
+                                    <i class="fa fa-file-image d-none">
+                                      <img class="event-photo" alt="" data-holder-rendered="true" src="">
+                                    </i>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="custom-invalid-feedback text-right"><span
+                                class="error-message" id="error-message-file"></span></div>
+                    </div>
+
+                    <div class="row justify-content-between align-items-end">
+                        <div class="col-5 " id="am-section">
+                            <div class="row justify-content-between align-items-center form-group">
+                                <label class="control-label required_label" for="title-am"
+                                       style="padding: 10px 0" th:text="#{field.activity.title.am.label}"> Title in
+                                    Armenian </label>
+
+                                <input class="form-control" id="title-am" name="title_AM"
+                                       th:placeholder="#{field.activity.title.placeholder.am}"
+                                       th:value="${currentEventTitleAm}">
+                            </div>
+                            <div class="row form-group">
+                                <label class="control-label required_label" for="description-en"
+                                       th:text="#{field.activity.desc.am.label}"
+                                >Description in Armenian</label>
+                                <textarea class="form-control"
+                                          id="description-am" name="description_AM" rows="4" style="resize: none;"
+                                          th:placeholder="#{field.activity.comment.placeholder.am}"
+                                          th:text="${currentEventDescAm}"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-5 " id="en-section">
+                            <div class="row justify-content-between align-items-center form-group">
+                                <label class="control-label" for="title-en"
+                                       th:text="#{field.activity.title.en.label}">Title in English</label>
+                                <div>
+                                    <button class="btn-ru" id="btn-ru" type="button">Russian</button>
+                                    <button class="btn-en button-shadow"
+                                            id="btn-en" type="button">English
+                                    </button>
+                                </div>
+                                <input class="form-control" id="title-en" name="title_EN"
+                                       th:placeholder="#{field.activity.title.placeholder.en}"
+                                       th:value="${currentEventTitleEn}">
+                            </div>
+                            <div class="row form-group">
+                                <label class="control-label" for="description-en"
+                                       th:text="#{field.activity.desc.en.label}"
+                                >Description in English</label>
+                                <textarea class="form-control"
+                                          id="description-en" name="description_EN" rows="4" style="resize: none;"
+                                          th:placeholder="#{field.activity.comment.placeholder.en}"
+                                          th:text="${currentEventDescEn}"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-5 d-none " id="ru-section">
+                            <div class="row justify-content-between align-items-center form-group">
+                                <label class="control-label" for="title-en"
+                                       th:text="#{field.activity.title.ru.label}">Title in Russian</label>
+                                <div>
+                                    <button class="btn-ru" id="btn-ru" type="button">Russian</button>
+                                    <button class="btn-en" id="btn-en" type="button">English</button>
+                                </div>
+                                <input class="form-control" id="title-ru" name="title_RU"
+                                       th:placeholder="#{field.activity.title.placeholder.ru}"
+                                       th:value="${currentEventTitleRu}">
+                            </div>
+                            <div class="row form-group">
+                                <label class="control-label" for="description-ru"
+                                       th:text="#{field.activity.desc.ru.label}">Description in Russian</label>
+                                <textarea class="form-control"
+                                          id="description-ru" name="description_RU" rows="4" style="resize: none;"
+                                          th:placeholder="#{field.activity.comment.placeholder.ru}"
+                                          th:text="${currentEventDescRu}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------Buttons------------------------------------------------->
+
+                <div class="row activity-buttons btn-group mb-4 mt-4" style="margin-bottom: 20px">
+                    <div class="col-sm-4 ">
+                        <button class="btn activity-whiteButton " id="cancel-btn" th:text="#{button.cancel}"
+                                type="button"></button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn activity-main-button" id="add-activity-btn"
+                                th:text=" ${currentEvent}? #{button.update}:#{field.activity.button.addActivity}"></button>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </form>
+
+    <div id="hidden-div"></div>
+</div>
+
+</body>
+</html>
