@@ -45,8 +45,8 @@ public class LoginController {
             Cookie rememberMe = WebUtils.getCookie(request, "remember-me");
             Cookie jsessionid = WebUtils.getCookie(request, "JSESSIONID");
             deleteCookieIfExists(rememberMe, response);
-//            deleteCookieIfExists(jsessionid,response);
-//            deleteCookieIfExists(jsessionid, response);
+            deleteCookieIfExists(jsessionid,response);
+            deleteCookieIfExists(jsessionid, response);
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/";

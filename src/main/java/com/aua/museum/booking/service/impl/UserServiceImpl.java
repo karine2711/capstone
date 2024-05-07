@@ -2,7 +2,7 @@ package com.aua.museum.booking.service.impl;
 
 
 
-import com.aua.museum.booking.domain.RoleEnum;
+import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.domain.UserState;
 import com.aua.museum.booking.exception.UserAccountIsAlreadyBlockedException;
@@ -11,16 +11,6 @@ import com.aua.museum.booking.exception.notunique.FieldsAlreadyExistException;
 import com.aua.museum.booking.repository.UserRepository;
 import com.aua.museum.booking.security.UserDetailsImpl;
 import com.aua.museum.booking.service.EditProfileService;
-import com.aua.museum.booking.service.RoleService;
-import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.domain.UserState;
-import com.aua.museum.booking.exception.UserAccountIsAlreadyBlockedException;
-import com.aua.museum.booking.exception.notfound.UserNotFoundException;
-import com.aua.museum.booking.exception.notunique.FieldsAlreadyExistException;
-import com.aua.museum.booking.repository.UserRepository;
-import com.aua.museum.booking.security.UserDetailsImpl;
-import com.aua.museum.booking.service.EditProfileService;
-import com.aua.museum.booking.service.RoleService;
 import com.aua.museum.booking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +36,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final String BLOCKED_KEYWORD = "_blocked_";
     private final UserRepository repository;
-    private final RoleService roleService;
-    @Qualifier("sessionRegistry")
+     @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
     private PasswordEncoder encoder;
     private EditProfileService editProfileService;
@@ -205,30 +194,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void toActive(Long id) {
         User user = repository.findById(id).orElseThrow(UserNotFoundException::new);
-
         user.setState(UserState.ACTIVE);
-
         repository.save(user);
     }
 
     @Override
     public void toUser(Long id) {
         User user = getUserById(id);
-        user.setRoles(user.getRoles().stream()
-                .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
-                .collect(Collectors.toList()));
-        user.addRole(roleService.getRole(RoleEnum.USER_ROLE));
+        user.setRole(Role.USER_ROLE);
         logoutUser(id);
-
     }
 
     @Override
     public void toAdmin(Long id) {
         User user = getUserById(id);
-        user.setRoles(user.getRoles().stream()
-                .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
-                .collect(Collectors.toList()));
-        user.addRole(roleService.getRole(RoleEnum.ADMIN_ROLE));
+        user.setRole(Role.ADMIN_ROLE);
         logoutUser(id);
     }
 

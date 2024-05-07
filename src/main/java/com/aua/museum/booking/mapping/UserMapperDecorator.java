@@ -2,21 +2,14 @@ package com.aua.museum.booking.mapping;
 
 import com.aua.museum.booking.domain.QuestionDetails;
 import com.aua.museum.booking.domain.Role;
-import com.aua.museum.booking.domain.RoleEnum;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.dto.UserDto;
-import com.aua.museum.booking.service.RoleService;
-import com.aua.museum.booking.domain.QuestionDetails;
-import com.aua.museum.booking.domain.Role;
-import com.aua.museum.booking.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserMapperDecorator implements UserMapper {
-    @Autowired
-    RoleService roleService;
     private UserMapper userMapper;
 
     private QuestionDetailsMapper questionDetailsMapper;
@@ -36,10 +29,9 @@ public abstract class UserMapperDecorator implements UserMapper {
     public User toEntity(UserDto dto) {
         User user = userMapper.toEntity(dto);
 
-        Role role = roleService.getRole(RoleEnum.USER_ROLE);
         List<QuestionDetails> details = new ArrayList<>();
 
-        user.addRole(role);
+        user.setRole(Role.USER_ROLE);
         user.setProfileAvatar(dto.getProfileAvatar());
 
         if (dto.getQuestionsDetails() != null) {

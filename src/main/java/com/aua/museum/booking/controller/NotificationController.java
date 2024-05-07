@@ -85,16 +85,6 @@ public class NotificationController {
         return "success";
     }
 
-
-    @PostMapping(value = "/post/{token}")
-    @ResponseBody
-    public String sendToken(@PathVariable String token, Principal principal) {
-        final User user = userService.getUserByUsername(principal.getName());
-        user.setToken(token);
-        userService.save(user);
-        return "success";
-    }
-
     private Map<String, Object> notificationToMap(Notification notification) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", notification.getId());

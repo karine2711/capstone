@@ -2,11 +2,12 @@ package com.aua.museum.booking.controller;
 
 import com.aua.museum.booking.domain.EventState;
 import com.aua.museum.booking.domain.Role;
-import com.aua.museum.booking.domain.RoleEnum;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.service.EventService;
 import com.aua.museum.booking.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,15 +74,9 @@ public class UserListController {
     }
 
     private List<User> getOnlyUsersAndAdmins(List<User> users) {
-        List<User> expectedResult = new ArrayList<>();
-        for (User user : users) {
-            List<RoleEnum> roles = user.getRoles().stream()
-                    .map(Role::getRoleName)
-                    .collect(Collectors.toList());
-            if (!roles.contains(RoleEnum.SUPER_ADMIN_ROLE)) {
-                expectedResult.add(user);
-            }
-        }
-        return expectedResult;
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+       return users.parallelStream()
+                .filter(u -> !u.isSuperAdmin() && !u.getUsername().equals(authentication.getName()))
+                .collect(Collectors.toList());
     }
 }

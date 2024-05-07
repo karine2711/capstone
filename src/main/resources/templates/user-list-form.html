@@ -55,13 +55,20 @@
                     <i style="color: grey;     padding-left: 35%;" class="fa-lg fas fa-exclamation-circle"></i></span>
             </td>
 
+<!--            <td>-->
+<!--                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).BLOCKED}" th:href="@{'/users/unBlock/' + ${user.getId()}}" th:text="#{user-list-unBlock}"></a>-->
+<!--                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).UNBLOCKED}" th:href="@{'/users/toActive/' + ${user.getId()}}" th:text="#{user-list-active}"></a>-->
+<!--                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).ACTIVE} and ${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}" th:text="#{user-list-user}"></a>-->
+<!--                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).ACTIVE} and ${user.isAdmin() == false}"-->
+<!--                   th:href="@{'/users/toAdmin/' + ${user.getId()}}" th:text="#{user-list-admin}"></a>-->
+<!--            </td>-->
             <td>
-                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).BLOCKED}" th:href="@{'/users/unBlock/' + ${user.getId()}}" th:text="#{user-list-unBlock}"></a>
-                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).UNBLOCKED}" th:href="@{'/users/toActive/' + ${user.getId()}}" th:text="#{user-list-active}"></a>
-                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).ACTIVE} and ${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}" th:text="#{user-list-user}"></a>
-                <a th:if="${user.getState()==T(com.aua.museum.booking.domain.UserState).ACTIVE} and ${user.isAdmin() == false}"
-                   th:href="@{'/users/toAdmin/' + ${user.getId()}}" th:text="#{user-list-admin}"></a>
+                <a th:if="${user.state == T(com.aua.museum.booking.domain.UserState).BLOCKED}" th:href="@{'/users/unBlock/' + ${user.id}}" th:text="#{user-list-unBlock}"></a>
+                <a th:if="${user.state == T(com.aua.museum.booking.domain.UserState).UNBLOCKED}" th:href="@{'/users/toActive/' + ${user.id}}" th:text="#{user-list-active}"></a>
+                <a th:if="${user.state == T(com.aua.museum.booking.domain.UserState).ACTIVE and user.admin}" th:href="@{'/users/toUser/' + ${user.id}}" th:text="#{user-list-user}"></a>
+                <a th:if="${user.state == T(com.aua.museum.booking.domain.UserState).ACTIVE and !user.admin}" th:href="@{'/users/toAdmin/' + ${user.id}}" th:text="#{user-list-admin}"></a>
             </td>
+
         </tr>
         </tbody>
     </table>

@@ -63,7 +63,7 @@ public class EventServiceImpl implements EventService {
             return doRescheduleEvent(event);
         }
         Integer groupSize = event.getGroupSize();
-        if (groupSize < 10) {
+        if (groupSize > 25) {
             event.setEventState(PRE_BOOKED);
         } else {
             event.setEventState(BOOKED);
@@ -204,7 +204,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void checkAndChangeToPreBookedAfterReschedule(Event event) {
-        if((event.getEventState() == BOOKED || event.getEventState() == CONFIRMED)  && event.getGroupSize() < 10 ){
+        if(event.getEventType().getId() != 7 && event.getEventState() != PRE_BOOKED && event.getGroupSize() < 10 ){
             event.setEventState(PRE_BOOKED);
         }
         repository.save(event);

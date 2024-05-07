@@ -1,7 +1,7 @@
 package com.aua.museum.booking.controller;
 
 import com.aua.museum.booking.domain.GeneralInfo;
-import com.aua.museum.booking.domain.RoleEnum;
+import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.security.UserDetailsServiceImpl;
 import com.aua.museum.booking.service.GeneralInfoService;
 import com.aua.museum.booking.service.UserService;
@@ -61,7 +61,7 @@ public class LandingController {
     public String success(Model model, Principal principal, HttpSession session) {
         model.addAttribute("currentUser", principal.getName());
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(RoleEnum.ADMIN_ROLE.name())))
+        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())))
             return Templates.HOMEPAGE_ADMIN.getName();
         return Templates.HOMEPAGE.getName();
     }
@@ -70,7 +70,7 @@ public class LandingController {
     public String myActivities(Model model, Principal principal) {
         model.addAttribute("currentUser", principal.getName());
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(RoleEnum.ADMIN_ROLE.name())))
+        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())))
             return Templates.HOMEPAGE_ADMIN.getName();
         return Templates.HOMEPAGE.getName();
     }

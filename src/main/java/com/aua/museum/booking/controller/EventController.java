@@ -1,13 +1,12 @@
 package com.aua.museum.booking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.aua.museum.booking.domain.*;
 import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventState;
 import com.aua.museum.booking.domain.EventType;
 import com.aua.museum.booking.domain.Notification;
-import com.aua.museum.booking.domain.RoleEnum;
+import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.dto.EventDto;
 import com.aua.museum.booking.mapping.EventMapper;
@@ -59,7 +58,7 @@ public class EventController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         User user = userService.getUserByUsername(principal.getName());
         Event event = new Event();
-        if (eventId != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority(RoleEnum.ADMIN_ROLE.name()))) {
+        if (eventId != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name()))) {
             event = eventService.getEventById(eventId);
             modelAndView.addObject("currentEvent", event);
             modelAndView.addObject("currentEventTypeId", event.getEventType().getId());

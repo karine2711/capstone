@@ -1,10 +1,12 @@
 package com.aua.museum.booking.domain;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,19 +49,14 @@ public class User extends BaseEntity {
     @Column(name = "user_state")
     private UserState state = UserState.ACTIVE;
 
-//    @Column(name = "blocked", nullable = false)
+    //    @Column(name = "blocked", nullable = false)
 //    private int state;
     @Column(name = "token")
     @EqualsAndHashCode.Exclude
     private String token;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(
-                    name = "user_id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -89,8 +86,8 @@ public class User extends BaseEntity {
         this.address = address;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void addNotification(Notification notification) {
@@ -98,13 +95,11 @@ public class User extends BaseEntity {
     }
 
     public boolean isAdmin() {
-        return roles.stream()
-                .map(Role::getRoleName).anyMatch(RoleEnum.ADMIN_ROLE::equals);
+        return Role.ADMIN_ROLE.equals(role);
     }
 
     public boolean isSuperAdmin() {
-        return roles.stream()
-                .map(Role::getRoleName).anyMatch(RoleEnum.SUPER_ADMIN_ROLE::equals);
+        return Role.SUPER_ADMIN_ROLE.equals(role);
     }
 
     public void setUsername(String username) {
@@ -155,9 +150,6 @@ public class User extends BaseEntity {
         this.token = token;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 
     public void setQuestionsDetails(List<QuestionDetails> questionsDetails) {
         this.questionsDetails = questionsDetails;

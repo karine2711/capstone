@@ -1,4 +1,3 @@
-
 $(document).ready(async function () {
     let image = $('#image');
     const csrfHeader = "X-CSRF-TOKEN";
@@ -232,25 +231,7 @@ $(document).ready(async function () {
         });
     }
 
-
-
-var firebaseConfig = {
-    apiKey: "AIzaSyClb5SUWfLCnQQNLHWP7S7M0LXJK0SKtX0",
-    authDomain: "museum-booking-f4390.firebaseapp.com",
-    projectId: "museum-booking-f4390",
-    storageBucket: "museum-booking-f4390.appspot.com",
-    messagingSenderId: "303409808583",
-    appId: "1:303409808583:web:36fdb48b6c1ced4fa26ae2"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-
-
-let messaging = firebase.messaging();
-console.log("inside worker")
-
-function sendToken(tokenToSend) {
+    function sendToken(tokenToSend) {
         $.ajax({
             type: "POST",
             beforeSend: function (request) {
@@ -264,93 +245,7 @@ function sendToken(tokenToSend) {
                 // console.log("Failed to send token", e, d, f);
             }
         });
-}
-// Get registration token. Initially this makes a network call, once retrieved
-// subsequent calls to getToken will return from cache.
-messaging.getToken({ vapidKey: 'BK82wugEJsBAflivo-4HiqOkiyDOZkG7_SPBXG9daKGl8bAl6n7lpkvGXZY68BNXJfg5AESEQL1X3EZoJzo2Q7A' }).then((currentToken) => {
-  if (currentToken) {
-    sendToken(token);
-  } else {
-    // Show permission request UI
-    console.log('No registration token available. Request permission to generate one.');
-    // ...
-  }
-}).catch((err) => {
-  console.log('An error occurred while retrieving token. ', err);
-  // ...
-});
-    // function doFireNotification() {
-//    if ('serviceWorker' in navigator) {
-//        let registration = navigator.serviceWorker.register('js/firebase-messaging-sw.js');
-//        var firebaseConfig = {
-//            apiKey: "AIzaSyClb5SUWfLCnQQNLHWP7S7M0LXJK0SKtX0",
-//            authDomain: "museum-booking-f4390.firebaseapp.com",
-//            projectId: "museum-booking-f4390",
-//            storageBucket: "museum-booking-f4390.appspot.com",
-//            messagingSenderId: "303409808583",
-//            appId: "1:303409808583:web:36fdb48b6c1ced4fa26ae2"
-//        };
-//        let app;
-//        if (!(firebase.apps.length)) {
-//            app = firebase.initializeApp(firebaseConfig);
-//        }
-//        let messaging = firebase.messaging(app);
-//
-//        registration.then(r => {
-//            messaging.useServiceWorker(r);
-//            messaging.usePublicVapidKey('BK82wugEJsBAflivo-4HiqOkiyDOZkG7_SPBXG9daKGl8bAl6n7lpkvGXZY68BNXJfg5AESEQL1X3EZoJzo2Q7A');
-//            /* messaging.onTokenRefresh(function () {
-//                 // let refreshedToken = messaging.getToken();
-//                 console.log("--------------------------------------------------------------------------------")
-//                 console.log("-------------->>>token was refreshed")
-//                 // console.log(refreshedToken)
-//             });*/
-//
-//            // function deleteToken(tokenToDelete){
-//            //     messaging.deleteToken(tokenToDelete);
-//            // }
-//
-////            todo: delete console loggd
-//            Notification.requestPermission()
-//                .then(function () {
-//                    console.log('Notification permission granted.');
-//                    return messaging.getToken();
-//                })
-//                .then(function (token) {
-//                    // console.log("old token", token)
-//                    // setTimeout(function () {
-//                    //     messaging.deleteToken(token).then((e)=>{
-//                    //         console.log("deleted", e)
-//                    //     });
-//                    // }, 7000)
-//                    sendToken(token);
-//                     console.log('new token', token); // Display user token
-//                })
-//                .catch(function (err) { // Happen if user deny permission
-//
-//                   console.log('Unable to get permission to notify.', err);
-//                });
-//
-//            let unsub = messaging.onMessage(function (payload) {
-//                console.log('onMessage', payload);
-//            });
-//            // unsub = function(){
-//            //     console.log('unsubcribe handler is running')
-//            // }
-//            // setTimeout(function () {
-//            //     unsub()
-//            //     console.log('unsubscribed', unsub)
-//            // }, 10000)
-//        });
-//        /* messaging.onTokenRefresh(function () {
-//             // let refreshedToken = messaging.getToken();
-//             console.log("--------------------------------------------------------------------------------")
-//             console.log("-------------->>>token was refreshed222")
-//             // console.log(refreshedToken)
-//         });*/
-//        // }
-//        // doFireNotification();
-//    }
+    }
 
     $("#my-activities").click(function () {
         saveViewDateAndMoveTo("/myActivities");

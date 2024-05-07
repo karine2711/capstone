@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-messaging.js"></script>
     <meta content="width=1536, height=864 initial-scale=1" name="viewport">
     <meta charset="UTF-8">
     <meta content="{{ csrf_token() }}" name="csrf-token">
@@ -88,14 +85,13 @@
     <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
     <script th:src="|/js/validation.js|" type="text/javascript"></script>
     <!--    <script type="text/javascript" th:src="|/js/switchButton.js|"></script>-->
-   <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
-
+    <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
 
     <!--    <script type="text/javascript" th:src="|/js/activity.js|"></script>-->
 
     <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
 
-  </head>
+</head>
 <body>
 <input class="d-none" id="admin" sec:authorize="hasAuthority('ADMIN_ROLE')" type="hidden"/>
 
