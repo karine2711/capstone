@@ -231,21 +231,6 @@ $(document).ready(async function () {
         });
     }
 
-    function sendToken(tokenToSend) {
-        $.ajax({
-            type: "POST",
-            beforeSend: function (request) {
-                request.setRequestHeader(csrfHeader, csrfToken);
-            },
-            url: location.origin + "/notification/post/" + tokenToSend,
-            success: function (data) {
-                // console.log("Sent token to server", data);
-            },
-            error: function (e, d, f) {
-                // console.log("Failed to send token", e, d, f);
-            }
-        });
-    }
 
     $("#my-activities").click(function () {
         saveViewDateAndMoveTo("/myActivities");

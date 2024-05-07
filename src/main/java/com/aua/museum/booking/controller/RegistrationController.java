@@ -52,7 +52,7 @@ public class RegistrationController {
                                      HttpServletResponse response,
                                      Locale locale) {
         if (result.hasErrors()) {
-            modelAndView.setViewName(com.aua.museum.booking.controller.Templates.REGISTRATION.getName());
+            modelAndView.setViewName(Templates.REGISTRATION.getName());
             modelAndView.addObject("questions", getSecurityQuestions());
             modelAndView.addObject("fieldErrors", result.getFieldErrors());
             modelAndView.setStatus(HttpStatus.BAD_REQUEST);
