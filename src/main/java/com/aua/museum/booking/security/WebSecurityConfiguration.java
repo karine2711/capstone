@@ -62,20 +62,21 @@ public class WebSecurityConfiguration {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/i18n/**", "/title", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/register", "/login", "/forgot-password/**", "/webjars/**").permitAll()
+                        auth.requestMatchers("/i18n/**", "/title", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/register", "/loginPage*", "/forgot-password/**", "/webjars/**").permitAll()
                                 .requestMatchers("/calendar/**", "/event/", "/edit-profile/", "*/download-events/**", "/notifications/**").hasAnyRole("ADMIN_ROLE", "USER_ROLE",  "SUPER_ADMIN_ROLE")
                                 .requestMatchers("/users/**", "/waiting-list/**", "/events/**").hasAnyAuthority("ADMIN_ROLE",  "SUPER_ADMIN_ROLE")
                                 .requestMatchers("/homepage/update-content/**").hasAnyAuthority("ADMIN_ROLE", "SUPER_ADMIN_ROLE")
-                                .anyRequest().authenticated())
+                                .anyRequest().authenticated()
+                                )
                 .userDetailsService(userDetailsService)
                 .formLogin(auth ->
-                        auth.loginPage("/login")
+                        auth.loginPage("/loginPage").loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/homepage", true)
                                 .failureHandler(customAuthenticationFailureHandler)
                                 .permitAll())
-                .logout(auth -> auth.logoutRequestMatcher(new AntPathRequestMatcher("/logoutCustom"))
-                        .logoutSuccessUrl("/").deleteCookies("JSESSIONID", "remember-me")
-                        .invalidateHttpSession(true))
+                .logout(auth -> auth
+                        .logoutSuccessUrl("/").clearAuthentication(true).deleteCookies("JSESSIONID", "remember-me")
+                        .invalidateHttpSession(true).permitAll())
                 .rememberMe(auth -> auth.tokenValiditySeconds(365 * 24 * 3600).key(SECRET_KEY))
                 .sessionManagement(auth -> auth.maximumSessions(1)
                         .sessionRegistry(sessionRegistry())

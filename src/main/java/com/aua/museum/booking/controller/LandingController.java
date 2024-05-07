@@ -5,6 +5,7 @@ import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.security.UserDetailsServiceImpl;
 import com.aua.museum.booking.service.GeneralInfoService;
 import com.aua.museum.booking.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -73,5 +74,10 @@ public class LandingController {
         if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())))
             return Templates.HOMEPAGE_ADMIN.getName();
         return Templates.HOMEPAGE.getName();
+    }
+
+    @GetMapping("/loginPage")
+    public String login(HttpServletRequest request, Principal principal) {
+        return  Templates.LOGIN.getName();
     }
 }

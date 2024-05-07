@@ -28,7 +28,7 @@ $(document).ready(function () {
     });
 
     signInBtn.click(function () {
-        window.location.href = "/login";
+        window.location.href = "/loginPage";
     });
 
     signInBtn.hover(function () {

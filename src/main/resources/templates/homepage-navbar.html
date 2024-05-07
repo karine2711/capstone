@@ -87,9 +87,12 @@
                     <a class="dropdown-item" th:href="@{/edit-profile}"
 
                        th:text="#{navbar.dropdown.editProfile}"></a>
-                    <a class="dropdown-item color-black" th:href="@{/logout}"
+                    <a class="dropdown-item color-black" href="javascript: document.logoutForm.submit()"
 
                        th:text="#{navbar.dropdown.logOut}"></a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
                 </div>
             </li>
             <li>
