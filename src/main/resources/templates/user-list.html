@@ -64,11 +64,11 @@
 
 <div class="container-fluid">
     <!--    Header-->
-    <div th:replace="homepage-navbar.html::homepage-navbar"></div>
+    <div th:replace="~{homepage-navbar.html::homepage-navbar}"></div>
     <!--    Main-->
-    <div class=" container col-12 " th:insert="user-list-form.html"></div>
+    <div class=" container col-12 " th:insert="~{user-list-form.html}"></div>
     <!--    Footer-->
-    <div th:replace="homepage-footer.html::homepage-footer"></div>
+    <div th:replace="~{homepage-footer.html::homepage-footer}"></div>
 </div>
 
 <script>

@@ -94,10 +94,10 @@
 </head>
 <body>
 
-<div th:insert="download-form.html::download-container"></div>
+<div th:insert="~{download-form.html::download-container}"></div>
 <input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
 <div class="container-fluid">
-    <div th:replace="homepage-navbar.html"></div>
+    <div th:replace="~{homepage-navbar.html}"></div>
     <div id="calendar" th:id="calendar">
     </div>
 </div>
@@ -110,7 +110,7 @@
         class="congrats-popover invisible" th:text="#{registration.successful}">
 </div>
 
-<div th:replace="homepage-footer.html::homepage-footer"></div>
+<div th:replace="~{homepage-footer.html::homepage-footer}"></div>
 
 <script>
     $('#reschedule-btn').click(function () {

@@ -42,12 +42,12 @@
 </head>
 <body>
 <!--Header-->
-<div th:replace="initial-navbar.html"></div>
+<div th:replace="~{initial-navbar.html}"></div>
 
 <!--Main-->
-<div class="container" th:replace="registration-form.html"></div>
+<div class="container" th:replace="~{registration-form.html}"></div>
 
-<div th:replace="homepage-footer.html :: homepage-footer"></div>
+<div th:replace="~{homepage-footer.html :: homepage-footer}"></div>
 
 <input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
 

@@ -77,11 +77,11 @@
 <div class="container-fluid">
     <form id="hidden-form" name="hidden-form">
         <!--    Header-->
-        <div th:replace="homepage-navbar.html::homepage-navbar"></div>
+        <div th:replace="~{homepage-navbar.html::homepage-navbar}"></div>
         <!--    Main-->
-        <div class=" container col-12 " th:insert="notification-center-form.html"></div>
+        <div class=" container col-12 " th:insert="~{notification-center-form.html}"></div>
         <!--    Footer-->
-        <div th:replace="homepage-footer.html::homepage-footer"></div>
+        <div th:replace="~{homepage-footer.html::homepage-footer}"></div>
 
     </form>
 </div>

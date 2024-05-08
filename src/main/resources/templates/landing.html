@@ -39,20 +39,20 @@
 
 <div class="container-fluid">
     <!--    Header-->
-    <div th:insert="initial-navbar.html::nav"></div>
+    <div th:insert="~{initial-navbar.html::nav}"></div>
 
     <!--    Main-->
     <div class="container-fluid">
         <main class="row align-items-center">
-            <div class="col-5" th:insert="general-info.html :: generalInfo"></div>
-            <div class="col-7" th:insert="landing-carousel.html :: carousel"></div>
+            <div class="col-5" th:insert="~{general-info.html :: generalInfo}"></div>
+            <div class="col-7" th:insert="~{landing-carousel.html :: carousel}"></div>
         </main>
     </div>
 
     <!-- Footer -->
-    <div class="container-fluid" th:insert="general-info-footer.html :: info-footer"></div>
+    <div class="container-fluid" th:insert="~{general-info-footer.html :: info-footer}"></div>
 
-    <div th:replace="homepage-footer.html :: homepage-footer"></div>
+    <div th:replace="~{homepage-footer.html :: homepage-footer}"></div>
 
 </div>
 
