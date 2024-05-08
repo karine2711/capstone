@@ -7,7 +7,7 @@ function success() {
 }
 
 let attemptsCount = 0;
-const attemptsMaxCount = 3;
+const attemptsMaxCount = 5;
 
 $(document).ready(function () {
     $.i18n().load({
