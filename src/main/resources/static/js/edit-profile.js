@@ -35,7 +35,7 @@ $(document).ready(async function () {
                 request.setRequestHeader(csrfHeader, token);
             },
             success: function () {
-                location.href = location.origin + "/logoutCustom";
+                location.href = location.origin + "/loginPage";
             },
         });
     });

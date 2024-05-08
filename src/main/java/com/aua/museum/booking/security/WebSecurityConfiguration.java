@@ -77,7 +77,7 @@ public class WebSecurityConfiguration {
                 .logout(auth -> auth
                         .logoutSuccessUrl("/").clearAuthentication(true).deleteCookies("JSESSIONID", "remember-me")
                         .invalidateHttpSession(true).permitAll())
-                .rememberMe(auth -> auth.tokenValiditySeconds(365 * 24 * 3600).key(SECRET_KEY))
+                .rememberMe(auth -> auth.tokenValiditySeconds(30 * 24 * 3600).key(SECRET_KEY))
                 .sessionManagement(auth -> auth.maximumSessions(1)
                         .sessionRegistry(sessionRegistry())
                         .expiredUrl("/login"))

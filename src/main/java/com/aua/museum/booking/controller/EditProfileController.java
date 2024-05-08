@@ -5,9 +5,13 @@ import com.aua.museum.booking.dto.UserDto;
 import com.aua.museum.booking.mapping.UserMapperDecorator;
 import com.aua.museum.booking.service.EditProfileService;
 import com.aua.museum.booking.service.UserService;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -16,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.util.WebUtils;
+
 import java.security.Principal;
 
 @Controller
@@ -44,9 +50,20 @@ public class EditProfileController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteUser(HttpServletRequest request, HttpServletResponse response, Principal principal) throws ServletException {
+    public ResponseEntity<Object> deleteUser(HttpServletRequest request, HttpServletResponse response, Principal principal) {
         userService.deleteUserByUsername(principal.getName());
+        request.getSession().invalidate();
+        SecurityContextHolder.clearContext();
+        removeRememberMe(request, response);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private static void removeRememberMe(HttpServletRequest request, HttpServletResponse response) {
+        Cookie rememberMe = WebUtils.getCookie(request, "remember-me");
+        if (rememberMe != null) {
+            rememberMe.setMaxAge(0);
+            response.addCookie(rememberMe);
+        }
     }
 
     @GetMapping("/avatar/{username}")
