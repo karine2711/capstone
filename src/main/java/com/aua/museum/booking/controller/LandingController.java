@@ -53,26 +53,17 @@ public class LandingController {
         return "calendar";
     }
 
-    @GetMapping("/calendar/admin")
-    public String calendarAdmin() {
-        return "calendarAdmin";
-    }
+
 
     @GetMapping("/homepage")
     public String success(Model model, Principal principal, HttpSession session) {
         model.addAttribute("currentUser", principal.getName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())))
-            return Templates.HOMEPAGE_ADMIN.getName();
         return Templates.HOMEPAGE.getName();
     }
 
     @GetMapping("/myActivities")
     public String myActivities(Model model, Principal principal) {
         model.addAttribute("currentUser", principal.getName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())))
-            return Templates.HOMEPAGE_ADMIN.getName();
         return Templates.HOMEPAGE.getName();
     }
 

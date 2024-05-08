@@ -3,8 +3,6 @@ const csrfHeader = "X-CSRF-TOKEN";
 let source = new Map();
 let myActivities;
 let calendar;
-var localedMore;
-var localedLess;
 
 function filterButtonListener() {
     $('.filter-button').click(function () {
@@ -136,9 +134,8 @@ $(document).ready(async function () {
 })
 ;
 
-function makePopover(elem, event, showMoreText, showLessText) {
-    localedMore = showMoreText;
-    localedLess = showLessText;
+function makePopover(elem, event) {
+
     $(elem).find('.show-more').popover({
         placement: 'auto',
         content: function () {
@@ -1007,7 +1004,7 @@ function removePopoverHandler(e) {
     }
 
     if (!classList.contains("popover") && !classList.contains("show-more") && !classList.contains("show-less")) {
-        // $(".fc-content .show-more").html(localedMore);
+       
         $(".show-more").css("color", "#A1A3A8");
 
         $('.popover-container').parents(".popover").remove();

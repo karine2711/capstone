@@ -15,7 +15,7 @@ $(document).ready(async function () {
         "ru": "/i18n/ru.json",
     });
 
-    const action = $('form').attr("action");
+    const action = $('#activity-form').attr("action");
     const csrfHeader = "X-CSRF-TOKEN";
     const token = $('input[name^="_csrf"]').val();
 
@@ -248,6 +248,7 @@ $(document).ready(async function () {
             },
             description_AM: {
                 customRequired: $("#description-am").text(),
+                maxlength: 500,
             }
         },
         messages: {

@@ -80,6 +80,13 @@
   "title.lengthRange": "Անվանումը պետք է բաղկացած լինի նվազագույնը 10 և առավելագույնը 70 սիմվոլից",
   "exclude.sunday" : "Կիրակի օրերին թանգարանը փակ է",
   "list.events" : "Միջոցառումներ",
-  "event.startTime.valid": "Էքսկուրսիան չի կարող ընթանալ աշխատանաքային ժամերից դուրս"
+  "event.startTime.valid": "Էքսկուրսիան չի կարող ընթանալ աշխատանաքային ժամերից դուրս",
 
+  "calendar.event.reschedule": "Փոխել ժամը",
+  "calendar.event.delete": "Ջնջել",
+  "calendar.event.confirm": "Հաստատել",
+  "calendar.event.update": "Թարմացնել",
+  "calendar.event.show.more": "Ավելին",
+  "calendar.event.show.less": "Փակել",
+  "calendar.event.daily.activities": "Ամենօրյա էքսկուրսիաներ"
 }

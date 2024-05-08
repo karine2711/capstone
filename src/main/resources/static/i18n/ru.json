@@ -79,5 +79,12 @@
   "title.lengthRange": "Пароль должен содержать мин. 10 и мах. 70 символов",
   "exclude.sunday" : "В воскресенья музей закрыт",
   "list.events" : "События",
-  "event.startTime.valid": "Экскурсия должна проходить во рабочее время"
+  "event.startTime.valid": "Экскурсия должна проходить во рабочее время",
+  "calendar.event.reschedule": "Изменить время",
+  "calendar.event.delete": "Удалить",
+  "calendar.event.confirm": "Подтвердить",
+  "calendar.event.update": "Обновить",
+  "calendar.event.show.more": "Ещё",
+  "calendar.event.show.less": "Меньше",
+  "calendar.event.daily.activities": "Ежедневные экскурсии"
 }

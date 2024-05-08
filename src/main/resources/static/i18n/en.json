@@ -80,5 +80,12 @@
   "title.lengthRange": "Title must consist of min. 10 and max. 70 characters",
   "exclude.sunday" : "The museum is closed on Sundays",
   "list.events" : "Activities",
-  "event.startTime.valid": "Activity must take place during working hours"
+  "event.startTime.valid": "Activity must take place during working hours",
+  "calendar.event.reschedule": "Reschedule",
+  "calendar.event.delete": "Delete",
+  "calendar.event.confirm": "Confirm",
+  "calendar.event.update": "Update",
+  "calendar.event.show.more": "Show more",
+  "calendar.event.show.less": "Show less",
+  "calendar.event.daily.activities": "Daily Activities"
 }

@@ -15,15 +15,9 @@
                 doy: 4 // The week that contains Jan 4th is the first week of the year.
             },
             buttonText: {
-                prev: "Пред",
-                next: "След",
-                today: "Сегодня",
                 month: "Месяц",
                 week: "Неделя",
-                day: "День",
-                list: "День",
-                activityButton: "hi hi"
-
+                day: "День"
             },
             customButtons: {
                 activityButton: {
@@ -118,138 +112,7 @@
                 } else {
                     return monthsShort[moment.date.month] + " " + moment.end.year;
                 }
-            },
-            eventRender: function (arg) {
-                addMore("Ещё", "Меньше", "Ежедневные экскурсии");
-                let {event, view, el} = arg;
-                let {id, start, end, title, extendedProps} = event;
-                let {count, type, desc, groupSizes, username, typeByLocale, eventState} = extendedProps;
-                let circleType = getCircleType(arg.view, arg.event);
-                let circle = "<span  class='circle " + circleType + "'></span>";
-                if (view.type === 'listDay') {
-                    let myType = typeByLocale.replace(type.charAt(0), type.charAt(0).toUpperCase());
-                    $(el).find('.fc-list-item-marker').remove();
-                    let smth = "<div class='show-time align-items-center'>" +
-                        "<span class='col-2'>" + formatAMPM(start) + "</span>" + "<hr style='transform: translate(-10px, -25px)' class='col-10'>" +
-                        "</div>" +
-                        "<div class='content-div' style='line-height: 25px'> " +
-                        "<img alt='event photo' class='event-photo d-none' id='img_" + id + "'/>";
-                    if (count != null) smth = smth + "<div class='row'><p class='for-who'> Для группы из " + count + " человек </p>";
-                    if (groupSizes.length > 0) smth = smth + "<span class=\"group-sign\" style=\"color: #BDBDBD; margin-left: 20px\"><i class=\"fa fa-users group-icon\" aria-hidden=\"true\"></i></span>";
-                    smth = smth + "</div>";
-                    smth = smth +
-                        "<div class='row'><p class='title'>" + title + "</p></div>" +
-                        "<div class='row'>" +
-                        "<div class='col-3 p-0'><span class='hours'>" + formatAMPM(start) + "-" + formatAMPM(end) + "</span></div>" +
-                        "<div class='col-8'><span>" + circle + " " + myType + "</span></div>" +
-                        "</div>" +
-                        "<div class='row' style='margin-top: 16px;'><p class='description'>" + desc + "</p>" + "</div></div>"
-                    ;
-
-                    if (+new Date(start) >= +new Date()) {
-
-                        if ($('#fc-username').html() == event.extendedProps.username) {
-                            smth = smth.substring(0, smth.length - 6);
-                            smth = smth + " <div class='row w-75'>";
-                            let remainsLessThan48Hours = new Date(event.start) - new Date() < (1000 * 60 * 60 * 48);
-                            if (remainsLessThan48Hours) {
-                                let disabled = event.extendedProps.confirmed ? "disabled" : "";
-                                smth = smth + "<div class='col-3 p-0'>" +
-                                    "<button id='confirmBtn' onclick='confirmEvent(" + id + ")' " + disabled +
-                                    " class='btn activity-main-button w-75' style='padding: 3px 10px'>Подтвердить</button>" +
-                                    "</div>";
-                            }
-                            smth = smth + "<div class='col-3 p-0'>" +
-                                "<button onclick='drawReschedulePopup(" + id + ", $(\"#calendar\"))'" +
-                                " class='btn activity-whiteButton w-75' style='padding: 3px 10px'>Изменить время</button>" +
-                                "</div>" +
-                                "<div class='col-3 p-0' onclick='sendDeleteRequest(" + id + ", $(\"#calendar\"))'>" +
-                                "<button class='btn activity-whiteButton w-75' style='padding: 3px 10px'>Удалить</button>" +
-                                "</div>";
-
-                            smth = smth + "</div></div>";
-                        }
-                    }
-                    $(el).find('.fc-title, .fc-list-item-title')
-                        .html(smth
-                        );
-                    getEventPhoto(id);
-                    groupsPopover(el, count, groupSizes, username)
-
-                    return;
-
-                } else if (view.type === 'timeGridWeek' || view.type === 'timeGridDay') {
-                    $(el).addClass(type);
-                    addEventId(event, el);
-                    if (eventState == "PRE_BOOKED") {
-                        $(el).css('border', 'none');
-                        let div = "<div class='pre-booked-before' ";
-                        $(el).find('.fc-content').css('margin-left', '13px');
-                        let color1 = $(`.${getClassName(type)}`).css('background-color');
-                        let color2 = "#ffffff";
-                        let background = "linear-gradient(54deg";
-                        for (let i = 5; i <= 100; i = i + 5) {
-                            if (i % 10 === 0)
-                                background = background + ", " + color2 + " " + i + "%"
-                            else
-                                background = background + ", " + color1 + " " + i + "%"
-                        }
-                        background = background + ")";
-                        div = div + " style='background-image:" + background + "'></div>"
-                        $(el).prepend(div);
-                    } else {
-                        $(el).css('border-left-color', $(`.${getClassName(type)}`).css('background-color'));
-                    }
-                    if (groupSizes.length > 0) {
-                        $(el).append('<span class="group-sign" style="color: white; position:absolute; bottom: 4px; right: 10px">' + '<i class="fa fa-users group-icon" aria-hidden="true"></i>' + '</span>');
-                        // $(el).find('.fc-title').css('display', 'inline-block');
-
-                        groupsPopover(el, count, groupSizes, username)
-                    }
-                } else {
-                    addEventId(event, el);
-
-                    addCircle(view, event, el);
-                    if (type.toLowerCase() === 'event') {
-                        addEventDesc(event, el, "Show more");
-                        makePopover(el, event, "Show more", "Show less")
-                    } else if (groupSizes.length > 0) {
-                        addGroupSign(event, el);
-                        console.log(view.type);
-                        groupsPopover(el, count, groupSizes, username)
-                    }
-                }
-                if (+new Date(start) >= +new Date()) {
-                    if ($('#fc-username').html() == event.extendedProps.username && event.extendedProps.eventTypeId != 7) {
-                        addContextMenu(el, "Изменить время", "Удалить", "Подтвердить",);
-                    }
-                    if ($("#admin").length > 0 && event.extendedProps.eventTypeId == 7) {
-                        addContextMenu(el, "Изменить время", "Удалить", null, "Обновить");
-                    }
-                }
-            },
-            datesRender: function (arg) {
-                if (arg.view.type === 'timeGridWeek') {
-                    $(arg.el).find('.fc-slats tr').each(function () {
-                        let elem = $(this).children('.fc-axis')[0];
-                        $(this).html(
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>' +
-                            '<td class="fc-widget-content"></td>'
-                        )
-                        this.prepend(elem);
-                    })
-                }
-                $('.fc-slats tbody tr').last().children('.fc-axis').append("<span style='position: relative; top: 300%; display: block;'>16:00</span>");
-
-                $("#dateScroller").datepicker('setDate', formatDate(calendar.getDate()));
-
-            },
-            noEventsMessage: "Нет событий для отображения"
+            }
         };
 
         return ru;

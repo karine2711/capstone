@@ -83,7 +83,7 @@
     <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
     <script th:src="|/js/validation.js|" type="text/javascript"></script>
     <script th:src="|/js/calendarGeneral.js|" type="text/javascript"></script>
-    <script th:src="|/js/calendarUser.js|" type="text/javascript"></script>
+    <script th:src="|/js/calendarAdmin.js|" type="text/javascript"></script>
     <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
     <script th:src="|/js/download-form.js|" type="text/javascript"></script>
     <script th:src="|/js/calendar/calendar-ru.js|" type="text/javascript"></script>
@@ -113,17 +113,21 @@
 <div th:replace="homepage-footer.html::homepage-footer"></div>
 
 <script>
-    $('#start-time').empty();
+    $('#reschedule-btn').click(function () {
+      $('.reschedule-popup').removeClass('d-none');
+  })
+      $('#start-time').empty();
 
-    for (let hour = 10; hour < 15; hour++) {
-        for (let minute = 0; minute < 60; minute = minute + 15) {
-            let option = "<option>" + hour + ":";
+      for (let hour = 10; hour < 15; hour++) {
+          for (let minute = 0; minute < 60; minute = minute + 15) {
+              let option = "<option>" + hour + ":";
 
-            option = minute === 0 ? option + "00" : option + minute;
-            option = option.concat("</option>");
-            $('#start-time').append(option);
-        }
-    }
+              option = minute === 0 ? option + "00" : option + minute;
+              option = option.concat("</option>");
+              $('#start-time').append(option);
+          }
+      }
+
 
 </script>
 </body>
