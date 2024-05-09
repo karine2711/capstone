@@ -64,7 +64,6 @@ $(document).ready(async function () {
         );
         if ($('#admin').length > 0 && selectedTypeId == 7) {
             addStartTimes(selectedTypeId)
-            // addEndTimes()
             let eventTypeId = parseInt($("#event-type").val())
             addEndTimeWhenSelected(getClassNameByTypeId(eventTypeId))
             $('#end-time').attr('disabled', false);
@@ -206,8 +205,7 @@ $(document).ready(async function () {
         let duration = getDuration(eventType);
         let hour = parseInt(value.substr(0, 2));
         let minute=parseInt(value.substr(value.length-2,2));
-        let maxMinute = (60 - duration) % 60;
-        return hour >= 10 && hour <= 16 && minute>=0 && minute<=maxMinute;
+        return hour >= 10 && hour <= 16 && minute>=0;
     }, "");
 
 

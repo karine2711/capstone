@@ -1,7 +1,6 @@
 package com.aua.museum.booking.service.impl;
 
 
-
 import com.aua.museum.booking.domain.*;
 import com.aua.museum.booking.exception.notfound.EventNotFoundException;
 import com.aua.museum.booking.mapping.EventMapper;
@@ -89,7 +88,7 @@ public class EventServiceImpl implements EventService {
                         .filter(e -> !((e.getEventType() == eventToMove.getEventType()) && ((e.getTime()) != null && bookedTimes.get(e.getTime()) + eventToMove.getGroupSize() < 35) && e.getTime().isAfter(getArmNowTime())))
                         .collect(Collectors.toList());
             }
-            freeTimes = dateTimeUtil.getTimesForMove(bookedDatesFiltered, eventToMove.getEventType(), eventToMove.getDate(), eventToMove);
+            freeTimes = dateTimeUtil.getTimesForMove(bookedDatesFiltered, eventToMove.getDate(), eventToMove);
             nextPossibleFreeSlot = rescheduledEvent.getTime().plusMinutes(rescheduledEvent.getEventType().getDuration());
         } else {
             freeTimes = new ArrayList<>(getFreeTimesByDateAndEvent(eventToMove.getDate(), eventToMove));
@@ -163,7 +162,7 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
     }
 
-    private boolean eventIsPassed(EventLite event){
+    private boolean eventIsPassed(EventLite event) {
         return LocalDateTime.of(event.getDate(), event.getTime()).isAfter(ZonedDateTimeUtil.getArmNowDateTime());
     }
 
@@ -197,7 +196,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void checkAndChangeToPreBookedAfterReschedule(Event event) {
-        if(event.getEventType().getId() != 7 && event.getEventState() != PRE_BOOKED && event.getGroupSize() < 10 ){
+        if (event.getEventType().getId() != 7 && event.getEventState() != PRE_BOOKED && event.getGroupSize() < 10) {
             event.setEventState(PRE_BOOKED);
         }
         repository.save(event);
@@ -207,69 +206,34 @@ public class EventServiceImpl implements EventService {
     @Override
     public Set<LocalTime> getFreeTimesByDateAndEventType(LocalDate date, EventType eventType, Integer groupSize) {
         List<EventLite> bookedEventsByDate = getBookedEventsByDate(date);
-        Map<LocalTime, Integer> events = new HashMap<>();
         Set<LocalTime> times = new TreeSet<>(dateTimeUtil.getTimes(bookedEventsByDate, eventType, date));
-        if (groupSize < 35) {
-            bookedEventsByDate.stream()
-                    .filter(e -> e.getEventType() == eventType)
+        times.addAll(getCohostingHours(eventType, groupSize, bookedEventsByDate));
+        return times;
+    }
+
+    private Set<LocalTime> getCohostingHours(EventType eventType, int groupSize, List<EventLite> bookedEventsByDate) {
+        Map<LocalTime, Integer> events = new HashMap<>();
+        if (eventType.getId() != 7 && groupSize < 35) {
+            bookedEventsByDate
+                    .stream()
+                    .filter(e -> e.getEventType().equals(eventType))
+                    .filter(e -> e.getGroupSize() <= 35 - groupSize)
+                    .filter(e -> DateTimeUtil.getDateTime(e.getDate(), e.getTime()).isAfter(getArmNowDateTime()))
                     .forEach(e -> addToMap(events, e));
-            if (events.size() > 0) {
-                bookedEventsByDate.stream()
-                        .filter(e -> ((e.getEventType().getId().equals(eventType.getId()))
-                                && (events.get(e.getTime()) != null
-                                && events.get(e.getTime()) + groupSize < 35)))
-                        .filter(e -> DateTimeUtil.getDateTime(e.getDate(), e.getTime()).isAfter(getArmNowDateTime()))
-                        .forEach(e -> times.add(e.getTime()));
-            }
         }
-        // todo: could make this a customizable option by admin
-        // int maxMinute = (60 - eventType.getDuration()) % 60;
-        Set<LocalTime> freeTimes = new TreeSet<>(times.stream()
-                .filter(t -> t.getHour() >= MIN_HOUR && t.getHour() <= MAX_HOUR)
-                .filter(t -> DateTimeUtil.getDateTime(date, t).isAfter(getArmNowDateTime()))
-                .collect(Collectors.toSet()));
-        return freeTimes;
+        return events
+                .keySet()
+                .parallelStream()
+                .filter(time -> events.get(time) + groupSize < 35)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public Set<LocalTime> getFreeTimesByDateAndEvent(LocalDate date, Event event) {
-        EventType eventType = event.getEventType();
-
         List<EventLite> bookedEventsByDate = getBookedEventsByDate(date);
-        Map<LocalTime, Integer> events = new HashMap<>();
-        AtomicInteger count = new AtomicInteger();
-        if (eventType.getId() != 7 && event.getGroupSize() < 10) {
-            bookedEventsByDate.stream()
-                    .filter(e -> e.getEventType().equals(eventType))
-                    .forEach(e -> addToMap(events, e));
-        }
-        Set<LocalTime> times = new TreeSet<>(dateTimeUtil.getTimes(bookedEventsByDate, eventType, date));
-        if (events.size() > 0) {
-            bookedEventsByDate.stream()
-                    .filter(e -> ((e.getEventType().getId().equals(eventType.getId())) && (events.get(e.getTime()) != null
-                            && events.get(e.getTime()) + event.getGroupSize() < 35)))
-                    .filter(e -> DateTimeUtil.getDateTime(e.getDate(), e.getTime()).isAfter(getArmNowDateTime()))
-                    .forEach(e -> {
-                        times.add(e.getTime());
-                        if (e.getTime().equals(event.getTime())) {
-                            count.getAndIncrement();
-                        }
-                    });
-        }
-        int maxMinute=(60-event.getEventType().getDuration())%60;
-        Set<LocalTime> freeTimes = new TreeSet<>(times.stream()
-                .filter(t -> t.getHour() >= MIN_HOUR && t.getHour() <= MAX_HOUR && t.getMinute()<=maxMinute)
-                .filter(t -> DateTimeUtil.getDateTime(date, t).isAfter(getArmNowDateTime()))
-                .collect(Collectors.toSet()));
-
-//        if (count.get() == 1) {
-//            for (LocalTime i = event.getTime(); i.isBefore(event.getTime().plusMinutes(event.getEventType().getDuration())); i = i.plusMinutes(15)) {
-//                freeTimes.add(i);
-//            }
-//        }
-        System.out.println(freeTimes);
-
-        return freeTimes;
+        Set<LocalTime> times = new TreeSet<>(dateTimeUtil.getTimesForMove(bookedEventsByDate, date, event));
+        times.addAll(getCohostingHours(event.getEventType(), event.getGroupSize(), bookedEventsByDate));
+        return times;
     }
 
     private void addToMap(Map<LocalTime, Integer> events, EventLite e) {

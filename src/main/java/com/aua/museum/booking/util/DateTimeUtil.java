@@ -29,7 +29,6 @@ public class DateTimeUtil {
             LocalTime bookedEventStartTime = eventLite.getTime();
             LocalTime bookedEventEndTime = bookedEventStartTime.plusMinutes(eventLite.getEventType().getDuration());
             while (!timePointer.plusMinutes(duration).isAfter(bookedEventStartTime)) {
-//                if (groupsize+lyalac<35 ofdoi)
                 freeTimes.add(timePointer);
                 timePointer = timePointer.plusMinutes(INTERVAL_MINUTES);
             }
@@ -43,11 +42,11 @@ public class DateTimeUtil {
         return freeTimes;
     }
 
-    public List<LocalTime> getTimesForMove(List<EventLite> bookedEventsByDate, EventType eventType, LocalDate date, Event event) {
+    public List<LocalTime> getTimesForMove(List<EventLite> bookedEventsByDate, LocalDate date, Event event) {
         bookedEventsByDate = bookedEventsByDate.stream()
                 .filter(e -> !e.getId().equals(event.getId()))
                 .collect(Collectors.toList());
-        List<LocalTime> freeTimes = getTimes(bookedEventsByDate, eventType, date);
+        List<LocalTime> freeTimes = getTimes(bookedEventsByDate, event.getEventType(), date);
         freeTimes.remove(event.getTime());
         return freeTimes;
     }

@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "EVENT_TYPE")
 @JsonIdentityInfo(
@@ -25,6 +25,7 @@ public class EventType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(name = "duration", nullable = false)
@@ -41,7 +42,6 @@ public class EventType {
 
     //    @JsonIgnore
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "eventType", cascade = CascadeType.ALL)
     private Set<Event> events;
 
@@ -55,5 +55,4 @@ public class EventType {
                 return displayValue_AM;
         }
     }
-
 }
