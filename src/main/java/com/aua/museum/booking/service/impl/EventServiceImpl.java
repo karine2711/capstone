@@ -17,13 +17,6 @@ import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventType;
 import com.aua.museum.booking.domain.Notification;
-import com.aua.museum.booking.exception.notfound.EventNotFoundException;
-import com.aua.museum.booking.repository.EventRepository;
-import com.aua.museum.booking.service.CustomEventService;
-import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.service.notifications.FCMService;
-import com.aua.museum.booking.util.DateTimeUtil;
-import com.aua.museum.booking.util.ZonedDateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -96,7 +89,7 @@ public class EventServiceImpl implements EventService {
                         .filter(e -> !((e.getEventType() == eventToMove.getEventType()) && ((e.getTime()) != null && bookedTimes.get(e.getTime()) + eventToMove.getGroupSize() < 35) && e.getTime().isAfter(getArmNowTime())))
                         .collect(Collectors.toList());
             }
-            freeTimes = dateTimeUtil.getTimes(bookedDatesFiltered, eventToMove.getEventType(), eventToMove.getDate(), eventToMove);
+            freeTimes = dateTimeUtil.getTimesForMove(bookedDatesFiltered, eventToMove.getEventType(), eventToMove.getDate(), eventToMove);
             nextPossibleFreeSlot = rescheduledEvent.getTime().plusMinutes(rescheduledEvent.getEventType().getDuration());
         } else {
             freeTimes = new ArrayList<>(getFreeTimesByDateAndEvent(eventToMove.getDate(), eventToMove));
@@ -216,21 +209,23 @@ public class EventServiceImpl implements EventService {
         List<EventLite> bookedEventsByDate = getBookedEventsByDate(date);
         Map<LocalTime, Integer> events = new HashMap<>();
         Set<LocalTime> times = new TreeSet<>(dateTimeUtil.getTimes(bookedEventsByDate, eventType, date));
-        if (groupSize < 10) {
+        if (groupSize < 35) {
             bookedEventsByDate.stream()
                     .filter(e -> e.getEventType() == eventType)
                     .forEach(e -> addToMap(events, e));
             if (events.size() > 0) {
                 bookedEventsByDate.stream()
-                        .filter(e -> ((e.getEventType().getId().equals(eventType.getId())) && (events.get(e.getTime()) != null
+                        .filter(e -> ((e.getEventType().getId().equals(eventType.getId()))
+                                && (events.get(e.getTime()) != null
                                 && events.get(e.getTime()) + groupSize < 35)))
                         .filter(e -> DateTimeUtil.getDateTime(e.getDate(), e.getTime()).isAfter(getArmNowDateTime()))
                         .forEach(e -> times.add(e.getTime()));
             }
         }
-        int maxMinute = (60 - eventType.getDuration()) % 60;
+        // todo: could make this a customizable option by admin
+        // int maxMinute = (60 - eventType.getDuration()) % 60;
         Set<LocalTime> freeTimes = new TreeSet<>(times.stream()
-                .filter(t -> t.getHour() >= MIN_HOUR && t.getHour() <= MAX_HOUR && t.getMinute()<=maxMinute)
+                .filter(t -> t.getHour() >= MIN_HOUR && t.getHour() <= MAX_HOUR)
                 .filter(t -> DateTimeUtil.getDateTime(date, t).isAfter(getArmNowDateTime()))
                 .collect(Collectors.toSet()));
         return freeTimes;

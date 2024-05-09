@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', async function () {
                 slotLabelInterval: {hours: 1},
                 allDaySlot: false,
                 minTime: '10:00:00',
-                maxTime: '16:00:00',
+                maxTime: '17:00:00',
                 displayEventTime: false,
             },
             timeGridDay: {
                 slotDuration: {hours: 1},
                 allDaySlot: false,
                 minTime: '10:00:00',
-                maxTime: '16:00:00',
+                maxTime: '17:00:00',
                 columnHeader: false,
                 displayEventTime: false,
                 nowIndicator: true,
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                                 this.prepend(elem);
                             })
                         }
-                        $('.fc-slats tbody tr').last().children('.fc-axis').append("<span style='position: relative; top: 300%; display: block;'>16:00</span>");
+                        $('.fc-slats tbody tr').last().children('.fc-axis').append("<span style='position: relative; top: 300%; display: block;'>17:00</span>");
 
                         $("#dateScroller").datepicker('setDate', formatDate(calendar.getDate()));
                     },
