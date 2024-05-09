@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,11 +26,11 @@ public class WebSecurityConfiguration {
     private final UserDetailsService userDetailsService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Value("${security.secret.key}")
-    private String SECRET_KEY;
+    private String secretKey;
 
     @Bean
     public static ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
+        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
 
     @Bean
@@ -77,7 +76,7 @@ public class WebSecurityConfiguration {
                 .logout(auth -> auth
                         .logoutSuccessUrl("/").clearAuthentication(true).deleteCookies("JSESSIONID", "remember-me")
                         .invalidateHttpSession(true).permitAll())
-                .rememberMe(auth -> auth.tokenValiditySeconds(30 * 24 * 3600).key(SECRET_KEY))
+                .rememberMe(auth -> auth.tokenValiditySeconds(30 * 24 * 3600).key(secretKey))
                 .sessionManagement(auth -> auth.maximumSessions(1)
                         .sessionRegistry(sessionRegistry())
                         .expiredUrl("/login"))

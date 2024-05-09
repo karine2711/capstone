@@ -7,7 +7,6 @@ import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventState;
 import com.aua.museum.booking.domain.UserState;
 import com.aua.museum.booking.service.CustomEventService;
-import com.aua.museum.booking.domain.Event;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
@@ -48,8 +47,7 @@ public class CustomEventServiceImpl implements CustomEventService {
                 root.get("description_EN"),
                 root.get("eventState")
         );
-        List<EventLite> result = em.createQuery(cq).getResultList();
-        return result;
+        return em.createQuery(cq).getResultList();
     }
 
     @Override
@@ -81,8 +79,7 @@ public class CustomEventServiceImpl implements CustomEventService {
                 root.get("description_EN"),
                 root.get("eventState")
         );
-        List<EventLite> result = em.createQuery(cq).getResultList();
-        return result;
+        return em.createQuery(cq).getResultList();
     }
 
     @Override
@@ -111,8 +108,7 @@ public class CustomEventServiceImpl implements CustomEventService {
                 root.get("description_EN"),
                 root.get("eventState")
         );
-        List<EventLite> result = em.createQuery(cq).getResultList();
-        return result;
+        return em.createQuery(cq).getResultList();
     }
 
     @Override
@@ -133,7 +129,6 @@ public class CustomEventServiceImpl implements CustomEventService {
                 root.get("groupSize")
         );
         cq.orderBy(cb.asc(root.get("time")));
-        List<EventLite> result = em.createQuery(cq).getResultList();
-        return result;
+        return em.createQuery(cq).getResultList();
     }
 }

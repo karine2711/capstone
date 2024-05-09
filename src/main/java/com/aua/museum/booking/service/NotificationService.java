@@ -4,8 +4,9 @@ import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.Notification;
 import com.aua.museum.booking.domain.User;
 
-import com.aua.museum.booking.domain.Event;
+
 import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.Set;
 

@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 public class UserDetailsImpl implements UserDetails {
@@ -42,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !(user.getState() == UserState.BLOCKED);
+        return user.getState() != UserState.BLOCKED;
     }
 
     @Override

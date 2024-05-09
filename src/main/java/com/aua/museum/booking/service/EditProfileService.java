@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public interface EditProfileService {
     ModelAndView getModelWithUserAttributes(User user);
 
-    UserDto ExtractUserDtoFromRequest(MultipartHttpServletRequest request);
+    UserDto extractUserDtoFromRequest(MultipartHttpServletRequest request);
 
     void addUserToQuestionDetails(User user);
 }

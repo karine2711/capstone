@@ -20,6 +20,7 @@ import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -42,7 +43,7 @@ public class EditProfileServiceImpl implements EditProfileService {
     }
 
     @Override
-    public UserDto ExtractUserDtoFromRequest(MultipartHttpServletRequest request) {
+    public UserDto extractUserDtoFromRequest(MultipartHttpServletRequest request) {
         UserDto userDto = new UserDto();
         userDto.setFullName(request.getParameter("fullName"));
         userDto.setEmail(request.getParameter("email"));
@@ -83,12 +84,7 @@ public class EditProfileServiceImpl implements EditProfileService {
         secondQuestionDetails.setQuestionId(Integer.valueOf(request.getParameter("second-question")));
         secondQuestionDetails.setAnswer(request.getParameter("secondAnswer"));
 
-        return new ArrayList<>() {
-            {
-                add(firstQuestionDetails);
-                add(secondQuestionDetails);
-            }
-        };
+        return new ArrayList<>(List.of(firstQuestionDetails, secondQuestionDetails));
     }
 
     public void addUserToQuestionDetails(User user) {

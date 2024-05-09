@@ -1,8 +1,6 @@
 package com.aua.museum.booking.service.impl;
 
 
-
-
 import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.Notification;
 import com.aua.museum.booking.domain.User;
@@ -13,10 +11,6 @@ import com.aua.museum.booking.repository.NotificationRepository;
 import com.aua.museum.booking.repository.UserRepository;
 import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.notifications.FCMService;
-import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.repository.EventRepository;
-import com.aua.museum.booking.repository.NotificationRepository;
-import com.aua.museum.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -24,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -54,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification createReminder(User user, Event event) {
         final Object[] timeArg = {timeToString(event.getTime())};
-        final Notification notification = Notification.builder()
+        return Notification.builder()
                 .titleAm(messageSource.getMessage("notification.reminder.title", new Object[]{}, new Locale("hy")))
                 .titleEn(messageSource.getMessage("notification.reminder.title", new Object[]{}, Locale.US))
                 .titleRu(messageSource.getMessage("notification.reminder.title", new Object[]{}, new Locale("ru")))
@@ -65,7 +60,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .event(event)
                 .isShown(false)
                 .build();
-        return notification;
     }
 
     @Override
@@ -163,7 +157,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification createReschedule(User user, Event event) {
-        final Notification notification = Notification.builder()
+        return Notification.builder()
                 .titleAm(messageSource.getMessage("notification.reschedule.title", new Object[]{}, new Locale("hy")))
                 .titleEn(messageSource.getMessage("notification.reschedule.title", new Object[]{}, Locale.US))
                 .titleRu(messageSource.getMessage("notification.reschedule.title", new Object[]{}, new Locale("ru")))
@@ -171,16 +165,11 @@ public class NotificationServiceImpl implements NotificationService {
                 .event(event)
                 .isShown(false)
                 .build();
-        return notification;
     }
 
     @Override
     public Notification save(Notification notification) {
         return notificationRepository.save(notification);
-    }
-
-    private String now() {
-        return String.format("Body is created at: %s", getArmNowTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 
     private String timeToString(LocalTime time) {
@@ -242,7 +231,6 @@ public class NotificationServiceImpl implements NotificationService {
         final LocalTime now = getArmNowTime();
         final List<Event> events = eventRepository.findByConfirmedFalseDateAndTimeBetween(eventDay.toString(),
                 now.toString(), now.minusHours(1).toString());
-        System.out.println(events);
         events.stream()
                 .filter(event -> !(event.getUser().isAdmin()))
                 .map(event -> createReminder(event.getUser(), event))
@@ -254,9 +242,7 @@ public class NotificationServiceImpl implements NotificationService {
                             messagingService.sendNotification(notification.getUser(), notification);
                             System.out.println("send push notification for user " + user.getUsername());
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 });
@@ -281,7 +267,6 @@ public class NotificationServiceImpl implements NotificationService {
 
                 if (admin.getToken() != null && admin.getToken().length() > 0) {
                     messagingService.sendHlaNotification(notification.getUser(), notification);
-//                    System.out.println("send push notification for user " + notification.getUser().getUsername());
                 }
             }
         }
@@ -292,9 +277,10 @@ public class NotificationServiceImpl implements NotificationService {
     public void delete() {
         final List<Event> events = eventRepository
                 .findByDateLessThanEqualAndTimeLessThanEqual(getArmNowDate(), getArmNowTime());
-        events.stream().filter(event -> event.getNotifications().size() > 0).forEach(event -> {
-            notificationRepository.deleteAllByEventId(event.getId());
-        });
+        events
+                .stream()
+                .filter(event -> !event.getNotifications().isEmpty())
+                .forEach(event -> notificationRepository.deleteAllByEventId(event.getId()));
     }
 
     @Override
@@ -319,10 +305,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void findAndDeleteDuplicateOfNotification(Notification notification, User user) {
         getUsersAllNotifications(user)
-                .forEach((n) -> {
-                    if (n.equals(notification)) {
-                        delete(n);
-                    }
-                });
+                .parallelStream()
+                .filter(n-> n.equals(notification))
+                .forEach(this::delete);
     }
 }

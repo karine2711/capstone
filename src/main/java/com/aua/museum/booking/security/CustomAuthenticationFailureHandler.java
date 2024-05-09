@@ -2,8 +2,6 @@ package com.aua.museum.booking.security;
 
 import com.aua.museum.booking.exception.UserAccountIsAlreadyBlockedException;
 import com.aua.museum.booking.exception.notfound.UserNotFoundException;
-import com.aua.museum.booking.exception.UserAccountIsAlreadyBlockedException;
-import com.aua.museum.booking.exception.notfound.UserNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.aua.museum.booking.domain.EventState.*;
@@ -285,13 +284,13 @@ public class EventServiceImpl implements EventService {
         List<EventLite> bookedEventsByDate = getBookedEventsByDate(rescheduledEvent.getDate());
 
         List<LocalTime> toBeMovedTimes = eventsToBeMoved.stream()
-                .map(e -> e.getTime())
+                .map(Event::getTime)
                 .collect(Collectors.toList());
         List<EventLite> bookedDates = bookedEventsByDate.stream()
                 .filter(e -> !toBeMovedTimes.contains(e.getTime()) || e.getId().equals(rescheduledEvent.getId()))
                 .collect(Collectors.toList());
 
-        eventsToBeMoved.forEach((eventToMove) -> moveEvent(eventToMove, rescheduledEvent, bookedDates));
+        eventsToBeMoved.forEach(eventToMove -> moveEvent(eventToMove, rescheduledEvent, bookedDates));
         return repository.save(rescheduledEvent);
     }
 
@@ -301,7 +300,7 @@ public class EventServiceImpl implements EventService {
             return false;
         }
         if (newEvent.getEventType().getId() != 7
-                && newEvent.getEventType().getId() == oldEvent.getEventType().getId()
+                && newEvent.getEventType().getId().equals(oldEvent.getEventType().getId())
                 && newEvent.getGroupSize() + oldEvent.getGroupSize() <= 35) {
             return false;
         }
@@ -318,10 +317,7 @@ public class EventServiceImpl implements EventService {
         if (isWithinTime(oldStartTime, newStartTime, newEndTime) || isWithinTime(newStartTime, oldStartTime, oldEndTime)) {
             return true;
         }
-        if (isWithinTime(oldEndTime, newStartTime, newEndTime) || isWithinTime(newEndTime, oldStartTime, oldEndTime)) {
-            return true;
-        }
-        return false;
+        return isWithinTime(oldEndTime, newStartTime, newEndTime) || isWithinTime(newEndTime, oldStartTime, oldEndTime);
 
     }
 

@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class UserServiceImpl implements UserService {
-    private final String BLOCKED_KEYWORD = "_blocked_";
+    private static final String BLOCKED_KEYWORD = "_blocked_";
     private final UserRepository repository;
      @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
@@ -224,7 +224,6 @@ public class UserServiceImpl implements UserService {
                 List<SessionInformation> sessionInformations = sessionRegistry.getAllSessions(principal, false);
                 for (SessionInformation sessionInformation : sessionInformations) {
                     sessionInformation.expireNow();
-                    ;
                 }
             }
         }

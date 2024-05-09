@@ -12,10 +12,6 @@ import com.aua.museum.booking.repository.UserRepository;
 import com.aua.museum.booking.service.QuestionDetailsService;
 import com.aua.museum.booking.service.QuestionService;
 import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.exception.notfound.QuestionNotFoundException;
-import com.aua.museum.booking.exception.notfound.UserNotFoundException;
-import com.aua.museum.booking.repository.QuestionDetailsRepository;
-import com.aua.museum.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

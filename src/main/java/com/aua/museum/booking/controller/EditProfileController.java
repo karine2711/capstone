@@ -7,17 +7,14 @@ import com.aua.museum.booking.service.EditProfileService;
 import com.aua.museum.booking.service.UserService;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.util.WebUtils;
@@ -42,7 +39,7 @@ public class EditProfileController {
     @PostMapping(headers = ("content-type=multipart/form-data"))
     public @ResponseBody
     ResponseEntity<Object> updateUser(MultipartHttpServletRequest request) {
-        UserDto userDto = editProfileService.ExtractUserDtoFromRequest(request);
+        UserDto userDto = editProfileService.extractUserDtoFromRequest(request);
         User user = mapper.toEntity(userDto);
         editProfileService.addUserToQuestionDetails(user);
         userService.updateUser(user, request);

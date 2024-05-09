@@ -7,8 +7,6 @@ import com.aua.museum.booking.exception.notfound.QuestionNotFoundException;
 import com.aua.museum.booking.locale.Language;
 import com.aua.museum.booking.repository.QuestionRepository;
 import com.aua.museum.booking.service.QuestionService;
-import com.aua.museum.booking.exception.notfound.QuestionNotFoundException;
-import com.aua.museum.booking.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;

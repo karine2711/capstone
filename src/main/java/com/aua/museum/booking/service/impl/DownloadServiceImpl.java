@@ -69,11 +69,11 @@ public class DownloadServiceImpl implements DownloadService {
         var endDate = LocalDate.parse(endDateString, formatter);
 
         if (request.getParameter("isFromMyActivities").equals("true")) {
-            return eventTypes.size() != 0 ?
+            return !eventTypes.isEmpty() ?
                     eventService.findByDateBetweenAndUser(startDate, endDate, user, eventTypes)
                     : eventService.findByDateBetweenAndUser(startDate, endDate, user, defaultEventTypes);
         }
-        return eventTypes.size() != 0 ?
+        return !eventTypes.isEmpty() ?
                 eventService.findByDateBetween(startDate, endDate, eventTypes)
                 : eventService.findByDateBetween(startDate, endDate, defaultEventTypes);
     }
