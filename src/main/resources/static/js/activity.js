@@ -91,41 +91,11 @@ $(document).ready(async function () {
     });
 
     $("#clear-input").on("click", function (e) {
-        $(".fa-file-image").addClass("d-none")
-        $('#file').parent().find(".custom-invalid-feedback").hide();
-        $('#file').val(null);
-        $('.custom-file-upload').html($.i18n("upload.photo"));
         $(this).remove();
     });
 
-    $('#file').change(function (e) {
-        $(".fa-file-image").removeClass("d-none")
-        $(this).parent().find(".custom-invalid-feedback").hide();
-        let fileName = e.target.files[0].name;
-        let file = $('#file');
-        $('.custom-file-upload').html(fileName);
-        let xButton = "<button type=\"button\" class=\"close\" id='clear-input' aria-label=\"CZlose\">\n" +
-            "  <span aria-hidden=\"true\"><i class=\"far fa-times-circle\"></i></span>\n" +
-            "</button>";
-        $('#file-label-container').find("#clear-input").remove();
-        $('#file-label-container').append(xButton)
-        $("#clear-input").on("click", function (e) {
-            $(".fa-file-image").addClass("d-none")
-            $('#file').parent().find(".custom-invalid-feedback").hide();
-            file.val(null);
-            $('.custom-file-upload').html($.i18n("upload.photo"));
-            $(this).remove();
-        });
-    })
-
-    $.validator.addMethod('fileSize', function (value, element, param) {
-        return this.optional(element) || (element.files[0].size <= param)
-    }, "");
-
-
     $('#event-type').change(function () {
         if ($(this).children("option:selected").val() == 7) {
-            $('.custom-file-upload').html($.i18n("upload.photo"));
             $('#description-section').removeClass("d-none");
             $('.activity-input').addClass("d-none");
             $(".custom-invalid-feedback").hide();
@@ -211,10 +181,6 @@ $(document).ready(async function () {
 
     $('#activity-form').validate({
         rules: {
-            file: {
-                fileSize: 16777215,
-                accept: "image/*"
-            },
             eventType: {
                 required: true,
             },
@@ -281,10 +247,6 @@ $(document).ready(async function () {
             },
             description_AM: {
                 customRequired: $.i18n("desc.am.required")
-            },
-            file: {
-                fileSize: $.i18n("file.too.big"),
-                accept: $.i18n("accept.image")
             }
         },
         errorPlacement: function (label, element) {
@@ -386,7 +348,6 @@ $(document).ready(async function () {
         let jsonArray = [];
         jsonArray.push(JSON.stringify(dataJson));
 
-        formData.append("file", document.forms['activityForm'].file.files[0]);
         formData.append('event', new Blob(jsonArray, {
             type: "application/json"
         }));
@@ -420,28 +381,4 @@ $(document).ready(async function () {
         mainContainer.css("background-color", "unset");
         mainContainer.css("pointer-events", "unset");
     }
-
-    $(".fa-file-image").mouseover(function () {
-        $(".event-photo").css("display", "inline-block");
-    })
-
-    $(".fa-file-image").mouseout(function () {
-        $(".event-photo").css("display", "none");
-    })
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            let reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('.event-photo').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#file").change(function () {
-        readURL(this);
-    });
 });

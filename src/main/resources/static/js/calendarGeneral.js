@@ -942,29 +942,6 @@ function capitalizeFirstLetter(string) {
     return string.replace(string[0], string[0].toUpperCase());
 }
 
-function getEventPhoto(eventId) {
-    // let image='';
-    let id = '#img_' + eventId;
-    $.ajax({
-        type: 'GET',
-        url: location.origin + '/event/photo/' + eventId,
-        success: function (data, textStatus, xhr) {
-            if (xhr.status === 204) $(id).hide()
-            ;
-            // else image.attr('src', 'data:image/jpg;base64,' + data)
-            else {
-                if (data != null) {
-                    $(id).removeClass("d-none");
-                    $(id).prop('src', 'data:image/jpg;base64,' + data);
-                }
-            }
-        },
-
-    })
-
-}
-
-
 // swap buttons
 // This is dublicate please factor  during refactor
 const addActivityBtn = $('#reschedule-btn');

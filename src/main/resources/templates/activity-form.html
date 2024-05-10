@@ -181,37 +181,6 @@
 
 
                 <div class="container d-none form-group" id="description-section">
-                    <div class="row justify-content-end align-items-start">
-                        <input type="file"
-                               accept="image/*"
-                               name="file" id="file"
-                               th:field="*{eventPhoto}"
-                               th:value="${event.eventPhoto}">
-                        <div id="file-label-container">
-                            <label class="custom-file-upload " for="file"
-                                   th:text="${currentPhotoExists==true} ? #{field.activity.current.photo} : #{field.activity.upload.photo}">
-                            </label>
-                            <button type="button" class="close" id='clear-input' aria-label="CZlose"
-                                    th:if="${currentPhotoExists==true}">
-                                <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
-                            </button>
-                            <span id="image-preview" th:switch="${currentPhotoExists}">
-                                <span th:case="true">
-                                    <i class="fa fa-file-image">
-                                      <img class="event-photo" alt="" data-holder-rendered="true"
-                                           th:src="${'data:image/jpg;base64,'+ currentEventPhoto}">
-                                    </i>
-                                </span>
-                                <span th:case="false">
-                                    <i class="fa fa-file-image d-none">
-                                      <img class="event-photo" alt="" data-holder-rendered="true" src="">
-                                    </i>
-                                </span>
-                            </span>
-                        </div>
-                        <div class="custom-invalid-feedback text-right"><span
-                                class="error-message" id="error-message-file"></span></div>
-                    </div>
 
                     <div class="row justify-content-between align-items-end">
                         <div class="col-5 " id="am-section">

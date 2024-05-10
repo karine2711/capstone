@@ -73,8 +73,6 @@ public class EventController {
             modelAndView.addObject("currentEventTitleAm", event.getTitle_AM());
             modelAndView.addObject("currentEventTitleRu", event.getTitle_RU());
             modelAndView.addObject("currentEventTitleEn", event.getTitle_EN());
-            modelAndView.addObject("currentPhotoExists", event.getEventPhoto() != null);
-            modelAndView.addObject("currentEventPhoto", eventService.extractEventPhoto(event));
         }
         event.setUser(user);
         modelAndView.setViewName(com.aua.museum.booking.controller.Templates.ADD_ACTIVITY.getName());
@@ -87,19 +85,9 @@ public class EventController {
     }
 
     @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity addEvent(@RequestPart("event") @Valid EventDto eventDto, @RequestPart(value = "file", required = false) MultipartFile file, @PathVariable(value = "eventId", required = false) Long eventId, Principal principal) {
+    public ResponseEntity addEvent(@RequestPart("event") @Valid EventDto eventDto, @PathVariable(value = "eventId", required = false) Long eventId, Principal principal) {
         Event event = eventMapper.toEntity(eventDto);
         event.setId(eventId);
-        if (file != null) {
-            try {
-                byte[] image = ImageService.extractImageFromFile(file);
-                event.setEventPhoto(ImageService.compress(image));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            event.setEventPhoto(null);
-        }
         event.setUser(userService.getUserByUsername(principal.getName()));
         Event savedEvent = eventService.createEvent(event);
         if (event.getEventState() == EventState.PRE_BOOKED) {
