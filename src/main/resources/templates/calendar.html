@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="width=1536, height=864 initial-scale=1" name="viewport">
     <meta charset="UTF-8">
@@ -93,6 +93,7 @@
 
 </head>
 <body>
+<input class="d-none" id="admin" sec:authorize="hasAuthority('ADMIN_ROLE')" type="hidden"/>
 
 <div th:insert="~{download-form.html::download-container}"></div>
 <input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
