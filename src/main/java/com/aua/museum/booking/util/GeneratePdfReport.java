@@ -1,13 +1,13 @@
 package com.aua.museum.booking.util;
 
+import com.aua.museum.booking.domain.Event;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.aua.museum.booking.domain.Event;
-import org.springframework.context.MessageSource;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.MessageSource;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,15 +20,15 @@ public class GeneratePdfReport {
     public static final String unicodePath = "src/main/resources/static/font/arial.ttf";
 
     private static BaseFont unicode;
-    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    private static BaseColor preSchoolColor = new BaseColor(81, 190, 206);
-    private static BaseColor elementaryColor = new BaseColor(141, 175, 255);
-    private static BaseColor middleSchoolColor = new BaseColor(99, 218, 56);
-    private static BaseColor highSchoolColor = new BaseColor(255, 204, 0);
-    private static BaseColor studentsColor = new BaseColor(255, 0, 75);
-    private static BaseColor individualsColor = new BaseColor(255, 59, 48);
-    private static BaseColor eventColor = new BaseColor(120, 10, 239);
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static final BaseColor preSchoolColor = new BaseColor(81, 190, 206);
+    private static final BaseColor elementaryColor = new BaseColor(141, 175, 255);
+    private static final BaseColor middleSchoolColor = new BaseColor(99, 218, 56);
+    private static final BaseColor highSchoolColor = new BaseColor(255, 204, 0);
+    private static final BaseColor studentsColor = new BaseColor(255, 0, 75);
+    private static final BaseColor individualsColor = new BaseColor(255, 59, 48);
+    private static final BaseColor eventColor = new BaseColor(120, 10, 239);
 
     static {
         try {
@@ -230,24 +230,16 @@ public class GeneratePdfReport {
     }
 
     protected static String getEventTypeInDifferentLanguages(Event event, Locale locale, MessageSource messageSource) {
-        switch (event.getEventType().getDisplayValue_EN()) {
-            case "Event":
-                return messageSource.getMessage("downloadPdf.event", new Object[]{}, locale);
-            case "Individuals":
-                return messageSource.getMessage("downloadPdf.individuals", new Object[]{}, locale);
-            case "Students":
-                return messageSource.getMessage("downloadPdf.students", new Object[]{}, locale);
-            case "High":
-                return messageSource.getMessage("downloadPdf.highSchool", new Object[]{}, locale);
-            case "Middle":
-                return messageSource.getMessage("downloadPdf.middleSchool", new Object[]{}, locale);
-            case "Elementary":
-                return messageSource.getMessage("downloadPdf.elementary", new Object[]{}, locale);
-            case "Preschool":
-                return messageSource.getMessage("downloadPdf.preschool", new Object[]{}, locale);
-            default:
-                return "";
-        }
+        return switch (event.getEventType().getDisplayValue_EN()) {
+            case "Event" -> messageSource.getMessage("downloadPdf.event", new Object[]{}, locale);
+            case "Individuals" -> messageSource.getMessage("downloadPdf.individuals", new Object[]{}, locale);
+            case "Students" -> messageSource.getMessage("downloadPdf.students", new Object[]{}, locale);
+            case "High" -> messageSource.getMessage("downloadPdf.highSchool", new Object[]{}, locale);
+            case "Middle" -> messageSource.getMessage("downloadPdf.middleSchool", new Object[]{}, locale);
+            case "Elementary" -> messageSource.getMessage("downloadPdf.elementary", new Object[]{}, locale);
+            case "Preschool" -> messageSource.getMessage("downloadPdf.preschool", new Object[]{}, locale);
+            default -> "";
+        };
     }
 
     private static String getEventEndTime(Event event) {

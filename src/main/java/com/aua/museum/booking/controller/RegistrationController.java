@@ -7,6 +7,9 @@ import com.aua.museum.booking.exception.notunique.FieldsAlreadyExistException;
 import com.aua.museum.booking.mapping.UserMapperDecorator;
 import com.aua.museum.booking.service.QuestionService;
 import com.aua.museum.booking.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -21,10 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Locale;
@@ -74,7 +73,6 @@ public class RegistrationController {
         }
         try {
             request.login(userDto.getUsername(), userDto.getPassword());
-            attachCookieToResponse(user, response);
         } catch (ServletException e) {
             modelAndView.setViewName("redirect:/login");
             return modelAndView;
@@ -83,14 +81,8 @@ public class RegistrationController {
         return modelAndView;
     }
 
-    private void attachCookieToResponse(User user, HttpServletResponse response) {
-        Cookie rememberMeCookie = rememberMeCookieService.getCookie(user);
-        response.addCookie(rememberMeCookie);
-    }
-
-
     @GetMapping
-    public ModelAndView registrationPage(ModelAndView modelAndView, Principal principal, HttpServletResponse response) {
+    public ModelAndView registrationPage(ModelAndView modelAndView, Principal principal) {
         if (principal != null) {
             return new ModelAndView("redirect:/homepage");
         }

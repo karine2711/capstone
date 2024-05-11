@@ -3,13 +3,11 @@ package com.aua.museum.booking.cookies;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.exception.notfound.UserNotFoundException;
 import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.exception.notfound.UserNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 @RequiredArgsConstructor

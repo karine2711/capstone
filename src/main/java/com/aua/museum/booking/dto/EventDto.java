@@ -1,7 +1,6 @@
 package com.aua.museum.booking.dto;
 
 import com.aua.museum.booking.validation.ValidEventTime;
-import com.aua.museum.booking.validation.ValidEventTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

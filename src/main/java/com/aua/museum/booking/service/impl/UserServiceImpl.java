@@ -1,7 +1,6 @@
 package com.aua.museum.booking.service.impl;
 
 
-
 import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.domain.UserState;
@@ -10,8 +9,8 @@ import com.aua.museum.booking.exception.notfound.UserNotFoundException;
 import com.aua.museum.booking.exception.notunique.FieldsAlreadyExistException;
 import com.aua.museum.booking.repository.UserRepository;
 import com.aua.museum.booking.security.UserDetailsImpl;
-import com.aua.museum.booking.service.EditProfileService;
 import com.aua.museum.booking.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import jakarta.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -36,19 +34,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private static final String BLOCKED_KEYWORD = "_blocked_";
     private final UserRepository repository;
-     @Qualifier("sessionRegistry")
+    @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
     private PasswordEncoder encoder;
-    private EditProfileService editProfileService;
 
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
         this.encoder = encoder;
-    }
-
-    @Autowired
-    public void setEditProfileService(EditProfileService editProfileService) {
-        this.editProfileService = editProfileService;
     }
 
     @Override
@@ -165,7 +157,7 @@ public class UserServiceImpl implements UserService {
             user1.setPhone(user.getPhone());
             user1.setAddress(user.getAddress());
             user1.setOccupation(user.getOccupation());
-            if (user.getPassword().length() != 0) user1.setPassword(encoder.encode(user.getPassword()));
+            if (!user.getPassword().isEmpty()) user1.setPassword(encoder.encode(user.getPassword()));
             user1.setSchool(user.getSchool());
             user1.setResidency(user.getResidency());
             if (user.getProfileAvatar() != null) user1.setProfileAvatar(user.getProfileAvatar());
@@ -236,8 +228,6 @@ public class UserServiceImpl implements UserService {
         List<User> deletableUsers = repository.findByState(UserState.UNBLOCKED).stream()
                 .filter(u -> u.getLastUpdatedDate().toLocalDateTime().plusDays(7)
                         .isBefore(LocalDateTime.now())).collect(Collectors.toList());
-        for (User u : deletableUsers) {
-            repository.delete(u);
-        }
+        repository.deleteAll(deletableUsers);
     }
 }

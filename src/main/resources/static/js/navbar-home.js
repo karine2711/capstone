@@ -216,7 +216,7 @@ $(document).ready(async function () {
     function setNotificationsShown(idArray) {
         $.ajax({
             type: 'PUT',
-            url: location.origin + '/notification/' + username,
+            url: location.origin + '/notification/seen',
             data: JSON.stringify(idArray),
             contentType: 'application/json',
             beforeSend: function (request) {

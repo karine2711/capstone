@@ -1,14 +1,13 @@
 package com.aua.museum.booking.dto;
 
 import com.aua.museum.booking.validation.*;
-import com.aua.museum.booking.validation.*;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.PropertySource;
 
-import jakarta.persistence.Lob;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;

@@ -1,13 +1,6 @@
 package com.aua.museum.booking.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventLite;
-import com.aua.museum.booking.domain.EventState;
-import com.aua.museum.booking.domain.EventType;
-import com.aua.museum.booking.domain.Notification;
-import com.aua.museum.booking.domain.Role;
-import com.aua.museum.booking.domain.User;
+import com.aua.museum.booking.domain.*;
 import com.aua.museum.booking.dto.EventDto;
 import com.aua.museum.booking.mapping.EventMapper;
 import com.aua.museum.booking.security.UserDetailsServiceImpl;
@@ -15,9 +8,7 @@ import com.aua.museum.booking.service.EventService;
 import com.aua.museum.booking.service.EventTypeService;
 import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.service.notifications.FCMService;
 import com.aua.museum.booking.util.DateTimeUtil;
-import com.aua.museum.booking.util.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -26,22 +17,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping({"/event", "/event/{eventId}"})
+@RequestMapping({"/event"})
 @RequiredArgsConstructor
 public class EventController {
     private final EventTypeService eventTypeService;
@@ -50,9 +38,8 @@ public class EventController {
     private final UserDetailsServiceImpl userDetailsService;
     private final EventMapper eventMapper;
     private final NotificationService notificationService;
-    private final FCMService fcmService;
 
-    @GetMapping
+    @GetMapping("/{eventId}")
     public ModelAndView getAddActivityPage(Principal principal, @PathVariable(value = "eventId", required = false) Integer eventId) {
         ModelAndView modelAndView = new ModelAndView();
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
@@ -84,8 +71,9 @@ public class EventController {
         return modelAndView;
     }
 
-    @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity addEvent(@RequestPart("event") @Valid EventDto eventDto, @PathVariable(value = "eventId", required = false) Long eventId, Principal principal) {
+//todo: test
+    @PostMapping(consumes = {"/{eventId}/multipart/form-data"})
+    public ResponseEntity<Void> addEvent(@RequestPart("event") @Valid EventDto eventDto, @PathVariable(value = "eventId", required = false) Long eventId, Principal principal) {
         Event event = eventMapper.toEntity(eventDto);
         event.setId(eventId);
         event.setUser(userService.getUserByUsername(principal.getName()));
@@ -97,15 +85,6 @@ public class EventController {
             admins.forEach(admin -> {
                 final Notification preBookedAdminNotification = notificationService.createPreBookedAdmin(admin, savedEvent);
                 notificationService.save(preBookedAdminNotification);
-                if (admin.getToken() != null) {
-                    try {
-                        fcmService.sendNotification(admin.getToken(), preBookedAdminNotification);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
             });
         } else if (!savedEvent.getUser().isAdmin() && savedEvent.isWithin24Hours()) {
             final Notification reminder = notificationService.createConfirm(savedEvent.getUser(), savedEvent);
@@ -114,14 +93,7 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    //todo: fix
-//    @GetMapping("/photo/{eventId}")
-//    public ResponseEntity<Object> getUserPhoto(@PathVariable Long eventId) {
-//        final Event event = eventService.getEventById(eventId);
-//        final String picture = eventService.extractEventPhoto(event);
-//        return picture == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(picture);
-//    }
-
+    //    not consumed
     @GetMapping("/free-times/{date}/{id}")
     public Set<LocalTime> getFreeTimesForUpdate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                 @PathVariable(value = "id", required = false) Integer id) {
@@ -129,6 +101,7 @@ public class EventController {
         return eventService.getFreeTimesByDateAndEvent(date, event);
     }
 
+    //    not consume
     @GetMapping("/free-times/{date}/{eventType}/{groupSize}")
     public Set<LocalTime> getFreeTimesForCreate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                 @PathVariable("eventType") int eventTypeId, @PathVariable(value = "groupSize", required = false) Integer groupSize) {
@@ -137,34 +110,37 @@ public class EventController {
 
     }
 
+    //    not consume
     @GetMapping(value = {"/allWithoutFilter",})
     public ResponseEntity<List<Map<Object, Object>>> getAllEvents(Locale locale) {
-        List<EventLite> allEvents = eventService.getAllEventLites();
+        List<Event> allEvents = eventService.getAllEvents();
         final List<Map<Object, Object>> events = allEvents.stream().map(event -> eventService.eventToMap(event, locale)).collect(Collectors.toList());
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
+    //    not consumes
     @ResponseBody
     @GetMapping(value = {"/all", "/all/{path}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Map<Object, Object>>> getAllEvents(Locale locale, @PathVariable(required = false) String path, Principal principal) {
-        List<EventLite> allEvents = eventService.getAllEventLites();
+        List<Event> allEvents = eventService.getAllEvents();
         if (path.equals("myActivities"))
-            allEvents = allEvents.stream().filter(event -> event.getUser().getUsername().equalsIgnoreCase(principal.getName())).collect(Collectors.toList());
+            allEvents = allEvents.stream().filter(event -> event.getUser().getUsername().equalsIgnoreCase(principal.getName())).toList();
 
-        Map<LocalDateTime, EventLite> xex = new HashMap<>();
-        for (EventLite event : allEvents) {
+        Map<LocalDateTime, Event> xex = new HashMap<>();
+        for (Event event : allEvents) {
             LocalDateTime time = DateTimeUtil.getDateTime(event.getDate(), event.getTime());
             if (!xex.containsKey(time) || !xex.get(time).getUser().getUsername().equals(principal.getName())) {
                 xex.put(time, event);
             }
 
         }
-        List<EventLite> filtered = new ArrayList<>(xex.values());
+        List<Event> filtered = new ArrayList<>(xex.values());
 
         final List<Map<Object, Object>> events = filtered.stream().map(event -> eventService.eventToMap(event, locale)).collect(Collectors.toList());
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
+    //    not consumed
     @GetMapping(value = "/getEventTypes")
     public ResponseEntity<Map<String, String>> getEventTypes() {
         Map<String, String> eventTypes = new LinkedHashMap<>();
@@ -173,15 +149,16 @@ public class EventController {
         return ResponseEntity.ok().body(eventTypes);
     }
 
+    //    not consumed
     @PostMapping(value = "/reschedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity rescheduleTime(@RequestBody Map<String, String> body) {
-        Long id = Long.parseLong(body.get("eventId"));
+    public ResponseEntity<Void> rescheduleTime(@RequestBody Map<String, String> body) {
+        long id = Long.parseLong(body.get("eventId"));
         Event rescheduledEvent = eventService.getEventById(id);
         eventService.checkAndChangeToPreBookedAfterReschedule(rescheduledEvent);
         eventService.rescheduleEvent(Long.parseLong(body.get("eventId")),
                 LocalDate.parse(body.get("date")), LocalTime.parse(body.get("time")));
         notificationService.getUsersAllNotifications(rescheduledEvent.getUser()).forEach(n -> {
-            if (n.getEvent().equals(rescheduledEvent)){
+            if (n.getEvent().equals(rescheduledEvent)) {
                 notificationService.delete(n);
             }
         });
@@ -193,15 +170,6 @@ public class EventController {
                 final Notification preBookedAdminNotification = notificationService.createPreBookedAdmin(admin, rescheduledEvent);
                 notificationService.findAndDeleteDuplicateOfNotification(preBookedAdminNotification, admin);
                 notificationService.save(preBookedAdminNotification);
-                if (admin.getToken() != null) {
-                    try {
-                        fcmService.sendNotification(admin.getToken(), preBookedAdminNotification);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
             });
         } else if (!rescheduledEvent.getUser().isAdmin()) {
             if (rescheduledEvent.isWithin24Hours()) {
@@ -215,20 +183,23 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
+    //    not consumed
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.removeEvent(eventService.getEventById(id));
         return ResponseEntity.ok().build();
     }
 
+    //    not consumed
     @PutMapping("/confirm/{id}")
-    public ResponseEntity confirmEvent(@PathVariable Long id) {
+    public ResponseEntity<Void> confirmEvent(@PathVariable Long id) {
         eventService.confirmEvent(eventService.getEventById(id));
         return ResponseEntity.ok().build();
     }
 
+    //    not consumed
     @PutMapping(path = "/book", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity changeEventToBooked(@RequestBody List<Long> ids) {
+    public ResponseEntity<Void> changeEventToBooked(@RequestBody List<Long> ids) {
         ids.forEach(id -> {
             Event event = eventService.getEventById(id);
             eventService.changeEventToBooked(event);
@@ -238,10 +209,11 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
+    //not consumed
     @PostMapping(value = "/reschedule/allChosen", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity reschedulePreBookedEvent(@RequestBody List<Map<String, String>> body) throws JsonProcessingException {
+    public ResponseEntity<Void> reschedulePreBookedEvent(@RequestBody List<Map<String, String>> body) {
         body.forEach(event -> {
-            Long id = Long.parseLong(event.get("eventId"));
+            long id = Long.parseLong(event.get("eventId"));
             Event rescheduledEvent = eventService.getEventById(id);
             eventService.rescheduleEvent(id,
                     LocalDate.parse(event.get("date")), LocalTime.parse(event.get("time")));
@@ -252,8 +224,9 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
+    //    not consumed
     @DeleteMapping(path = "/delete/allChosen", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity deletePreBookedEvent(@RequestBody List<Long> ids) {
+    public ResponseEntity<Void> deletePreBookedEvent(@RequestBody List<Long> ids) {
         ids.forEach(id -> {
             Event event = eventService.getEventById(id);
             final Notification preBookedDeleteNotification = notificationService.createPreBookedActivityDeleted(event.getUser(), event);

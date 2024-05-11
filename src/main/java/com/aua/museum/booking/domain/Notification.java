@@ -1,9 +1,9 @@
 package com.aua.museum.booking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.Locale;
 
 @Getter

@@ -20,7 +20,7 @@ public class ImageService {
         try (
                 InputStream inputStream = new ByteArrayInputStream(imageBytes);
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
+                ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream)
         ) {
             float imageQuality = 0.3f;
             BufferedImage bufferedImage = ImageIO.read(inputStream);
@@ -33,7 +33,7 @@ public class ImageService {
             imageWriters = ImageIO.getImageWritersByFormatName("jpg");
             if (!imageWriters.hasNext())
                 throw new IllegalStateException("Writers Not Found!!");
-            ImageWriter imageWriter = (ImageWriter) imageWriters.next();
+            ImageWriter imageWriter = imageWriters.next();
             imageWriter.setOutput(imageOutputStream);
 
             ImageWriteParam imageWriteParam = imageWriter.getDefaultWriteParam();

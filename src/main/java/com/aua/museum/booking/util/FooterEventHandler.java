@@ -9,7 +9,7 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class FooterEventHandler extends PdfPageEventHelper {
-    private Font pageNumberFont = new Font(Font.FontFamily.TIMES_ROMAN, 10);
+    private final Font pageNumberFont = new Font(Font.FontFamily.TIMES_ROMAN, 10);
 
     @Override
     public void onEndPage(PdfWriter writer, Document document) {

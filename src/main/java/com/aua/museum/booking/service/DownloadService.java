@@ -2,8 +2,6 @@ package com.aua.museum.booking.service;
 
 import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.EventType;
-
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,7 +11,7 @@ import java.util.Locale;
 
 public interface DownloadService {
     void downloadCsv(String username, HttpServletResponse response,
-                     HttpServletRequest request, Locale locale, String filename) throws IOException;
+                     HttpServletRequest request, Locale locale) throws IOException;
 
     void downloadPdf(String username, HttpServletResponse response,
                      HttpServletRequest request, Locale locale) throws IOException;

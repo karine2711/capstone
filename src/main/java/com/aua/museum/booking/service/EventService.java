@@ -1,9 +1,8 @@
 package com.aua.museum.booking.service;
 
-import com.aua.museum.booking.domain.*;
 import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventType;
+import com.aua.museum.booking.domain.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,13 +16,11 @@ public interface EventService {
 
     Event getEventById(long id);
 
-    List<EventLite> getAllEventLites();
-
     List<Event> getAllEvents();
 
-    List<EventLite> getActiveUsersPreBookedEvents();
+    List<Event> getActiveUsersPreBookedEvents();
 
-    List<EventLite> getBlockedUsersPreBookedEvents();
+    List<Event> getBlockedUsersPreBookedEvents();
 
     void removeEvent(Event event);
 
@@ -35,9 +32,7 @@ public interface EventService {
 
     void rescheduleEvent(Long eventId, LocalDate date, LocalTime time);
 
-    Map<Object, Object> eventToMap(EventLite event, Locale locale);
-
-    String extractEventPhoto(Event event);
+    Map<Object, Object> eventToMap(Event event, Locale locale);
 
     List<Event> findByDateBetween(LocalDate startDate, LocalDate endDate, List<EventType> eventTypes);
 

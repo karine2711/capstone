@@ -1,13 +1,17 @@
 package com.aua.museum.booking.domain;
+
+import com.aua.museum.booking.converter.DateConverter;
+import com.aua.museum.booking.converter.TimeConverter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.aua.museum.booking.converter.DateConverter;
-import com.aua.museum.booking.converter.TimeConverter;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -64,9 +68,6 @@ public class Event extends BaseEntity {
     private String description_RU;
     @Column(name = "description_AM", nullable = false)
     private String description_AM;
-    @Lob
-    @Column(name = "photo", columnDefinition = "BLOB")
-    private byte[] eventPhoto;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "event_state")
     private EventState eventState = EventState.CONFIRMED;
@@ -95,43 +96,29 @@ public class Event extends BaseEntity {
         this.description_RU = description_RU;
     }
 
-    public Event(){}
-    public String getDescriptionByLocale(Locale locale) {
-        switch (locale.getLanguage().toUpperCase()) {
-            case "RU":
-                return description_RU;
-            case "EN":
-                return description_EN;
-            default:
-                return description_AM;
-        }
+    public Event() {
+    }
 
+    public String getDescriptionByLocale(Locale locale) {
+        return switch (locale.getLanguage().toUpperCase()) {
+            case "RU" -> description_RU;
+            case "EN" -> description_EN;
+            default -> description_AM;
+        };
     }
 
     public String getTitleByLocale(Locale locale) {
-        switch (locale.getLanguage().toUpperCase()) {
-            case "RU":
-                return title_RU;
-            case "EN":
-                return title_EN;
-            default:
-                return title_AM;
-        }
+        return switch (locale.getLanguage().toUpperCase()) {
+            case "RU" -> title_RU;
+            case "EN" -> title_EN;
+            default -> title_AM;
+        };
     }
 
     public boolean isWithin24Hours() {
-//        LocalDate nowDate= ZonedDateTime.now(ZoneId.of("Asia/Yerevan")).toLocalDate();
-//        LocalTime nowTime=ZonedDateTime.now(ZoneId.of("Asia/Yerevan")).toLocalTime();
         LocalDate nowDate = LocalDate.from(ZonedDateTime.now(ZoneId.of("Asia/Yerevan")));
         LocalTime nowTime = LocalTime.from(ZonedDateTime.now(ZoneId.of("Asia/Yerevan")));
         return nowDate.isEqual(date) || (nowDate.plusDays(1).equals(date) && nowTime.isAfter(time));
-    }
-
-    public String getStartAndEndTime(){
-
-        LocalTime endTime= this.time.plusMinutes(this.eventType.getDuration());
-
-        return this.time +" - "+ endTime;
     }
 
     public boolean isConfirmed() {
@@ -140,69 +127,5 @@ public class Event extends BaseEntity {
 
     public void setConfirmed() {
         eventState = EventState.CONFIRMED;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public void setTitle_AM(String title_AM) {
-        this.title_AM = title_AM;
-    }
-
-    public void setTitle_RU(String title_RU) {
-        this.title_RU = title_RU;
-    }
-
-    public void setTitle_EN(String title_EN) {
-        this.title_EN = title_EN;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public void setGroupSize(Integer groupSize) {
-        this.groupSize = groupSize;
-    }
-
-    public void setDescription_EN(String description_EN) {
-        this.description_EN = description_EN;
-    }
-
-    public void setDescription_RU(String description_RU) {
-        this.description_RU = description_RU;
-    }
-
-    public void setDescription_AM(String description_AM) {
-        this.description_AM = description_AM;
-    }
-
-    public void setEventPhoto(byte[] eventPhoto) {
-        this.eventPhoto = eventPhoto;
-    }
-
-    public void setEventState(EventState eventState) {
-        this.eventState = eventState;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
     }
 }

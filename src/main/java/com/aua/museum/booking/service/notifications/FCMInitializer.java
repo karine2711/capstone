@@ -3,13 +3,11 @@ package com.aua.museum.booking.service.notifications;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.PostConstruct;
-
-import java.io.FileInputStream;
 import java.io.IOException;
 //todo: try to fix at last
 @Service

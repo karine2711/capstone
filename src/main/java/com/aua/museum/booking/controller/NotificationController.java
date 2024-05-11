@@ -5,7 +5,6 @@ import com.aua.museum.booking.domain.Notification;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.domain.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,28 +56,17 @@ public class NotificationController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    private Map<Object, Object> notificationToViewMap(Notification notif, Locale locale) {
+    private Map<Object, Object> notificationToViewMap(Notification notification, Locale locale) {
         Map<Object, Object> map = new HashMap<>();
-        map.put("event", notif.getEvent());
-        map.put("eventTypeValue", notif.getEvent().getEventType().getValueByLocale(locale));
-        map.put("eventTypeId", notif.getEvent().getEventType().getId());
-        map.put("title", notif.getTitleByLocale(locale));
-        map.put("body", notif.getBodyByLocale(locale));
+        map.put("event", notification.getEvent());
+        map.put("eventTypeValue", notification.getEvent().getEventType().getValueByLocale(locale));
+        map.put("eventTypeId", notification.getEvent().getEventType().getId());
+        map.put("title", notification.getTitleByLocale(locale));
+        map.put("body", notification.getBodyByLocale(locale));
         return map;
     }
 
-//    @GetMapping(path = "/{username}")
-//    @ResponseBody
-//    public ResponseEntity<List<Notification>> getNotificationsByUsername(@PathVariable String username) {
-//        final User user = userService.getUserByUsername(username);
-//        List<Notification> notifications = user.getNotifications()
-//                .stream()
-//                .filter(notification -> !notification.isShown())
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(notifications);
-//    }
-
-    @PutMapping(path = "/{username}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/seen", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String setNotificationsSeen(@RequestBody Set<Long> ids) {
         notificationService.saveNotifications(ids);

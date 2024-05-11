@@ -1,7 +1,6 @@
 package com.aua.museum.booking.mapping;
 
 import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.dto.EventDto;
 import com.aua.museum.booking.service.EventTypeService;
 import lombok.NoArgsConstructor;
@@ -29,8 +28,4 @@ public class EventMapperDecorator implements com.aua.museum.booking.mapping.Even
         return event;
     }
 
-    @Override
-    public EventLite toNoPhoto(Event event) {
-        return eventMapper.toNoPhoto(event);
-    }
 }

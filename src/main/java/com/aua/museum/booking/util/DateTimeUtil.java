@@ -1,7 +1,6 @@
 package com.aua.museum.booking.util;
 
 import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventType;
 import org.springframework.stereotype.Component;
 
@@ -18,16 +17,16 @@ public class DateTimeUtil {
     public static final LocalTime WORKDAY_END = LocalTime.of(17, 0);
     public static final int INTERVAL_MINUTES = 15;
 
-    public List<LocalTime> getTimes(List<EventLite> bookedEventsByDate, EventType eventType, LocalDate date) {
+    public List<LocalTime> getTimes(List<Event> bookedEventsByDate, EventType eventType, LocalDate date) {
         int duration = eventType.getDuration();
         bookedEventsByDate.sort((o1, o2) -> o1.getTime().isAfter(o2.getTime()) ? 1 : -1);
         LocalTime nowTime = LocalTime.from(ZonedDateTime.now(ZoneId.of("Asia/Yerevan")));
         LocalTime timePointer = getStartingTime(date, nowTime);
         List<LocalTime> freeTimes = new ArrayList<>();
         // Get all free times before and between existing events
-        for (EventLite eventLite : bookedEventsByDate) {
-            LocalTime bookedEventStartTime = eventLite.getTime();
-            LocalTime bookedEventEndTime = bookedEventStartTime.plusMinutes(eventLite.getEventType().getDuration());
+        for (Event event : bookedEventsByDate) {
+            LocalTime bookedEventStartTime = event.getTime();
+            LocalTime bookedEventEndTime = bookedEventStartTime.plusMinutes(event.getEventType().getDuration());
             while (!timePointer.plusMinutes(duration).isAfter(bookedEventStartTime)) {
                 freeTimes.add(timePointer);
                 timePointer = timePointer.plusMinutes(INTERVAL_MINUTES);
@@ -42,7 +41,7 @@ public class DateTimeUtil {
         return freeTimes;
     }
 
-    public List<LocalTime> getTimesForMove(List<EventLite> bookedEventsByDate, LocalDate date, Event event) {
+    public List<LocalTime> getTimesForMove(List<Event> bookedEventsByDate, LocalDate date, Event event) {
         bookedEventsByDate = bookedEventsByDate.stream()
                 .filter(e -> !e.getId().equals(event.getId()))
                 .collect(Collectors.toList());

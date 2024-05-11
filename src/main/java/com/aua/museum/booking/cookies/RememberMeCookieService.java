@@ -1,6 +1,7 @@
 package com.aua.museum.booking.cookies;
 
 import com.aua.museum.booking.domain.User;
+import jakarta.servlet.http.Cookie;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.Cookie;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -18,13 +18,13 @@ import java.time.ZoneId;
 public class RememberMeCookieService {
     @Value("${security.secret.key}")
     private String SECRET_KEY;
-    private Integer maxAge = 60 * 60 * 24 * 365;
 
     private String path = "/";
 
 
     public Cookie getCookie(User user) {
         Cookie rememberMeCookie = new Cookie("remember-me", createCookieValue(user));
+        int maxAge = 60 * 60 * 24 * 30;
         rememberMeCookie.setMaxAge(maxAge);
         rememberMeCookie.setPath(path);
         return rememberMeCookie;

@@ -11,13 +11,12 @@ import com.aua.museum.booking.repository.NotificationRepository;
 import com.aua.museum.booking.repository.UserRepository;
 import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.notifications.FCMService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import static com.aua.museum.booking.util.ZonedDateTimeUtil.getArmNowDate;
 import static com.aua.museum.booking.util.ZonedDateTimeUtil.getArmNowTime;
@@ -190,27 +188,21 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public String getLocalizedTitle(Notification notification) {
         final String language = LocaleContextHolder.getLocale().getLanguage();
-        switch (Language.valueOf(language.toUpperCase())) {
-            case EN:
-                return notification.getTitleEn();
-            case RU:
-                return notification.getTitleRu();
-            default:
-                return notification.getTitleAm();
-        }
+        return switch (Language.valueOf(language.toUpperCase())) {
+            case EN -> notification.getTitleEn();
+            case RU -> notification.getTitleRu();
+            default -> notification.getTitleAm();
+        };
     }
 
     @Override
     public String getLocalizedBody(Notification notification) {
         final String language = LocaleContextHolder.getLocale().getLanguage();
-        switch (Language.valueOf(language.toUpperCase())) {
-            case EN:
-                return notification.getBodyEn();
-            case RU:
-                return notification.getBodyRu();
-            default:
-                return notification.getBodyAm();
-        }
+        return switch (Language.valueOf(language.toUpperCase())) {
+            case EN -> notification.getBodyEn();
+            case RU -> notification.getBodyRu();
+            default -> notification.getBodyAm();
+        };
     }
 
     @Override
@@ -249,23 +241,22 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Scheduled(cron = "0 0 8 * * *")
-    //@Scheduled(fixedRate = 86400000)
     public void remindAdminForBlockedUserEvents()
             throws ExecutionException, InterruptedException {
         final List<Event> blockedUserEvents = eventRepository.findAll().stream()
                 .filter(e -> e.getUser().getState() == UserState.BLOCKED &&
                         e.getDate().minusDays(2).equals(LocalDate.now()))
-                .collect(Collectors.toList());
+                .toList();
 
         final List<User> admins = userRepository.findAll().stream()
                 .filter(u -> u.isAdmin() && !u.isSuperAdmin())
-                .collect(Collectors.toList());
+                .toList();
 
         for (User admin : admins) {
             for (Event event : blockedUserEvents) {
                 final Notification notification = save(createConfirm(admin, event));
 
-                if (admin.getToken() != null && admin.getToken().length() > 0) {
+                if (admin.getToken() != null && !admin.getToken().isEmpty()) {
                     messagingService.sendHlaNotification(notification.getUser(), notification);
                 }
             }

@@ -44,9 +44,7 @@ public class QuestionDetailsServiceImpl implements QuestionDetailsService {
                 .filter(questionInList -> questionInList.getQuestion().getDescription_EN()
                         .equals(question.getDescription_EN()))
                 .findFirst()
-                .orElseThrow(() -> {
-                    throw new QuestionNotFoundException(questionId);
-                });
+                .orElseThrow(() -> new QuestionNotFoundException(questionId));
         return answer.equalsIgnoreCase(savedQuestionDetails.getAnswer());
     }
 

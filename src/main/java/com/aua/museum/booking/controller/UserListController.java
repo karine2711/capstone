@@ -1,7 +1,6 @@
 package com.aua.museum.booking.controller;
 
 import com.aua.museum.booking.domain.EventState;
-import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.domain.User;
 import com.aua.museum.booking.service.EventService;
 import com.aua.museum.booking.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +37,8 @@ public class UserListController {
     @GetMapping("/{username}")
     public ModelAndView findByUserName(ModelAndView modelAndView, @PathVariable String username) {
         User user = userService.getUserByUsername(username);
-        List userList = new ArrayList();
-        userList.add(user);
         modelAndView.setViewName(Templates.USER_LIST.getName());
-        modelAndView.addObject("listUsers", userList);
+        modelAndView.addObject("listUsers", List.of(user));
         return modelAndView;
     }
 
@@ -74,8 +70,8 @@ public class UserListController {
     }
 
     private List<User> getOnlyUsersAndAdmins(List<User> users) {
-        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-       return users.parallelStream()
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return users.parallelStream()
                 .filter(u -> !u.isSuperAdmin() && !u.getUsername().equals(authentication.getName()))
                 .collect(Collectors.toList());
     }

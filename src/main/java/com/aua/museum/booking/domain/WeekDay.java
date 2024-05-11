@@ -1,7 +1,8 @@
 package com.aua.museum.booking.domain;
-import lombok.Data;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.Locale;
 
 @Entity

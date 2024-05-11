@@ -32,13 +32,10 @@ public class GeneralInfoServiceImpl implements GeneralInfoService {
 
     @Override
     public List<String> getAllWeekDaysByLocale(Locale locale) {
-        switch (locale.getLanguage().toUpperCase()) {
-            case "RU":
-                return weekDayRepository.getAllWeekDaysInRussian();
-            case "EN":
-                return weekDayRepository.getAllWeekDaysInEnglish();
-            default:
-                return weekDayRepository.getAllWeekDaysInArmenian();
-        }
+        return switch (locale.getLanguage().toUpperCase()) {
+            case "RU" -> weekDayRepository.getAllWeekDaysInRussian();
+            case "EN" -> weekDayRepository.getAllWeekDaysInEnglish();
+            default -> weekDayRepository.getAllWeekDaysInArmenian();
+        };
     }
 }

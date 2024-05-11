@@ -14,9 +14,11 @@ import com.aua.museum.booking.service.QuestionDetailsService;
 import com.aua.museum.booking.service.QuestionService;
 import com.aua.museum.booking.service.UserService;
 import com.aua.museum.booking.validation.ValidEmail;
-import com.aua.museum.booking.validation.ValidEmail;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,10 +28,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +47,6 @@ public class RecoveryController {
     private final JwtUtil jwtUtil;
     private final ValidatePasswordResetCookie validateResetCookie;
     private final RememberMeCookieService rememberMeCookieService;
-    @Value("${security.secret.key}")
-    private String SECRET_KEY;
 
     @GetMapping
     public ModelAndView getRecoveryPage(Principal principal) {

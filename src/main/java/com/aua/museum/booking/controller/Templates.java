@@ -16,7 +16,7 @@ public enum Templates {
     WAITING_LIST("waiting-list"),
     EVENT_LIST("event-list");
 
-    private String templateName;
+    private final String templateName;
 
     Templates(String templateName) {
         this.templateName = templateName;

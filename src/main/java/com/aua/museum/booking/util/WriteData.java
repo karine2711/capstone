@@ -1,10 +1,9 @@
 package com.aua.museum.booking.util;
 
-import com.opencsv.CSVWriter;
 import com.aua.museum.booking.domain.Event;
+import com.opencsv.CSVWriter;
 import org.springframework.context.MessageSource;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -12,9 +11,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class WriteData {
-    private static final DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    public static void generateReport(PrintWriter writer, List<Event> events, Locale locale, MessageSource messageSource, String filename) throws IOException {
+    public static void generateReport(PrintWriter writer, List<Event> events, Locale locale, MessageSource messageSource) {
 
         String utf16 = "\uFEFF";
         String[] CSV_HEADER = {
@@ -37,7 +36,7 @@ public class WriteData {
                         CSVWriter.DEFAULT_SEPARATOR,
                         CSVWriter.NO_QUOTE_CHARACTER,
                         CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                        CSVWriter.DEFAULT_LINE_END);
+                        CSVWriter.DEFAULT_LINE_END)
         ) {
 
             csvWriter.writeNext(CSV_HEADER);
@@ -51,7 +50,7 @@ public class WriteData {
                         event.getGroup(),
                         event.getGroupSize() == null ? "" : event.getGroupSize().toString(),
                         event.getTitleByLocale(locale),
-                        event.getDescriptionByLocale(locale) == null ? "" : event.getDescriptionByLocale(locale).replaceAll(",", "\\;"),
+                        event.getDescriptionByLocale(locale) == null ? "" : event.getDescriptionByLocale(locale).replaceAll(",", ";"),
                 };
 
                 csvWriter.writeNext(data);

@@ -35,14 +35,11 @@ public class EventTypeServiceImpl implements EventTypeService {
         final Locale locale = LocaleContextHolder.getLocale();
         final Language language = Language.valueOf(locale.getLanguage().toUpperCase());
 
-        switch (language) {
-            case EN:
-                return eventType.getDisplayValue_EN();
-            case RU:
-                return eventType.getDisplayValue_RU();
-            default:
-                return eventType.getDisplayValue_AM();
-        }
+        return switch (language) {
+            case EN -> eventType.getDisplayValue_EN();
+            case RU -> eventType.getDisplayValue_RU();
+            default -> eventType.getDisplayValue_AM();
+        };
     }
 
     @Override

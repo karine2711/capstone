@@ -3,7 +3,6 @@ package com.aua.museum.booking.repository;
 import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.EventType;
 import com.aua.museum.booking.domain.User;
-import com.aua.museum.booking.domain.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -38,4 +37,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                                                        @Param("endTime") String endTime);
 
     List<Event> findByDateLessThanEqualAndTimeLessThanEqual(LocalDate date, LocalTime time);
+
+    @Query(value = "SELECT * FROM museum.event e JOIN museum.user u on e.user_id==u.id " +
+            " where u.user_state='BLOCKED' and e.event_state='PRE_BOOKED'",
+            nativeQuery = true)
+    List<Event> findBlockedUsersPreBooked();
+
+    @Query(value = "SELECT * FROM museum.event e JOIN museum.user u on e.user_id==u.id " +
+            " where u.user_state='ACTIVE' and e.event_state='PRE_BOOKED'",
+            nativeQuery = true)
+    List<Event> findActiveUsersPreBooked();
 }

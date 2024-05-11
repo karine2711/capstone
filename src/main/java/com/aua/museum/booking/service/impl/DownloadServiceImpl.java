@@ -1,7 +1,6 @@
 package com.aua.museum.booking.service.impl;
 
 
-
 import com.aua.museum.booking.domain.Event;
 import com.aua.museum.booking.domain.EventType;
 import com.aua.museum.booking.domain.User;
@@ -11,13 +10,13 @@ import com.aua.museum.booking.service.EventTypeService;
 import com.aua.museum.booking.service.UserService;
 import com.aua.museum.booking.util.GeneratePdfReport;
 import com.aua.museum.booking.util.WriteData;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,9 +37,9 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public void downloadCsv(String username, HttpServletResponse response,
-                            HttpServletRequest request, Locale locale, String filename) throws IOException {
+                            HttpServletRequest request, Locale locale) throws IOException {
         List<Event> events = getEventsForDownloading(username, request);
-        WriteData.generateReport(response.getWriter(), events, locale, messageSource, filename);
+        WriteData.generateReport(response.getWriter(), events, locale, messageSource);
     }
 
     @Override

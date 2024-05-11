@@ -35,14 +35,11 @@ public class QuestionServiceImpl implements QuestionService {
     public String getQuestionFromLocale(Question question) {
         final Locale locale = LocaleContextHolder.getLocale();
         final Language language = Language.valueOf(locale.getLanguage().toUpperCase());
-        switch (language) {
-            case EN:
-                return question.getDescription_EN();
-            case RU:
-                return question.getDescription_RU();
-            default:
-                return question.getDescription_AM();
-        }
+        return switch (language) {
+            case EN -> question.getDescription_EN();
+            case RU -> question.getDescription_RU();
+            default -> question.getDescription_AM();
+        };
     }
 
     @Override

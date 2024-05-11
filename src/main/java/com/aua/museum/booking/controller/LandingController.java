@@ -1,35 +1,32 @@
 package com.aua.museum.booking.controller;
 
 import com.aua.museum.booking.domain.GeneralInfo;
-import com.aua.museum.booking.domain.Role;
 import com.aua.museum.booking.security.UserDetailsServiceImpl;
 import com.aua.museum.booking.service.GeneralInfoService;
 import com.aua.museum.booking.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Locale;
 
 @Controller
 public class LandingController {
 
-    @Autowired
+
     UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
     GeneralInfoService generalInfoService;
-
-    @Autowired
     UserService userService;
 
+    @Autowired
+    public LandingController(UserDetailsServiceImpl userDetailsService, GeneralInfoService generalInfoService, UserService userService) {
+        this.userDetailsService = userDetailsService;
+        this.generalInfoService = generalInfoService;
+        this.userService = userService;
+    }
 
     @GetMapping("/*")
     public String landing(Principal principal) {
@@ -54,9 +51,8 @@ public class LandingController {
     }
 
 
-
     @GetMapping("/homepage")
-    public String success(Model model, Principal principal, HttpSession session) {
+    public String success(Model model, Principal principal) {
         model.addAttribute("currentUser", principal.getName());
         return Templates.HOMEPAGE.getName();
     }
@@ -68,7 +64,7 @@ public class LandingController {
     }
 
     @GetMapping("/loginPage")
-    public String login(HttpServletRequest request, Principal principal) {
-        return  Templates.LOGIN.getName();
+    public String login() {
+        return Templates.LOGIN.getName();
     }
 }
