@@ -121,6 +121,14 @@ public class Event extends BaseEntity {
         return nowDate.isEqual(date) || (nowDate.plusDays(1).equals(date) && nowTime.isAfter(time));
     }
 
+    //needed
+    public String getStartAndEndTime(){
+
+        LocalTime endTime= this.time.plusMinutes(this.eventType.getDuration());
+
+        return this.time +" - "+ endTime;
+    }
+
     public boolean isConfirmed() {
         return eventState.equals(EventState.CONFIRMED);
     }

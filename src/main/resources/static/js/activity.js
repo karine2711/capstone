@@ -120,12 +120,12 @@ $(document).ready(async function () {
 
     function showLang(buttonSelector, sectionSelector) {
         $(buttonSelector).addClass('button-shadow');
-        $(sectionSelector).addClass("d-none");
+        $(sectionSelector).removeClass("d-none");
     }
 
     function hideLang(buttonSelector, sectionSelector) {
         $(buttonSelector).removeClass('button-shadow');
-        $(sectionSelector).removeClass("d-none");
+        $(sectionSelector).addClass("d-none");
     }
 
     function setOptionalLangView() {
@@ -272,7 +272,7 @@ $(document).ready(async function () {
         },
         submitHandler: function (form) {
             if ($('#start-time').val() != null) {
-                submitActivityForm()
+                submitActivityForm(form)
             } else {
                 let invalidFeedback = $('#date').parent().find('.custom-invalid-feedback');
                 showNoTimeAvailable(invalidFeedback)
@@ -287,7 +287,7 @@ $(document).ready(async function () {
 
     addErrorIcon()
 
-    function submitActivityForm() {
+    function submitActivityForm(form) {
         if ($("#group-size").val() > 35) {
             let popupMessage = "<div class='position-fixed container popup-message'>\n" +
                 "    <button type=\"button\" class=\"close\" aria-label=\"CZlose\">\n" +
@@ -319,7 +319,7 @@ $(document).ready(async function () {
             mainContainer.css("pointer-events", "none");
 
             $(' #confirm-btn').on('click', function () {
-                doSubmit();
+                doSubmit(form);
             });
 
             $(' #cancel-btn').on('click', function () {
@@ -330,11 +330,11 @@ $(document).ready(async function () {
                 enableBackground();
             });
         } else {
-            doSubmit();
+            doSubmit(form);
         }
     }
 
-    function doSubmit() {
+    function doSubmit(form) {
 
         let formData = new FormData();
         let data = $("#activity-form").serializeArray();

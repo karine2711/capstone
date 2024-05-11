@@ -38,13 +38,13 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findByDateLessThanEqualAndTimeLessThanEqual(LocalDate date, LocalTime time);
 
-    @Query(value = "SELECT * FROM museum.event e JOIN museum.user u on e.user_id==u.id " +
-            " where u.user_state='BLOCKED' and e.event_state='PRE_BOOKED'",
+    @Query(value = "SELECT e.* FROM museum.event e JOIN museum.user u ON e.user_id = u.id " +
+            "WHERE u.user_state = 'BLOCKED' AND e.event_state = 'PRE_BOOKED'",
             nativeQuery = true)
     List<Event> findBlockedUsersPreBooked();
 
-    @Query(value = "SELECT * FROM museum.event e JOIN museum.user u on e.user_id==u.id " +
-            " where u.user_state='ACTIVE' and e.event_state='PRE_BOOKED'",
+    @Query(value = "SELECT e.* FROM museum.event e JOIN museum.user u ON e.user_id = u.id " +
+            "WHERE u.user_state = 'ACTIVE' AND e.event_state = 'PRE_BOOKED'",
             nativeQuery = true)
     List<Event> findActiveUsersPreBooked();
 }
