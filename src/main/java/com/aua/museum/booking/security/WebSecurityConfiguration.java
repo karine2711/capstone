@@ -51,12 +51,6 @@ public class WebSecurityConfiguration {
         return authenticationProvider;
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//    }
-
-
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http

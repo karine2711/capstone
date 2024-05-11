@@ -1,8 +1,6 @@
 package com.aua.museum.booking.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventLite;
 import com.aua.museum.booking.domain.EventState;
 import com.aua.museum.booking.domain.EventType;
 import com.aua.museum.booking.domain.Notification;
@@ -17,32 +15,31 @@ import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.UserService;
 import com.aua.museum.booking.service.notifications.FCMService;
 import com.aua.museum.booking.util.DateTimeUtil;
-import com.aua.museum.booking.util.ImageService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.entity.ContentType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping({"/event", "/event/{eventId}"})
+@RequestMapping({"/event"})
 @RequiredArgsConstructor
 public class EventController {
     private final EventTypeService eventTypeService;
@@ -54,13 +51,26 @@ public class EventController {
     private final FCMService fcmService;
 
     @GetMapping
-    public ModelAndView getAddActivityPage(Principal principal, @PathVariable(value = "eventId", required = false) Integer eventId) {
+    public ModelAndView getAddActivityPage(Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         User user = userService.getUserByUsername(principal.getName());
         Event event = new Event();
-        if (eventId != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name()))) {
-            event = eventService.getEventById(eventId);
+        event.setUser(user);
+        modelAndView.setViewName(com.aua.museum.booking.controller.Templates.ADD_ACTIVITY.getName());
+        modelAndView.addObject("eventTypes", eventTypeService.getAllEventTypes());
+        modelAndView.addObject("event", event);
+        modelAndView.addObject("profileAvatar", userService.extractAvatarPicture(user));
+        modelAndView.setStatus(HttpStatus.OK);
+        return modelAndView;
+    }
+
+    @GetMapping("/{eventId}")
+    public ModelAndView getUpdateEventPage(Principal principal, @PathVariable(value = "eventId") Integer eventId, HttpServletRequest request) {
+            ModelAndView modelAndView = new ModelAndView();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            User user = userService.getUserByUsername(principal.getName());
+            Event event = eventService.getEventById(eventId);
+        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN_ROLE.name())) && event.getEventType().getId().equals(7)) {
             modelAndView.addObject("currentEvent", event);
             modelAndView.addObject("currentEventTypeId", event.getEventType().getId());
             modelAndView.addObject("currentEventDate", event.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -74,22 +84,23 @@ public class EventController {
             modelAndView.addObject("currentEventTitleAm", event.getTitle_AM());
             modelAndView.addObject("currentEventTitleRu", event.getTitle_RU());
             modelAndView.addObject("currentEventTitleEn", event.getTitle_EN());
-        }
-        event.setUser(user);
-        modelAndView.setViewName(com.aua.museum.booking.controller.Templates.ADD_ACTIVITY.getName());
-        modelAndView.addObject("eventTypes", eventTypeService.getAllEventTypes());
-        modelAndView.addObject("event", event);
-        modelAndView.addObject("profileAvatar", userService.extractAvatarPicture(user));
-        modelAndView.setStatus(HttpStatus.OK);
 
-        return modelAndView;
+            event.setUser(user);
+            modelAndView.setViewName(com.aua.museum.booking.controller.Templates.ADD_ACTIVITY.getName());
+            modelAndView.addObject("eventTypes", eventTypeService.getAllEventTypes());
+            modelAndView.addObject("event", event);
+            modelAndView.addObject("profileAvatar", userService.extractAvatarPicture(user));
+            modelAndView.setStatus(HttpStatus.OK);
+
+            return modelAndView;
+        } else {
+            return new ModelAndView(new RedirectView("/event", true));
+        }
     }
 
-//todo: test
     @PostMapping
-    public ResponseEntity<Void> addEvent(@RequestPart("event") @Valid EventDto eventDto, @PathVariable(value = "eventId", required = false) Long eventId, Principal principal) {
+    public ResponseEntity<Void> addEvent(@RequestPart("event") @Valid EventDto eventDto, Principal principal) {
         Event event = eventMapper.toEntity(eventDto);
-        event.setId(eventId);
         event.setUser(userService.getUserByUsername(principal.getName()));
         Event savedEvent = eventService.createEvent(event);
         if (event.getEventState() == EventState.PRE_BOOKED) {
@@ -104,6 +115,16 @@ public class EventController {
             final Notification reminder = notificationService.createConfirm(savedEvent.getUser(), savedEvent);
             notificationService.save(reminder);
         }
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/{eventId}")
+    public ResponseEntity<Void> updateEvent(@RequestPart("event") @Valid EventDto eventDto, @PathVariable(value = "eventId") Long eventId, Principal principal) {
+        Event event = eventMapper.toEntity(eventDto);
+        event.setId(eventId);
+        event.setUser(userService.getUserByUsername(principal.getName()));
+        eventService.createEvent(event);
         return ResponseEntity.ok().build();
     }
 
