@@ -208,10 +208,10 @@ $(document).ready(async function () {
                 min: GROUP_SIZE_MIN_VALUE,
                 max: GROUP_SIZE_MAX_VALUE,
             },
-            title_AM: {
+            titleAM: {
                 customRequired: $("#title-am").text(),
             },
-            description_AM: {
+            descriptionAM: {
                 customRequired: $("#description-am").text(),
                 maxlength: 500,
             }
@@ -243,10 +243,10 @@ $(document).ready(async function () {
                 min: $.i18n("groupSize.min.value", GROUP_SIZE_MIN_VALUE),
                 max: $.i18n("groupSize.max.value", GROUP_SIZE_MAX_VALUE),
             },
-            title_AM: {
+            titleAM: {
                 customRequired: $.i18n("title.am.required")
             },
-            description_AM: {
+            descriptionAM: {
                 customRequired: $.i18n("desc.am.required")
             }
         },

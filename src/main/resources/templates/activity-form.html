@@ -189,7 +189,7 @@
                                        style="padding: 10px 0" th:text="#{field.activity.title.am.label}"> Title in
                                     Armenian </label>
 
-                                <input class="form-control" id="title-am" name="title_AM"
+                                <input class="form-control" id="title-am" name="titleAM"
                                        th:placeholder="#{field.activity.title.placeholder.am}"
                                        th:value="${currentEventTitleAm}">
                             </div>
@@ -198,7 +198,7 @@
                                        th:text="#{field.activity.desc.am.label}"
                                 >Description in Armenian</label>
                                 <textarea class="form-control"
-                                          id="description-am" name="description_AM" rows="4" style="resize: none;"
+                                          id="description-am" name="descriptionAM" rows="4" style="resize: none;"
                                           th:placeholder="#{field.activity.comment.placeholder.am}"
                                           th:text="${currentEventDescAm}"></textarea>
                             </div>
@@ -213,7 +213,7 @@
                                             id="btn-en" type="button">English
                                     </button>
                                 </div>
-                                <input class="form-control" id="title-en" name="title_EN"
+                                <input class="form-control" id="title-en" name="titleEN"
                                        th:placeholder="#{field.activity.title.placeholder.en}"
                                        th:value="${currentEventTitleEn}">
                             </div>
@@ -222,7 +222,7 @@
                                        th:text="#{field.activity.desc.en.label}"
                                 >Description in English</label>
                                 <textarea class="form-control"
-                                          id="description-en" name="description_EN" rows="4" style="resize: none;"
+                                          id="description-en" name="descriptionEN" rows="4" style="resize: none;"
                                           th:placeholder="#{field.activity.comment.placeholder.en}"
                                           th:text="${currentEventDescEn}"></textarea>
                             </div>
@@ -235,7 +235,7 @@
                                     <button class="btn-ru" id="btn-ru" type="button">Russian</button>
                                     <button class="btn-en" id="btn-en" type="button">English</button>
                                 </div>
-                                <input class="form-control" id="title-ru" name="title_RU"
+                                <input class="form-control" id="title-ru" name="titleRU"
                                        th:placeholder="#{field.activity.title.placeholder.ru}"
                                        th:value="${currentEventTitleRu}">
                             </div>
@@ -243,7 +243,7 @@
                                 <label class="control-label" for="description-ru"
                                        th:text="#{field.activity.desc.ru.label}">Description in Russian</label>
                                 <textarea class="form-control"
-                                          id="description-ru" name="description_RU" rows="4" style="resize: none;"
+                                          id="description-ru" name="descriptionRU" rows="4" style="resize: none;"
                                           th:placeholder="#{field.activity.comment.placeholder.ru}"
                                           th:text="${currentEventDescRu}"></textarea>
                             </div>

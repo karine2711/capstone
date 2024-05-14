@@ -31,13 +31,13 @@ public class EventType {
     private int duration;
 
     @Column(name = "display_value_EN", nullable = false)
-    private String displayValue_EN;
+    private String displayValueEN;
 
     @Column(name = "display_value_RU", nullable = false)
-    private String displayValue_RU;
+    private String displayValueRU;
 
     @Column(name = "display_value_AM", nullable = false)
-    private String displayValue_AM;
+    private String displayValueAM;
 
     //    @JsonIgnore
     @ToString.Exclude
@@ -47,11 +47,11 @@ public class EventType {
     public String getValueByLocale(Locale locale) {
         switch (locale.getLanguage().toUpperCase()) {
             case "RU":
-                return displayValue_RU;
+                return displayValueRU;
             case "EN":
-                return displayValue_EN;
+                return displayValueEN;
             default:
-                return displayValue_AM;
+                return displayValueAM;
         }
     }
 }

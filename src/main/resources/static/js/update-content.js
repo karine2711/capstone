@@ -93,15 +93,15 @@ $(document).ready(async function () {
 
     $('#admin_form').validate({
         rules: {
-            title_AM: {
+            titleAM: {
                 requiredAM: true,
                 titleRangeLength: [TITLE_MIN_LENGTH, TITLE_MAX_LENGTH]
             },
-            title_RU: {
+            titleRU: {
                 requiredRU: true,
                 titleRangeLength: [TITLE_MIN_LENGTH, TITLE_MAX_LENGTH]
             },
-            title_EN: {
+            titleEN: {
                 requiredEN: true,
                 titleRangeLength: [TITLE_MIN_LENGTH, TITLE_MAX_LENGTH]
             },

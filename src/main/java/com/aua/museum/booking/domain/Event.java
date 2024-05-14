@@ -51,11 +51,11 @@ public class Event extends BaseEntity {
     private LocalTime time;
 
     @Column(name = "title_AM")
-    private String title_AM;
+    private String titleAM;
     @Column(name = "title_RU")
-    private String title_RU;
+    private String titleRU;
     @Column(name = "title_EN")
-    private String title_EN;
+    private String titleEN;
     @Column(name = "school", nullable = false)
     private String school;
     @Column(name = "`group`", nullable = false)
@@ -63,11 +63,11 @@ public class Event extends BaseEntity {
     @Column(name = "group_size")
     private Integer groupSize;
     @Column(name = "description_EN", nullable = false)
-    private String description_EN;
+    private String descriptionEN;
     @Column(name = "description_RU", nullable = false)
-    private String description_RU;
+    private String descriptionRU;
     @Column(name = "description_AM", nullable = false)
-    private String description_AM;
+    private String descriptionAM;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "event_state")
     private EventState eventState = EventState.CONFIRMED;
@@ -78,8 +78,8 @@ public class Event extends BaseEntity {
 
     @Builder
     public Event(Long id, Timestamp createdDate, Timestamp lastModifiedDate,
-                 User user, EventType eventType, String title_AM, String title_EN, String title_RU, LocalDate date, LocalTime time,
-                 String school, String group, Integer groupSize, String description_AM, String description_RU, String description_EN) {
+                 User user, EventType eventType, String titleAM, String titleEN, String titleRU, LocalDate date, LocalTime time,
+                 String school, String group, Integer groupSize, String descriptionAM, String descriptionRU, String descriptionEN) {
         super(id, createdDate, lastModifiedDate);
         this.user = user;
         this.eventType = eventType;
@@ -88,12 +88,12 @@ public class Event extends BaseEntity {
         this.school = school;
         this.group = group;
         this.groupSize = groupSize;
-        this.title_AM = title_AM;
-        this.title_RU = title_RU;
-        this.title_EN = title_EN;
-        this.description_AM = description_AM;
-        this.description_EN = description_EN;
-        this.description_RU = description_RU;
+        this.titleAM = titleAM;
+        this.titleRU = titleRU;
+        this.titleEN = titleEN;
+        this.descriptionAM = descriptionAM;
+        this.descriptionEN = descriptionEN;
+        this.descriptionRU = descriptionRU;
     }
 
     public Event() {
@@ -101,17 +101,17 @@ public class Event extends BaseEntity {
 
     public String getDescriptionByLocale(Locale locale) {
         return switch (locale.getLanguage().toUpperCase()) {
-            case "RU" -> description_RU;
-            case "EN" -> description_EN;
-            default -> description_AM;
+            case "RU" -> descriptionRU;
+            case "EN" -> descriptionEN;
+            default -> descriptionAM;
         };
     }
 
     public String getTitleByLocale(Locale locale) {
         return switch (locale.getLanguage().toUpperCase()) {
-            case "RU" -> title_RU;
-            case "EN" -> title_EN;
-            default -> title_AM;
+            case "RU" -> titleRU;
+            case "EN" -> titleEN;
+            default -> titleAM;
         };
     }
 

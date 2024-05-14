@@ -10,12 +10,12 @@ import java.util.List;
 @Repository
 public interface WeekDayRepository extends JpaRepository<WeekDay, Long> {
 
-    @Query("select w.display_value_EN from WeekDay w")
+    @Query("select w.displayValueEN from WeekDay w")
     List<String> getAllWeekDaysInEnglish();
 
-    @Query("select w.display_value_RU from WeekDay w")
+    @Query("select w.displayValueRU from WeekDay w")
     List<String> getAllWeekDaysInRussian();
 
-    @Query("select w.display_value_AM from WeekDay w")
+    @Query("select w.displayValueAM from WeekDay w")
     List<String> getAllWeekDaysInArmenian();
 }

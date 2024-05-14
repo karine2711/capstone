@@ -23,13 +23,13 @@ public class Question {
     private Integer id;
 
     @Column(name = "description_EN", nullable = false)
-    private String description_EN;
+    private String descriptionEN;
 
     @Column(name = "description_RU", nullable = false)
-    private String description_RU;
+    private String descriptionRU;
 
     @Column(name = "description_AM", nullable = false)
-    private String description_AM;
+    private String descriptionAM;
 
     @OneToMany(mappedBy = "question")
     @JsonIgnore

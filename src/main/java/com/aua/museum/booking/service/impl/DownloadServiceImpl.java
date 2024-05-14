@@ -105,6 +105,8 @@ public class DownloadServiceImpl implements DownloadService {
                         case "event":
                             eventTypes.add(eventTypeService.getEventTypeById(7));
                             break;
+                        default:
+                            break;
                     }
                 });
         return eventTypes;

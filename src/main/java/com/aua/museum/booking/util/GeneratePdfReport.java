@@ -17,22 +17,20 @@ import java.util.List;
 import java.util.Locale;
 
 public class GeneratePdfReport {
-    public static final String unicodePath = "src/main/resources/static/font/arial.ttf";
+
+    public static final String EVENT_DISPLAY_VALUE = "Event";
+
+    private GeneratePdfReport(){}
+
+    public static final String UNICODE_PATH = "src/main/resources/static/font/arial.ttf";
 
     private static BaseFont unicode;
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    private static final BaseColor preSchoolColor = new BaseColor(81, 190, 206);
-    private static final BaseColor elementaryColor = new BaseColor(141, 175, 255);
-    private static final BaseColor middleSchoolColor = new BaseColor(99, 218, 56);
-    private static final BaseColor highSchoolColor = new BaseColor(255, 204, 0);
-    private static final BaseColor studentsColor = new BaseColor(255, 0, 75);
-    private static final BaseColor individualsColor = new BaseColor(255, 59, 48);
-    private static final BaseColor eventColor = new BaseColor(120, 10, 239);
 
     static {
         try {
-            unicode = BaseFont.createFont(unicodePath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            unicode = BaseFont.createFont(UNICODE_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
@@ -40,8 +38,8 @@ public class GeneratePdfReport {
 
     public static void generateReport(List<Event> events, HttpServletRequest request,
                                       HttpServletResponse response, Locale locale, MessageSource messageSource) throws IOException {
-        String startDateString = request.getParameter("date1").replaceAll("-", "/");
-        String endDateString = request.getParameter("date2").replaceAll("-", "/");
+        String startDateString = request.getParameter("date1").replace("-", "/");
+        String endDateString = request.getParameter("date2").replace("-", "/");
         String eventDateRange = startDateString + " - " + endDateString;
         Document document = new Document();
 
@@ -98,7 +96,7 @@ public class GeneratePdfReport {
             if (chunkOfEventsContent == null || eventFiltersInfo.size() == 7) chunkOfEvents =
                     new Chunk(defaultEventList, unicodeFont1);
             else chunkOfEvents =
-                    new Chunk(eventList.replaceAll("-", chunkOfEventsContent.toString()), unicodeFont1);
+                    new Chunk(eventList.replace("-", chunkOfEventsContent.toString()), unicodeFont1);
             listOfEventsParagraph.setLeading(25f);
 
             listOfEventsParagraph.add(chunkOfEvents);
@@ -128,7 +126,7 @@ public class GeneratePdfReport {
 
                 Paragraph eventParagraph1 = new Paragraph();
                 String groupSize = messageSource.getMessage("downloadPdf.groupSize", new Object[]{}, locale);
-                groupSize = groupSize.replaceAll("-", String.valueOf(event.getGroupSize()));
+                groupSize = groupSize.replace("-", String.valueOf(event.getGroupSize()));
 
                 if (event.getGroupSize() != null) {
                     eventParagraph1.setIndentationLeft(110f);
@@ -143,14 +141,14 @@ public class GeneratePdfReport {
                 Chunk chunk3 = new Chunk(eventType, eventTypeFont);
 
                 Paragraph titleParagraph = new Paragraph();
-                if (event.getEventType().getDisplayValue_EN().equals("Event")) {
+                if (event.getEventType().getDisplayValueEN().equals(EVENT_DISPLAY_VALUE)) {
                     titleParagraph.setIndentationLeft(110f);
                     Phrase phrase = new Phrase(event.getTitleByLocale(locale), unicodeFont1);
                     titleParagraph.add(phrase);
                 }
 
                 Paragraph eventParagraph5 = new Paragraph();
-                if (event.getDescriptionByLocale(locale) != null && event.getEventType().getDisplayValue_EN().equals("Event")) {
+                if (event.getDescriptionByLocale(locale) != null && event.getEventType().getDisplayValueEN().equals(EVENT_DISPLAY_VALUE)) {
                     eventParagraph5.setIndentationLeft(110f);
                     Phrase phrase = new Phrase(event.getDescriptionByLocale(locale), unicodeFont2);
                     eventParagraph5.add(phrase);
@@ -172,7 +170,7 @@ public class GeneratePdfReport {
                 eventParagraph.setLeading(20f);
                 eventParagraph.add(chunk);
                 eventParagraph1.setLeading(15f);
-                if (!event.getEventType().getDisplayValue_EN().equals("Event")) {
+                if (!event.getEventType().getDisplayValueEN().equals(EVENT_DISPLAY_VALUE)) {
                     eventParagraph3.add(chunk3);
                     eventParagraph3.setLeading(16f);
                 }
@@ -224,14 +222,16 @@ public class GeneratePdfReport {
                 case "event":
                     eventsList.append(messageSource.getMessage("downloadPdf.event", new Object[]{}, locale)).append(",");
                     break;
+                default:
+                    break;
             }
         });
         return eventsList;
     }
 
     protected static String getEventTypeInDifferentLanguages(Event event, Locale locale, MessageSource messageSource) {
-        return switch (event.getEventType().getDisplayValue_EN()) {
-            case "Event" -> messageSource.getMessage("downloadPdf.event", new Object[]{}, locale);
+        return switch (event.getEventType().getDisplayValueEN()) {
+            case EVENT_DISPLAY_VALUE -> messageSource.getMessage("downloadPdf.event", new Object[]{}, locale);
             case "Individuals" -> messageSource.getMessage("downloadPdf.individuals", new Object[]{}, locale);
             case "Students" -> messageSource.getMessage("downloadPdf.students", new Object[]{}, locale);
             case "High" -> messageSource.getMessage("downloadPdf.highSchool", new Object[]{}, locale);

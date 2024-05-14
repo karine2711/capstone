@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.aua.museum.booking.util.ZonedDateTimeUtil.getArmNowTime;

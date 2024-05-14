@@ -41,8 +41,8 @@ public class QuestionDetailsServiceImpl implements QuestionDetailsService {
         User user = userService.getUserByEmail(email);
         QuestionDetails savedQuestionDetails = user.getQuestionsDetails()
                 .stream()
-                .filter(questionInList -> questionInList.getQuestion().getDescription_EN()
-                        .equals(question.getDescription_EN()))
+                .filter(questionInList -> questionInList.getQuestion().getDescriptionEN()
+                        .equals(question.getDescriptionEN()))
                 .findFirst()
                 .orElseThrow(() -> new QuestionNotFoundException(questionId));
         return answer.equalsIgnoreCase(savedQuestionDetails.getAnswer());

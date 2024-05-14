@@ -23,19 +23,19 @@ public class EventDto {
     private LocalTime time;
     @NotNull
     private Date date;
-    private String title_AM;
-    private String title_RU;
-    private String title_EN;
+    private String titleAM;
+    private String titleRU;
+    private String titleEN;
     private String school;
     private String group;
 
     private Integer groupSize;
 
-    private String description_EN;
+    private String descriptionEN;
 
-    private String description_RU;
+    private String descriptionRU;
 
-    private String description_AM;
+    private String descriptionAM;
 
     public Integer getEventType() {
         return eventType;
@@ -49,16 +49,16 @@ public class EventDto {
         return date;
     }
 
-    public String getTitle_AM() {
-        return title_AM;
+    public String getTitleAM() {
+        return titleAM;
     }
 
-    public String getTitle_RU() {
-        return title_RU;
+    public String getTitleRU() {
+        return titleRU;
     }
 
-    public String getTitle_EN() {
-        return title_EN;
+    public String getTitleEN() {
+        return titleEN;
     }
 
     public String getSchool() {
@@ -73,15 +73,15 @@ public class EventDto {
         return groupSize;
     }
 
-    public String getDescription_EN() {
-        return description_EN;
+    public String getDescriptionEN() {
+        return descriptionEN;
     }
 
-    public String getDescription_RU() {
-        return description_RU;
+    public String getDescriptionRU() {
+        return descriptionRU;
     }
 
-    public String getDescription_AM() {
-        return description_AM;
+    public String getDescriptionAM() {
+        return descriptionAM;
     }
 }

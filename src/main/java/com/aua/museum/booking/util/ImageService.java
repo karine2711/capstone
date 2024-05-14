@@ -16,6 +16,9 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 public class ImageService {
+    private ImageService() {
+    }
+
     public static byte[] compress(byte[] imageBytes) throws IOException {
         try (
                 InputStream inputStream = new ByteArrayInputStream(imageBytes);

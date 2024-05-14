@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Locale;
 
 public class WriteData {
+
+    private WriteData() {
+    }
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public static void generateReport(PrintWriter writer, List<Event> events, Locale locale, MessageSource messageSource) {
 
         String utf16 = "\uFEFF";
-        String[] CSV_HEADER = {
+        String[] csvHeader = {
                 messageSource.getMessage("downloadCsv.EventType", new Object[]{}, locale),//eventtype
                 messageSource.getMessage("downloadCsv.Date", new Object[]{}, locale),//"Date"
                 messageSource.getMessage("downloadCsv.startTime", new Object[]{}, locale),// , "Start Time",
@@ -39,7 +43,7 @@ public class WriteData {
                         CSVWriter.DEFAULT_LINE_END)
         ) {
 
-            csvWriter.writeNext(CSV_HEADER);
+            csvWriter.writeNext(csvHeader);
             for (Event event : events) {
                 String[] data = {
                         com.aua.museum.booking.util.GeneratePdfReport.getEventTypeInDifferentLanguages(event, locale, messageSource),
@@ -50,7 +54,7 @@ public class WriteData {
                         event.getGroup(),
                         event.getGroupSize() == null ? "" : event.getGroupSize().toString(),
                         event.getTitleByLocale(locale),
-                        event.getDescriptionByLocale(locale) == null ? "" : event.getDescriptionByLocale(locale).replaceAll(",", ";"),
+                        event.getDescriptionByLocale(locale) == null ? "" : event.getDescriptionByLocale(locale).replace(",", ";"),
                 };
 
                 csvWriter.writeNext(data);

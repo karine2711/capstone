@@ -304,7 +304,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Map<Object, Object> eventToMap(Event event, Locale locale) {
         Map<Object, Object> map = new HashMap<>();
-        map.put("type", event.getEventType().getDisplayValue_EN().toLowerCase());
+        map.put("type", event.getEventType().getDisplayValueEN().toLowerCase());
 
         map.put("id", event.getId());
         map.put("school", event.getSchool());

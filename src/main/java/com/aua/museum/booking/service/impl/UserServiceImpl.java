@@ -26,7 +26,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllAdmins() {
-        return repository.findAll().stream().filter(user -> user.isAdmin() && !user.isSuperAdmin()).collect(Collectors.toList());
+        return repository.findAll().stream().filter(user -> user.isAdmin() && !user.isSuperAdmin()).toList();
     }
 
     @Override
@@ -149,7 +148,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user, MultipartHttpServletRequest request) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
         Optional<User> possibleUser = repository.findByUsername(user.getUsername());
         if (possibleUser.isPresent()) {
             User user1 = possibleUser.get();
@@ -157,7 +156,7 @@ public class UserServiceImpl implements UserService {
             user1.setPhone(user.getPhone());
             user1.setAddress(user.getAddress());
             user1.setOccupation(user.getOccupation());
-            if (!user.getPassword().isEmpty()) user1.setPassword(encoder.encode(user.getPassword()));
+            if (!user.getPassword().isEmpty()) user1.setPassword(bcryptEncoder.encode(user.getPassword()));
             user1.setSchool(user.getSchool());
             user1.setResidency(user.getResidency());
             if (user.getProfileAvatar() != null) user1.setProfileAvatar(user.getProfileAvatar());
@@ -227,7 +226,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUnblockedUserAfterWeek() {
         List<User> deletableUsers = repository.findByState(UserState.UNBLOCKED).stream()
                 .filter(u -> u.getLastUpdatedDate().toLocalDateTime().plusDays(7)
-                        .isBefore(LocalDateTime.now())).collect(Collectors.toList());
+                        .isBefore(LocalDateTime.now())).toList();
         repository.deleteAll(deletableUsers);
     }
 }

@@ -14,22 +14,22 @@ public class WeekDay {
     private Long id;
 
     @Column(name = "display_value_EN", nullable = false, updatable = false)
-    private String display_value_EN;
+    private String displayValueEN;
 
     @Column(name = "display_value_RU", nullable = false, updatable = false)
-    private String display_value_RU;
+    private String displayValueRU;
 
     @Column(name = "display_value_AM", nullable = false, updatable = false)
-    private String display_value_AM;
+    private String displayValueAM;
 
     public String getValueByLocale(Locale locale) {
         switch (locale.getLanguage().toUpperCase()) {
             case "RU":
-                return display_value_RU;
+                return displayValueRU;
             case "EN":
-                return display_value_EN;
+                return displayValueEN;
             default:
-                return display_value_AM;
+                return displayValueAM;
         }
     }
 }

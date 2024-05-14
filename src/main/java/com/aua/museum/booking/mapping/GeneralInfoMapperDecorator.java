@@ -18,8 +18,8 @@ public class GeneralInfoMapperDecorator implements GeneralInfoMapper {
     @Override
     public GeneralInfo toEntity(GeneralInfoDto generalInfoDto) {
         GeneralInfo generalInfo = generalInfoMapper.toEntity(generalInfoDto);
-        generalInfo.setStartWorkingDay(weekDayRepository.getOne(generalInfoDto.getStartWorkingDayId()));
-        generalInfo.setEndWorkingDay(weekDayRepository.getOne(generalInfoDto.getEndWorkingDayId()));
+        generalInfo.setStartWorkingDay(weekDayRepository.getReferenceById(generalInfoDto.getStartWorkingDayId()));
+        generalInfo.setEndWorkingDay(weekDayRepository.getReferenceById(generalInfoDto.getEndWorkingDayId()));
         return generalInfo;
     }
 }

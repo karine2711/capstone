@@ -23,6 +23,9 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @PropertySource("classpath:values.properties")
 public class WebSecurityConfiguration {
 
+    public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN_ROLE";
+    public static final String USER_ROLE = "USER_ROLE";
+    public static final String ADMIN_ROLE = "ADMIN_ROLE";
     private final UserDetailsService userDetailsService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Value("${security.secret.key}")
@@ -56,11 +59,11 @@ public class WebSecurityConfiguration {
         return http
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/i18n/**", "/title", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/register", "/loginPage*", "/forgot-password/**", "/webjars/**").permitAll()
-                                .requestMatchers("/calendar/**", "/event/", "/edit-profile/", "*/download-events/**", "/notifications/**").hasAnyRole("ADMIN_ROLE", "USER_ROLE",  "SUPER_ADMIN_ROLE")
-                                .requestMatchers("/users/**", "/waiting-list/**", "/events/**").hasAnyAuthority("ADMIN_ROLE",  "SUPER_ADMIN_ROLE")
-                                .requestMatchers("/homepage/update-content/**").hasAnyAuthority("ADMIN_ROLE", "SUPER_ADMIN_ROLE")
+                                .requestMatchers("/calendar/**", "/event/", "/edit-profile/", "*/download-events/**", "/notifications/**").hasAnyRole(ADMIN_ROLE, USER_ROLE, SUPER_ADMIN_ROLE)
+                                .requestMatchers("/users/**", "/waiting-list/**", "/events/**").hasAnyAuthority(ADMIN_ROLE, SUPER_ADMIN_ROLE)
+                                .requestMatchers("/homepage/update-content/**").hasAnyAuthority(ADMIN_ROLE, SUPER_ADMIN_ROLE)
                                 .anyRequest().authenticated()
-                                )
+                )
                 .userDetailsService(userDetailsService)
                 .formLogin(auth ->
                         auth.loginPage("/loginPage").loginProcessingUrl("/login")

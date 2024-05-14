@@ -47,9 +47,6 @@ public class User extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_state")
     private UserState state = UserState.ACTIVE;
-
-    //    @Column(name = "blocked", nullable = false)
-//    private int state;
     @Column(name = "token")
     @EqualsAndHashCode.Exclude
     private String token;

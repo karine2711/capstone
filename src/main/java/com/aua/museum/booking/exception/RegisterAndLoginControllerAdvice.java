@@ -19,7 +19,7 @@ import javax.validation.ValidationException;
 @RestControllerAdvice
 public class RegisterAndLoginControllerAdvice extends ResponseEntityExceptionHandler {
 
-    private final String REGISTRATION_FAILED = "Registration failed";
+    private static final String REGISTRATION_FAILED = "Registration failed";
 
 
     @Override
@@ -27,11 +27,6 @@ public class RegisterAndLoginControllerAdvice extends ResponseEntityExceptionHan
         ErrorResponse response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex.getBindingResult()));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-//    @Override
-//    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-//        ErrorResponse response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex));
-//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler({UserNotFoundException.class})
     protected ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {

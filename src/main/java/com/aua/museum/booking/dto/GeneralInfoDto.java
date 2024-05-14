@@ -14,11 +14,11 @@ import java.time.LocalTime;
 public class GeneralInfoDto {
 
     @NotNull
-    private String title_AM;
+    private String titleAM;
     @NotNull
-    private String title_RU;
+    private String titleRU;
     @NotNull
-    private String title_EN;
+    private String titleEN;
 
     @NotNull
     private Long startWorkingDayId;

@@ -26,11 +26,11 @@ import java.util.Locale;
 public class GeneralInfo extends BaseEntity {
 
     @Column(name = "title_AM", nullable = false)
-    private String title_AM;
+    private String titleAM;
     @Column(name = "title_RU", nullable = false)
-    private String title_RU;
+    private String titleRU;
     @Column(name = "title_EN", nullable = false)
-    private String title_EN;
+    private String titleEN;
     @OneToOne
     @JoinColumn(name = "start_working_day_id", referencedColumnName = "id")
     private WeekDay startWorkingDay;
@@ -51,13 +51,13 @@ public class GeneralInfo extends BaseEntity {
     private String email;
 
     @Builder
-    public GeneralInfo(Long id, Timestamp createdDate, Timestamp lastUpdatedDate, String title_AM, String title_RU,
-                       String title_EN, WeekDay startWorkingDay, WeekDay endWorkingDay, LocalTime startWorkingTime,
+    public GeneralInfo(Long id, Timestamp createdDate, Timestamp lastUpdatedDate, String titleAM, String titleRU,
+                       String titleEN, WeekDay startWorkingDay, WeekDay endWorkingDay, LocalTime startWorkingTime,
                        LocalTime endWorkingTime, String phone, String email) {
         super(id, createdDate, lastUpdatedDate);
-        this.title_AM = title_AM;
-        this.title_RU = title_RU;
-        this.title_EN = title_EN;
+        this.titleAM = titleAM;
+        this.titleRU = titleRU;
+        this.titleEN = titleEN;
         this.startWorkingDay = startWorkingDay;
         this.endWorkingDay = endWorkingDay;
         this.startWorkingTime = startWorkingTime;
@@ -69,11 +69,11 @@ public class GeneralInfo extends BaseEntity {
     public String getTitleByLocale(Locale locale) {
         switch (locale.getLanguage().toUpperCase()) {
             case "RU":
-                return title_RU;
+                return titleRU;
             case "EN":
-                return title_EN;
+                return titleEN;
             default:
-                return title_AM;
+                return titleAM;
         }
     }
 }

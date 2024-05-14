@@ -35,6 +35,7 @@ import java.util.Map;
 @PropertySource("classpath:values.properties")
 public class RegistrationController {
 
+    public static final String QUESTIONS_OBJECT = "questions";
     private final UserService userService;
     private final UserMapperDecorator userMapperDecorator;
     private final QuestionService questionService;
@@ -52,7 +53,7 @@ public class RegistrationController {
                                      Locale locale) {
         if (result.hasErrors()) {
             modelAndView.setViewName(Templates.REGISTRATION.getName());
-            modelAndView.addObject("questions", getSecurityQuestions());
+            modelAndView.addObject(QUESTIONS_OBJECT, getSecurityQuestions());
             modelAndView.addObject("fieldErrors", result.getFieldErrors());
             modelAndView.setStatus(HttpStatus.BAD_REQUEST);
             return modelAndView;
@@ -65,9 +66,9 @@ public class RegistrationController {
             final Map<String, Boolean> fieldsErrors = e.getFieldsErrors();
             String usernameMessage = messageSource.getMessage("valid.userDto.userName.unique.message", new Object[]{}, locale);
             String emailMessage = messageSource.getMessage("valid.userDto.email.unique.message", new Object[]{}, locale);
-            modelAndView.addObject("questions", getSecurityQuestions());
-            if (fieldsErrors.get("username")) modelAndView.addObject("usernameError", usernameMessage);
-            if (fieldsErrors.get("email")) modelAndView.addObject("emailError", emailMessage);
+            modelAndView.addObject(QUESTIONS_OBJECT, getSecurityQuestions());
+            if (Boolean.TRUE.equals(fieldsErrors.get("username"))) modelAndView.addObject("usernameError", usernameMessage);
+            if (Boolean.TRUE.equals(fieldsErrors.get("email"))) modelAndView.addObject("emailError", emailMessage);
             modelAndView.setStatus(HttpStatus.BAD_REQUEST);
             return modelAndView;
         }
@@ -88,7 +89,7 @@ public class RegistrationController {
         }
         modelAndView.setViewName(com.aua.museum.booking.controller.Templates.REGISTRATION.getName());
         modelAndView.addObject("user", new UserDto());
-        modelAndView.addObject("questions", getSecurityQuestions());
+        modelAndView.addObject(QUESTIONS_OBJECT, getSecurityQuestions());
         modelAndView.setStatus(HttpStatus.OK);
         return modelAndView;
     }

@@ -1,11 +1,6 @@
 package com.aua.museum.booking.controller;
 
-import com.aua.museum.booking.domain.Event;
-import com.aua.museum.booking.domain.EventState;
-import com.aua.museum.booking.domain.EventType;
-import com.aua.museum.booking.domain.Notification;
-import com.aua.museum.booking.domain.Role;
-import com.aua.museum.booking.domain.User;
+import com.aua.museum.booking.domain.*;
 import com.aua.museum.booking.dto.EventDto;
 import com.aua.museum.booking.mapping.EventMapper;
 import com.aua.museum.booking.security.UserDetailsServiceImpl;
@@ -75,13 +70,13 @@ public class EventController {
 
             modelAndView.addObject("currentEventTime", event.getTime());
             modelAndView.addObject("currentEventEndTime", event.getTime().plusMinutes(event.getEventType().getDuration()));
-            modelAndView.addObject("currentEventDescAm", event.getDescription_AM());
-            modelAndView.addObject("currentEventDescRu", event.getDescription_RU());
-            modelAndView.addObject("currentEventDescEn", event.getDescription_EN());
+            modelAndView.addObject("currentEventDescAm", event.getDescriptionAM());
+            modelAndView.addObject("currentEventDescRu", event.getDescriptionRU());
+            modelAndView.addObject("currentEventDescEn", event.getDescriptionEN());
 
-            modelAndView.addObject("currentEventTitleAm", event.getTitle_AM());
-            modelAndView.addObject("currentEventTitleRu", event.getTitle_RU());
-            modelAndView.addObject("currentEventTitleEn", event.getTitle_EN());
+            modelAndView.addObject("currentEventTitleAm", event.getTitleAM());
+            modelAndView.addObject("currentEventTitleRu", event.getTitleRU());
+            modelAndView.addObject("currentEventTitleEn", event.getTitleEN());
 
             event.setUser(user);
             modelAndView.setViewName(com.aua.museum.booking.controller.Templates.ADD_ACTIVITY.getName());
@@ -173,7 +168,7 @@ public class EventController {
     public ResponseEntity<Map<String, String>> getEventTypes() {
         Map<String, String> eventTypes = new LinkedHashMap<>();
         eventTypeService.getAllEventTypes()
-                .forEach((t) -> eventTypes.put(t.getDisplayValue_EN(), eventTypeService.getEventTypeValueFromLocale(t)));
+                .forEach((t) -> eventTypes.put(t.getDisplayValueEN(), eventTypeService.getEventTypeValueFromLocale(t)));
         return ResponseEntity.ok().body(eventTypes);
     }
 
