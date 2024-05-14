@@ -21,8 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -111,7 +109,7 @@ public class EventController {
                 final Notification preBookedAdminNotification = notificationService.createPreBookedAdmin(admin, savedEvent);
                 notificationService.save(preBookedAdminNotification);
             });
-        } else if (!savedEvent.getUser().isAdmin() && savedEvent.isWithin24Hours()) {
+        } else if (!savedEvent.getUser().isAdmin() && savedEvent.isTomorrow()) {
             final Notification reminder = notificationService.createConfirm(savedEvent.getUser(), savedEvent);
             notificationService.save(reminder);
         }
@@ -201,7 +199,7 @@ public class EventController {
                 notificationService.save(preBookedAdminNotification);
             });
         } else if (!rescheduledEvent.getUser().isAdmin()) {
-            if (rescheduledEvent.isWithin24Hours()) {
+            if (rescheduledEvent.isTomorrow()) {
                 final Notification reminder = notificationService.createConfirm(rescheduledEvent.getUser(), rescheduledEvent);
                 notificationService.save(reminder);
             } else {

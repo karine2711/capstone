@@ -141,7 +141,7 @@ $(document).ready(async function () {
         const MAX_LENGTH = 65;
         const VALID_PASSWORD_MIN_LENGTH = 6;
         const VALID_PASSWORD_MAX_LENGTH = 20;
-        const MAX_FILE_SIZE_MB = 16;
+        const MAX_FILE_SIZE_MB = 3;
         const VALID_ANSWER_MIN_LENGTH = 2;
         const VALID_ANSWER_MAX_LENGTH = 25;
 
@@ -159,7 +159,7 @@ $(document).ready(async function () {
                     equalTo: "#password"
                 },
                 profileAvatar: {
-                    fileSize: 16777215,
+                    fileSize: MAX_FILE_SIZE_MB*1024*1024,
                     accept: "image/*"
                 },
                 phone: {

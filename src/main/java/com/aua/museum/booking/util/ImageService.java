@@ -22,7 +22,7 @@ public class ImageService {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream)
         ) {
-            float imageQuality = 0.3f;
+            float imageQuality = 0.1f;
             BufferedImage bufferedImage = ImageIO.read(inputStream);
             Iterator<ImageWriter> imageWriters;
             if (bufferedImage.getColorModel().hasAlpha()) {

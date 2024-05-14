@@ -19,7 +19,8 @@ $(document).ready(async function () {
     const csrfHeader = "X-CSRF-TOKEN";
     const token = $('input[name^="_csrf"]').val();
 
-    const GROUP_SIZE_MAX_VALUE = 50
+    const GROUP_SIZE_MAX_VALUE = 30
+    const GROUP_SIZE_MIN_VALUE = 5
 
     const disableBackground = () => {
         mainContainer.css("opacity", 0.6);
@@ -174,8 +175,8 @@ $(document).ready(async function () {
         let eventType = getClassNameByTypeId($("#event-type").val());
         let duration = getDuration(eventType);
         let hour = parseInt(value.substr(0, 2));
-        let minute=parseInt(value.substr(value.length-2,2));
-        return hour >= 10 && hour <= 16 && minute>=0;
+        let minute = parseInt(value.substr(value.length - 2, 2));
+        return hour >= 10 && hour <= 16 && minute >= 0;
     }, "");
 
 
@@ -204,7 +205,7 @@ $(document).ready(async function () {
             groupSize: {
                 customRequired: $("#group-size").text(),
                 onlyNumbers: true,
-                min: 1,
+                min: GROUP_SIZE_MIN_VALUE,
                 max: GROUP_SIZE_MAX_VALUE,
             },
             title_AM: {
@@ -239,8 +240,8 @@ $(document).ready(async function () {
             groupSize: {
                 customRequired: $.i18n("groupSize.empty"),
                 onlyNumbers: $.i18n("groupSize.only.numbers"),
-                min: $.i18n("groupSize.min.value"),
-                max: $.i18n("groupSize.max.value"),
+                min: $.i18n("groupSize.min.value", GROUP_SIZE_MIN_VALUE),
+                max: $.i18n("groupSize.max.value", GROUP_SIZE_MAX_VALUE),
             },
             title_AM: {
                 customRequired: $.i18n("title.am.required")
@@ -287,8 +288,27 @@ $(document).ready(async function () {
 
     addErrorIcon()
 
+    function isDateAfterTomorrow() {
+        const dateString = $("#date").val();
+
+        const parts = dateString.split('-');
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // Months are zero-based (0 = January, 1 = February, etc.)
+        const year = parseInt(parts[2], 10);
+        const inputDate = new Date(year, month, day);
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1); // Increment the day by 1
+
+        if (inputDate > tomorrow) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function submitActivityForm(form) {
-        if ($("#group-size").val() > 35) {
+        if (isDateAfterTomorrow() && !($('#admin').length > 0)) {
             let popupMessage = "<div class='position-fixed container popup-message'>\n" +
                 "    <button type=\"button\" class=\"close\" aria-label=\"CZlose\">\n" +
                 "        <span aria-hidden=\"true\">&times;</span>\n" +
@@ -299,17 +319,13 @@ $(document).ready(async function () {
                 "    </div>" +
                 "    <div class='row justify-content-center' style='margin: 20px auto;'>\n" +
                 "        <div class='col-5'>\n" +
-                "            <button class='btn activity-whiteButton' id='cancel-btn'>\n" +
-                $.i18n("event.popup.cancel") + "\n" +
-                "            </button>\n" +
-                "        </div>\n" +
-                "        <div class='col-5'>\n" +
                 "            <button class='btn activity-main-button' id='confirm-btn'>\n" +
                 $.i18n("event.popup.confirm") + "\n" +
                 "            </button>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
                 "</div>";
+
 
             hiddenDiv.append(popupMessage);
             hiddenDiv.css("display", "block");
@@ -322,15 +338,11 @@ $(document).ready(async function () {
                 doSubmit(form);
             });
 
-            $(' #cancel-btn').on('click', function () {
-                enableBackground();
-            });
-
             $('.close').on('click', function () {
                 enableBackground();
             });
         } else {
-            doSubmit(form);
+            doSubmit(focus());
         }
     }
 
@@ -380,5 +392,5 @@ $(document).ready(async function () {
         mainContainer.css("opacity", "unset");
         mainContainer.css("background-color", "unset");
         mainContainer.css("pointer-events", "unset");
-    }
-});
+    };
+})

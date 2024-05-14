@@ -34,6 +34,7 @@ import static com.aua.museum.booking.util.ZonedDateTimeUtil.getArmNowTime;
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
+    public static final int MUSEUM_CAPACITY = 30;
     private final EventRepository repository;
     private final NotificationServiceImpl notificationService;
     private final FCMService fcmService;
@@ -46,11 +47,8 @@ public class EventServiceImpl implements EventService {
         if (event.getEventType().getId() == 7) {
             return doRescheduleEvent(event);
         }
-        Integer groupSize = event.getGroupSize();
-        if (groupSize > 25) {
+        if (!event.getUser().isAdmin()) {
             event.setEventState(PRE_BOOKED);
-        } else {
-            event.setEventState(BOOKED);
         }
         return repository.save(event);
 
@@ -178,7 +176,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void checkAndChangeToPreBookedAfterReschedule(Event event) {
-        if (event.getEventType().getId() != 7 && event.getEventState() != PRE_BOOKED && event.getGroupSize() < 10) {
+        if (event.getEventType().getId() != 7 && event.getEventState() != PRE_BOOKED && !event.getUser().isAdmin()) {
             event.setEventState(PRE_BOOKED);
         }
         repository.save(event);
@@ -195,7 +193,7 @@ public class EventServiceImpl implements EventService {
 
     private Set<LocalTime> getCoHostingHours(EventType eventType, Integer groupSize, List<Event> bookedEventsByDate) {
         Map<LocalTime, Integer> events = new HashMap<>();
-        if (eventType.getId() != 7 && groupSize < 35) {
+        if (eventType.getId() != 7 && groupSize < MUSEUM_CAPACITY) {
             bookedEventsByDate
                     .stream()
                     .filter(e -> e.getEventType().equals(eventType))
@@ -220,7 +218,7 @@ public class EventServiceImpl implements EventService {
 
     private void addToMap(Map<LocalTime, Integer> events, Event e) {
         if (events.containsKey(e.getTime())) {
-            events.computeIfPresent(e.getTime(),(time,size) -> size+e.getGroupSize());
+            events.computeIfPresent(e.getTime(), (time, size) -> size + e.getGroupSize());
         } else {
             events.put(e.getTime(), e.getGroupSize());
         }

@@ -21,7 +21,8 @@
                                          th:if="${profileAvatar} == null">
                                     <img alt="" class="rounded-circle avatar" data-holder-rendered="true"
                                          th:if="${profileAvatar} != null"
-                                         th:src="${'data:image/jpg;base64,'+ profileAvatar}">
+                                         src="data:image/jpeg;base64,"
+                                         th:attrappend="src=${profileAvatar}">
                                 </div>
                                 <div class="col-md-6 mx-auto flex-column text-block">
                                     <div><p class="font-weight-bold user-text" th:text="${user.username}"></p></div>

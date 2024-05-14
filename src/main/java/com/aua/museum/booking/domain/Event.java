@@ -115,10 +115,9 @@ public class Event extends BaseEntity {
         };
     }
 
-    public boolean isWithin24Hours() {
+    public boolean isTomorrow() {
         LocalDate nowDate = LocalDate.from(ZonedDateTime.now(ZoneId.of("Asia/Yerevan")));
-        LocalTime nowTime = LocalTime.from(ZonedDateTime.now(ZoneId.of("Asia/Yerevan")));
-        return nowDate.isEqual(date) || (nowDate.plusDays(1).equals(date) && nowTime.isAfter(time));
+        return nowDate.isEqual(date) || (nowDate.plusDays(1).equals(date));
     }
 
     //needed
