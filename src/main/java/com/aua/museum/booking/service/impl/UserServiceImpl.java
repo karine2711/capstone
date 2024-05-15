@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
         }
 
     }
-
+//todo: review logic
     @Override
     @Scheduled(cron = "0 0 5 * * *")
     public void deleteUnblockedUserAfterWeek() {

@@ -49,7 +49,12 @@ public class GeneralInfo extends BaseEntity {
     private String phone;
     @Column(name = "email", nullable = false)
     private String email;
-
+    @Column(name = "address_AM", nullable = false)
+    private String addressAM;
+    @Column(name = "address_RU", nullable = false)
+    private String addressRU;
+    @Column(name = "address_EN", nullable = false)
+    private String addressEN;
     @Builder
     public GeneralInfo(Long id, Timestamp createdDate, Timestamp lastUpdatedDate, String titleAM, String titleRU,
                        String titleEN, WeekDay startWorkingDay, WeekDay endWorkingDay, LocalTime startWorkingTime,

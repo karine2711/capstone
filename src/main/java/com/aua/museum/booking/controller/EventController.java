@@ -8,7 +8,6 @@ import com.aua.museum.booking.service.EventService;
 import com.aua.museum.booking.service.EventTypeService;
 import com.aua.museum.booking.service.NotificationService;
 import com.aua.museum.booking.service.UserService;
-import com.aua.museum.booking.service.notifications.FCMService;
 import com.aua.museum.booking.util.DateTimeUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,6 @@ public class EventController {
     private final UserDetailsServiceImpl userDetailsService;
     private final EventMapper eventMapper;
     private final NotificationService notificationService;
-    private final FCMService fcmService;
 
     @GetMapping
     public ModelAndView getAddActivityPage(Principal principal) {

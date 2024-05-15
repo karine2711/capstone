@@ -63,6 +63,15 @@ $(document).ready(async function () {
     jQuery.validator.addMethod("requiredEN", function (value, element) {
         return value !== undefined && value !== null && value.trim().length > 0;
     }, $.validator.messages.requiredEN);
+    jQuery.validator.addMethod("requiredAddressAM", function (value, element) {
+        return value !== undefined && value !== null && value.trim().length > 0;
+    }, $.validator.messages.requiredAM);
+    jQuery.validator.addMethod("requiredAddressRU", function (value, element) {
+        return value !== undefined && value !== null && value.trim().length > 0;
+    }, $.validator.messages.requiredRU);
+    jQuery.validator.addMethod("requiredAddressEN", function (value, element) {
+        return value !== undefined && value !== null && value.trim().length > 0;
+    }, $.validator.messages.requiredEN);
     jQuery.validator.addMethod("titleRangeLength", function (value, element, params) {
         return this.optional(element) || jQuery.validator.methods.rangelength.call(this, value.trim(), element, params);
     });
@@ -102,8 +111,16 @@ $(document).ready(async function () {
                 titleRangeLength: [TITLE_MIN_LENGTH, TITLE_MAX_LENGTH]
             },
             titleEN: {
-                requiredEN: true,
-                titleRangeLength: [TITLE_MIN_LENGTH, TITLE_MAX_LENGTH]
+                requiredAddressEN: true
+            },
+            addressAM: {
+                requiredAddressAM: true
+            },
+            addressRU: {
+                requiredAddressRU: true
+            },
+           addressEN: {
+                requiredAddressEN: true,
             },
             email: {
                 validEmail: true
@@ -177,6 +194,9 @@ $(document).ready(async function () {
         requiredAM: $.i18n("title.am.required"),
         requiredEN: $.i18n("title.en.required"),
         requiredRU: $.i18n("title.ru.required"),
+        requiredAddressAM: $.i18n("address.am.required"),
+        requiredAddressEN: $.i18n("address.en.required"),
+        requiredAddressRU: $.i18n("address.ru.required"),
         validPhone: $.i18n("registration.phone.validation"),
         earlierThanDay: $.i18n("update.content.day.earlierThan"),
         earlierThanTime: $.i18n("update.content.time.earlierThan"),

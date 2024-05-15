@@ -136,7 +136,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getBlockedUsersPreBookedEvents() {
-        return repository.findActiveUsersPreBooked()
+        return repository.findBlockedUsersPreBooked()
                 .stream()
                 .filter(this::eventIsNotPassed)
                 .collect(Collectors.toList());
