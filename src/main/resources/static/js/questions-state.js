@@ -78,10 +78,10 @@ $(document).ready(function () {
                 }, 3000);
             },
 
-            error: async function () {
+            error: async function (response) {
                 attempt++;
                 showErrorMessage();
-                if (attempt >= 6) {
+                if (attempt >= 6 || response.status === 423) {
                     answerInput.prop("readonly", true);
                     errorMessage.text($.i18n('account.blocked'));
                     $(submitButton).removeAttr("type").attr("type", "hidden");

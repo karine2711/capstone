@@ -58,7 +58,6 @@ public class RecoveryController {
     public ResponseEntity<Object> checkUser(@PathVariable("email") @ValidEmail String email,
                                             HttpServletRequest request) {
         User user = userService.getUserByEmail(email);
-
         if (user.isSuperAdmin()) {
             throw new UserNotFoundException(email);
         }
@@ -92,9 +91,15 @@ public class RecoveryController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> checkAnswersAndRedirect(@PathVariable("email") @ValidEmail String email,
                                                           @RequestBody QuestionDetailsDto questionDetailsDto,
+                                                          HttpServletRequest request,
                                                           HttpServletResponse response) {
         String answer = questionDetailsDto.getAnswer();
         int questionId = questionDetailsDto.getQuestionId();
+        Object currentAttempt = request.getSession().getAttribute("attempt");
+        if (currentAttempt != null && (Integer) currentAttempt == 6) {
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
+        }
+        request.getSession().setAttribute("attempt", currentAttempt == null ? 2 : (Integer) currentAttempt + 1);
         if (questionDetailsService.checkAnswers(questionId, answer, email)) {
             String token = jwtUtil.generateToken(email);
             Cookie cookie = new Cookie("reset-password", token);
